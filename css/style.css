@@ -29,6 +29,14 @@ EE6C4D
     background-color: #293241 !important;
 }
 
+.navbar-burger span {
+    color: #fff !important;
+}
+
+nav .is-active {
+    background-color: #293241 !important;  
+}
+
 /* ------------ Footer ------------ */
 
 .footer {
