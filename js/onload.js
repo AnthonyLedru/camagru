@@ -8,6 +8,7 @@ window.onload = function() {
 
     /* --------- Login modal --------- */
     document.getElementById('login_button').addEventListener('click', function(event) {
+        document.querySelector('.navbar-menu').classList.remove('is-active');
         event.preventDefault();
         var modal = document.getElementById('login_modal');
         var html = document.querySelector('html');
@@ -33,6 +34,7 @@ window.onload = function() {
     /* --------- Signup Modal --------- */
 
     document.querySelector('a#signup_button').addEventListener('click', function(event) {
+        document.querySelector('.navbar-menu').classList.remove('is-active');
         event.preventDefault();
         var modal = document.getElementById('signup_modal');
         var html = document.querySelector('html');
@@ -64,7 +66,7 @@ window.onload = function() {
             var lastName = signup_form.elements['lastName'].value;
             var firstName = signup_form.elements['firstName'].value;
             var gender = signup_form.elements['gender'].value;
-            
+
             request  = new Request ({
                 url        : "script/signup.php",
                 method     : 'POST',
@@ -72,14 +74,26 @@ window.onload = function() {
                 parameters : { mail : mail, login : login, password : password, passwordConf : passwordConf,
                                 lastName : lastName, firstName : firstName, gender: gender, wait : true },
                 onSuccess  : function(message) {
-                                console.log(message);
+                                var color = "red";
+                                if (message.indexOf("A confirmation mail to activate your account has been sent to ") !== -1)
+                                    color = "green";
+                                display_notification("notification", color, message);
                 },
                 onError    : function(status, message) {
-
+                                display_notification("notification", "red", "An error occured");
                 }
             });
+            document.getElementById('signup_modal').classList.remove('is-active');
+            document.querySelector('html').classList.remove('is-clipped');
+            document.getElementById("signup_form").reset();
             return false;
         }
 
+    });
+
+    /* --------- Notification --------- */
+
+    document.getElementById('notification').addEventListener('click', function(event) {
+        hide_notification("notification");
     });
 };

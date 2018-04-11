@@ -54,7 +54,7 @@ class WebPage {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/bulma.css">
 	<link rel="stylesheet" href="css/style.css">
-	<scirpt src="js/notification.js"></script>
+	<script src="js/notification.js"></script>
 	<script src="js/request.js"></script>
 	<script src="js/onload.js"></script>
 	$this->title
@@ -107,14 +107,14 @@ class WebPage {
 				<button class="delete login_cancel" aria-label="close"></button>
 			</header>
 			<section class="modal-card-body">
-				<form action="connect.php" method="post">
+				<form action="connect.php" method="post" id="login_form">
 					<div class="field">
 						<label class="label">Login</label>
-						<input class="input" type="text" placeholder="John_doe">
+						<input class="input" type="text" placeholder="John_doe" name="login">
 					</div>
 					<div class="field">
 					<label class="label">Password</label>
-						<input class="input" type="password" placeholder="*********">
+						<input class="input" type="password" placeholder="*********" name="password">
 					</div>
 				</form>
 				<br>
@@ -141,7 +141,7 @@ class WebPage {
 					</div>
 					<div class="field">
 						<label class="label">Login</label>
-						<input class="input" type="text" placeholder="John_doe" name="login">
+						<input class="input" type="text" placeholder="JohnDoe" name="login">
 					</div>
 					<div class="field">
 						<label class="label">Password</label>

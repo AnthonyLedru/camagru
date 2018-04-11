@@ -33,8 +33,7 @@ function Request(config) {
                 this.method = method;
             else
                 throw "'" + config.method + "' method not supported";
-        }
-        else {
+        } else {
             throw "'method' parameter should be a string";
         }
     }
@@ -42,8 +41,7 @@ function Request(config) {
     if (config.asynchronous) {
         if (typeof config.asynchronous === "boolean") {
             this.asynchronous = config.asynchronous;
-        }
-        else {
+        } else {
             throw "'asynchronous' parameter should be a boolean";
         }
     }
@@ -51,8 +49,7 @@ function Request(config) {
     if (config.parameters) {
         if (config.parameters instanceof Object) {
             this.parameters = config.parameters;
-        }
-        else {
+        } else {
             throw "'parameters' parameter should be a object";
         }
     }
@@ -60,8 +57,7 @@ function Request(config) {
     if (config.onSuccess) {
         if (config.onSuccess instanceof Function) {
             this.onSuccess = config.onSuccess;
-        }
-        else {
+        } else {
             throw "'onSuccess' parameter should be a function";
         }
     }
@@ -69,8 +65,7 @@ function Request(config) {
     if (config.onError) {
         if (config.onError instanceof Function) {
             this.onError = config.onError;
-        }
-        else {
+        } else {
             throw "'onError' parameter should be a function";
         }
     }
@@ -80,12 +75,10 @@ function Request(config) {
             var handleAs = config.handleAs.toLowerCase();
             if (['text', 'json', 'xml'].indexOf(handleAs) !== -1) {
                 this.handleAs = handleAs;
-            }
-            else {
+            } else {
                 throw "handleAs format '" + config.handleAs + "' not supported";
             }
-        }
-        else {
+        } else {
             throw "handleAs parameter should be a string";
         }
     }
@@ -109,8 +102,7 @@ function Request(config) {
                     break;
                 }
                 RequestThis.onSuccess(result);
-            }
-            else {
+            } else {
                 config.onError(this.status, this.response);
             }
         }
@@ -126,8 +118,7 @@ function Request(config) {
 			this.url += "?" + parametersString;
 		this.transport.open("GET",RequestThis.url,true);
         this.transport.send();
-    }
-    else {
+    } else {
 		this.transport.open("POST",this.url,true);
 		this.transport.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		this.transport.send(parametersString);
