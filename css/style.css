@@ -73,3 +73,9 @@ nav .is-active {
 .modal-card {
     border-radius: 15px;
 }
+
+/* --------- Notification --------- */
+
+#notification {
+    display: none;
+}

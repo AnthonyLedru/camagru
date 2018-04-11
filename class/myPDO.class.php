@@ -1,5 +1,7 @@
 <?php
 
+require_once '../include/myPDO.include.php';
+
 final class myPDO {
 
     private static $_PDOInstance   = null;
@@ -13,16 +15,18 @@ final class myPDO {
 
 
     private function __construct() {
-        //Never use it :D
+        //Never use new on myPDO -> getInstance :)
     }
 
-    //Get the unique instance of myPDO
     public static function getInstance() {
         if (is_null(self::$_PDOInstance)) {
             if (self::hasConfiguration()) {
-                self::$_PDOInstance = new PDO(self::$_DSN, self::$_username, self::$_password, self::$_driverOptions);
-            }
-            else {
+                try {
+                    self::$_PDOInstance = new PDO(self::$_DSN, self::$_username, self::$_password, self::$_driverOptions);
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            } else {
                 throw new Exception(__CLASS__ . ": Configuration not set");
             }
         }

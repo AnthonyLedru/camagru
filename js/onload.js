@@ -31,6 +31,7 @@ window.onload = function() {
     });
 
     /* --------- Signup Modal --------- */
+
     document.querySelector('a#signup_button').addEventListener('click', function(event) {
         event.preventDefault();
         var modal = document.getElementById('signup_modal');
@@ -52,5 +53,33 @@ window.onload = function() {
                 html.classList.remove('is-clipped');
             });
         }
+
+
+        var signup_form = document.getElementById('signup_form');
+        signup_form.onsubmit = function(e) {
+            var mail = signup_form.elements['mail'].value;
+            var login = signup_form.elements['login'].value;
+            var password = signup_form.elements['password'].value;
+            var passwordConf = signup_form.elements['passwordConf'].value;
+            var lastName = signup_form.elements['lastName'].value;
+            var firstName = signup_form.elements['firstName'].value;
+            var gender = signup_form.elements['gender'].value;
+            
+            request  = new Request ({
+                url        : "script/signup.php",
+                method     : 'POST',
+                handleAs   : 'text',
+                parameters : { mail : mail, login : login, password : password, passwordConf : passwordConf,
+                                lastName : lastName, firstName : firstName, gender: gender, wait : true },
+                onSuccess  : function(message) {
+                                console.log(message);
+                },
+                onError    : function(status, message) {
+
+                }
+            });
+            return false;
+        }
+
     });
 };

@@ -54,6 +54,8 @@ class WebPage {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/bulma.css">
 	<link rel="stylesheet" href="css/style.css">
+	<scirpt src="js/notification.js"></script>
+	<script src="js/request.js"></script>
 	<script src="js/onload.js"></script>
 	$this->title
 	$this->head
@@ -97,7 +99,6 @@ class WebPage {
 	</div>
 	</div>
 	</nav>
-	<!-- Modal -->
 	<div class="modal" id="login_modal">
 		<div class="modal-background"></div>
 		<div class="modal-card">
@@ -132,51 +133,52 @@ class WebPage {
 			<p class="modal-card-title">Sign up</p>
 			<button class="delete signup_cancel" aria-label="close"></button>
 			</header>
-			<section class="modal-card-body">
-			<form action="signup.php" method="post">
-				<div class="field">
-				<label class="label">Mail</label>
-					<input class="input" type="text" placeholder="john.doe@gmail.com">
-				</div>
-				<div class="field">
-					<label class="label">Login</label>
-					<input class="input" type="text" placeholder="John_doe">
-				</div>
-				<div class="field">
-				<label class="label">Password</label>
-					<input class="input" type="text" placeholder="**********">
-				</div>
-				<div class="field">
-					<label class="label">Password confirmation</label>
-					<input class="input" type="text" placeholder="**********">
-				</div>
-				<div class="field">
-					<label class="label">Last name</label>
-					<input class="input" type="text" placeholder="Doe">
-				</div>
-				<div class="field">
-					<label class="label">First name</label>
-					<input class="input" type="text" placeholder="John">
-				</div>
-				<div class="field">
-					<label class="label">Gender</label>
-					<div class="control">
-						<div class="select">
-						<select>
-							<option>Male</option>
-							<option>Female</option>
-						</select>
+			<form action="script/signup.php" method="post" id="signup_form">
+				<section class="modal-card-body">
+					<div class="field">
+						<label class="label">Mail</label>
+						<input class="input" type="text" placeholder="john.doe@gmail.com" name="mail">
+					</div>
+					<div class="field">
+						<label class="label">Login</label>
+						<input class="input" type="text" placeholder="John_doe" name="login">
+					</div>
+					<div class="field">
+						<label class="label">Password</label>
+						<input class="input" type="password" placeholder="**********" name="password">
+					</div>
+					<div class="field">
+						<label class="label">Password confirmation</label>
+						<input class="input" type="password" placeholder="**********" name="passwordConf">
+					</div>
+					<div class="field">
+						<label class="label">Last name</label>
+						<input class="input" type="text" placeholder="Doe" name="lastName">
+					</div>
+					<div class="field">
+						<label class="label">First name</label>
+						<input class="input" type="text" placeholder="John" name="firstName">
+					</div>
+					<div class="field">
+						<label class="label">Gender</label>
+						<div class="control">
+							<div class="select">
+							<select name="gender">
+								<option>Male</option>
+								<option>Female</option>
+							</select>
+							</div>
 						</div>
 					</div>
-				</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button is-dark" type="submit">Sign up</button>
+					<button class="button signup_cancel is-dark">Cancel</button>
+				</footer>
 			</form>
-		</section>
-			<footer class="modal-card-foot">
-				<button class="button is-dark">Sign up</button>
-				<button class="button signup_cancel is-dark">Cancel</button>
-			</footer>
 		</div>
 	</div>
+	<div id="notification"></div>
 	$this->body
 	<footer class="footer">
 	<div class="container">

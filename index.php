@@ -1,6 +1,6 @@
 <?php
-require_once 'class/myPDO.include.php';
-require_once 'class/Webpage.class.php';
+require_once 'include/autoload.include.php';
+
 
 $page = new Webpage("Camagru");
 
