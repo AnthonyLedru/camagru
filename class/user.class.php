@@ -4,39 +4,41 @@ require_once '../include/autoload.include.php';
 
 class User {
 
-    private $userId = null;
+    private $user_id = null;
     private $mail = null;
     private $login = null;
     private $password = null;
-    private $lastName = null;
-    private $firstName = null;
+    private $last_name = null;
+    private $first_name = null;
     private $gender = null;
-    private $signupToken = null;
-    private $passwordToken = null;
+    private $signup_token = null;
+    private $password_token = null;
     private $active = null;
 
-    public function getUserId() { return $this->userId; }
+    public function getUserId() { return $this->user_id; }
     public function getMail() { return $this->mail; }
+    public function getLogin() { return $this->login; }
     public function getPassword() { return $this->password; }
-    public function getLastName() { return $this->lastName; }
-    public function getFirstName() { return $this->firstName; }
-    public function getGender() { return $this->userId; }
-    public function getSignupToken() { return $this->userId; }
-    public function getPasswordToken() { return $this->userId; }
+    public function getLastName() { return $this->last_name; }
+    public function getFirstName() { return $this->first_name; }
+    public function getGender() { return $this->user_id; }
+    public function getSignupToken() { return $this->signup_token; }
+    public function getPasswordToken() { return $this->password_token; }
     public function getActive() { return $this->active; }
     
-    public static function createFromId($userId) {
+
+    public static function createFromLogin($userLogin) {
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM user
-        WHERE user_id = ?
+        WHERE login = ?
 SQL
         );
         $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $userQuery->execute(array($userId));
+        $userQuery->execute(array($userLogin));
         if (($user = $userQuery->fetch()) !== false)
             return $user;
-        throw new Exception(__CLASS__ . ": Id not found");
+        throw new Exception("Login incorrect");
     }
 
     public static function alreadyExist($mail, $login) {
