@@ -11,6 +11,10 @@ label {
     color: #293241;
 }
 
+.hero-body {
+    padding: 5rem 1.5rem;
+}
+
 /* ------------ Button ------------ */
 
 .is-dark {
@@ -131,20 +135,32 @@ figure:hover #profile_img {
 }
 
 #figure_profile {
+    width: 15em;
+    height: 15em;
     border-radius: 100%;
 }
 
 #profile_img {
-    font-size: 30px;
-    font-weight: bold;
+    width: 15em;
+    height: 15em;
+
 }
 
-#profile_login {
-    font-size: 175% !important;
+.profile_name {
+    font-size: 150% !important;
     font-weight: bold !important;
     color: #293241;
 }
 
+.is-horizontal-center {
+    justify-content: center;
+}
+
 #profile_card {
     background-color: #F5F5F5;
+}
+
+.tabs.is-toggle li.is-active a {
+    background-color: #293241 !important;
+    border-color: #293241 !important
 }

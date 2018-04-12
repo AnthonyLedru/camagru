@@ -10,22 +10,42 @@ if (isset($_SESSION['user'])) {
 
         <div class="hero-body" id="profile_card">
             <div class="container has-text-centered">
-                <form action="save_profile.php" method="post" id="profile_form">
-                    <div class="columns is-vcentered">
-                        <div class="column is-6 is-offset-1">
-                            <h1 id="profile_login"> Hello, {$_SESSION['user']['login']} !</h1>
-                        </div>
-                        <div class="column is-2">
-                            <figure class="image is-square" id="figure_profile">
-                                <img src="img/profile.jpg" id="profile_img" alt="Home description">
-                            </figure>
+                <div class="columns is-fullwidth has-text-centered">
+                    <div class="column">
+                        <h1 class="profile_name">
+                            <a class="profile_name" href="profile.php">Hello, {$_SESSION['user']['firstName']} ! </a>
+                        </h1>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-flex is-horizontal-center">
+                        <figure class="image" id="figure_profile">
+                            <img src="img/profile.jpg" id="profile_img" alt="Home description">
+                        </figure>
+                    </div>
+                </div>
+                <div class="columns has-text-centered">
+                    <div class="column">
+                        <div class="tabs is-toggle is-fullwidth is-medium">
+                            <ul>
+                                <li class="is-active"><a>Informations</a></li>
+                                <li><a>Preferences</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="hero-body">
-                <div class="container has-text-centered">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <form action="save_profile.php" method="post" id="profile_form">
+                    <div class="field">
+                        <label class="label">Bio</label>
+                        <div class="control">
+                            <textarea class="textarea has-text-centered" placeholder=" Let's introduce yourself"></textarea>
+                        </div>
+                    </div>
                     <div class="columns">
                         <div class="column">
                             <div class="field">
@@ -102,27 +122,27 @@ HTML
             
                     </div>
                     <div class="field">
-                        <label class="label">Bio</label>
-                        <div class="control">
-                            <input class="input has-text-centered" type="text" type="password">
-                        </div>
-                    </div>
-                    <div class="field">
                         <label class="label">Password</label>
                         <div class="control">
-                            <input class="input has-text-centered" type="password">
+                            <input class="input has-text-centered" type="password" placeholder="Required to modify your informations">
                         </div>
                     </div>
-                    <div class="field">
-                        <label class="label">New password</label>
-                        <div class="control">
-                            <input class="input has-text-centered" type="password" placeholder="Left blank if you do not want to change it">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">New password</label>
+                                <div class="control">
+                                    <input class="input has-text-centered" type="password" placeholder="Left blank if you do not want to change it">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">New password confirmation</label>
-                        <div class="control">
-                            <input class="input has-text-centered" type="password" placeholder="Left blank if you do not want to change it">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">New password confirmation</label>
+                                <div class="control">
+                                    <input class="input has-text-centered" type="password" placeholder="Left blank if you do not want to change it">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button class="button is-dark" type="submit">Save profile</button>

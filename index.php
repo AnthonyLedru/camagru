@@ -6,15 +6,13 @@ require_once 'include/autoload.include.php';
 
 $page = new Webpage("Camagru");
 
-if (!isset($_SESSION['user'])) {
-
 $page->appendContent(<<<HTML
 
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="columns is-vcentered">
                     <div class="column is-5">
-                        <figure class="image is-4by3">
+                        <figure class="image is-3by3">
                             <img src="img/home_img.jpeg" id="home_img" alt="Home description">
                         </figure>
                     </div>
@@ -37,11 +35,5 @@ $page->appendContent(<<<HTML
         </div>
 HTML
 );
-
-}
-
-else {
-
-}
 
 echo $page->toHTML();
