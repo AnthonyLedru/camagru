@@ -25,6 +25,11 @@ class User {
     public function getSignupToken() { return $this->signup_token; }
     public function getPasswordToken() { return $this->password_token; }
     public function getActive() { return $this->active; }
+    public function getAll() {
+        return array('userId' => $this->user_id, 'mail' => $this->mail, 'login' => $this->login, 
+                     'lastName' => $this->last_name, 'firstName' => $this->first_name,
+                     'gender' => $this->gender, 'active' => $this->active);
+    }
     
 
     public static function createFromLogin($userLogin) {

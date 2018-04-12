@@ -13,9 +13,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
         $user = User::createFromLogin($login);
         if ($user->getPassword() === $password)
             if ($user->getActive()) {
-                $_SESSION['id'] = $user->getUserId();
-                $_SESSION['login'] = $user->getLogin();
-                $_SESSION['firstName'] = $user->getFirstName();
+                $_SESSION['user'] = $user->getAll();
                 echo "Welcome " . $user->getFirstName();
             } else
                 echo "Please confirm your account by clicking on the link in your mail: <a href='lol'>click here to send a new one</a>";
