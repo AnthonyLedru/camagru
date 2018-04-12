@@ -134,8 +134,8 @@ $page .= <<<HTML
 						<p class="modal-card-title">Log in</p>
 						<button class="delete login_cancel" aria-label="close"></button>
 					</header>
-					<form action="connect.php" method="post" id="login_form">
-						<section class="modal-card-body">
+					<section class="modal-card-body">
+						<form action="connect.php" method="post" id="login_form">
 							<div class="field">
 								<label class="label">Login</label>
 								<input class="input" type="text" placeholder="John_doe" name="login">
@@ -146,12 +146,12 @@ $page .= <<<HTML
 							</div>
 							<br>
 							<a>Forgot your password ?</a>
-						</section>
-						<footer class="modal-card-foot">
-							<button class="button is-dark" type="submit">Log in</button>
-							<button class="button login_cancel is-dark">Cancel</button>
-						</footer>
-					</form>
+						</form>
+					</section>
+					<footer class="modal-card-foot">
+						<button class="button is-dark" form="login_form" type="submit">Log in</button>
+						<button class="button login_cancel is-dark">Cancel</button>
+					</footer>
 				</div>
 			</div>
 		</div>
@@ -163,8 +163,8 @@ $page .= <<<HTML
 						<p class="modal-card-title">Sign up</p>
 						<button class="delete signup_cancel" aria-label="close"></button>
 					</header>
-					<form action="script/signup.php" method="post" id="signup_form">
-						<section class="modal-card-body">
+					<section class="modal-card-body">
+						<form action="script/signup.php" method="post" id="signup_form">
 							<div class="field">
 								<label class="label">Mail</label>
 								<input class="input" type="text" placeholder="john.doe@gmail.com" name="mail">
@@ -200,12 +200,12 @@ $page .= <<<HTML
 									</div>
 								</div>
 							</div>
-						</section>
-						<footer class="modal-card-foot">
-							<button class="button is-dark" type="submit">Sign up</button>
-							<button class="button signup_cancel is-dark">Cancel</button>
-						</footer>
-					</form>
+						</form>
+					</section>
+					<footer class="modal-card-foot">
+						<button class="button is-dark" form="signup_form" type="submit">Sign up</button>
+						<button class="button signup_cancel is-dark">Cancel</button>
+					</footer>
 				</div>
 			</div>
 		</div>

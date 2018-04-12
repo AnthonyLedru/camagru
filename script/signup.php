@@ -1,6 +1,6 @@
 <?php
 
-require_once '../include/autoload.include.php';
+require_once __DIR__ . '/../include/autoload.include.php';
 
 function areFieldsValid($userTab) {
     $valid = false;
@@ -47,7 +47,6 @@ if (isset($_POST['mail']) && $_POST['mail'] !== "" &&
                     'signupToken' => bin2hex(random_bytes(50)),
                     'active' => 0
                 );
-
                 if (areFieldsValid($userTab)) {
                     if (!User::alreadyExist($userTab['mail'], $userTab['login'])) {
                         User::insertUser($userTab);

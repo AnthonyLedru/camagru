@@ -1,6 +1,6 @@
 <?php
 
-require_once '../include/myPDO.include.php';
+require_once __DIR__ . '/../include/myPDO.include.php';
 
 final class myPDO {
 

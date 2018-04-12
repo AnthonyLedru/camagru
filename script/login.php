@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-require_once '../include/autoload.include.php';
+require_once __DIR__ . '/../include/autoload.include.php';
 
 if (isset($_POST['login']) && isset($_POST['password'])) {
 

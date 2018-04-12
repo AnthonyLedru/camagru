@@ -112,7 +112,7 @@ window.onload = function() {
                                 display_notification("notification", color, message);
                 },
                 onError    : function(status, message) {
-                                display_notification("notification", "red", "An error occured");
+                                display_notification("notification", "red", status + ": " + message);
                 }
             });
             document.getElementById('signup_modal').classList.remove('is-active');
@@ -152,7 +152,7 @@ window.onload = function() {
                                 }
                 },
                 onError    : function(status, message) {
-                                display_notification("notification", "red", "An error occured");
+                                    display_notification("notification", "red", status + ": " + message);
                 }
             });
             return false;

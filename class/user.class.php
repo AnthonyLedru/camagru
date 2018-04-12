@@ -1,6 +1,6 @@
 <?php
 
-require_once '../include/autoload.include.php';
+require_once __DIR__ . '/../include/autoload.include.php';
 
 class User {
 
