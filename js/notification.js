@@ -6,7 +6,7 @@ function display_notification(div_name, color, message) {
     setTimeout(
         function() {
             notification_div.style.display = "none";
-        }, 5000);
+        }, 10000);
 }
 
 function hide_notification(div_name) {

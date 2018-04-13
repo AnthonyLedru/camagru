@@ -45,7 +45,8 @@ if (isset($_POST['mail']) && $_POST['mail'] !== "" &&
                     'firstName' => htmlspecialchars($_POST['firstName']),
                     'gender' => htmlspecialchars($_POST['gender']),
                     'signupToken' => bin2hex(random_bytes(50)),
-                    'active' => 0
+                    'active' => 0,
+                    'bio' => ""
                 );
                 if (areFieldsValid($userTab)) {
                     if (!User::alreadyExist($userTab['mail'], $userTab['login'])) {
@@ -57,6 +58,5 @@ if (isset($_POST['mail']) && $_POST['mail'] !== "" &&
             }
         } else
             echo "The passwords you specified are not the same";
-} else {
+} else
     echo "You must fill all the fields to register";
-}

@@ -41,7 +41,7 @@ label {
 }
 
 nav .is-active {
-    background-color: #293241 !important;  
+    background-color: #EE6C4D !important;  
 }
 
 /* ------------ Footer ------------ */
@@ -80,8 +80,8 @@ nav .is-active {
 /* --------- Notification --------- */
 
 #notification {
-    position: absolute;
-    z-index: 101;
+    position: fixed;
+    z-index: 1001;
     left: 0;
     right: 0;
     top: 10%;

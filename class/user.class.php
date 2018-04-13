@@ -14,6 +14,7 @@ class User {
     private $signup_token = null;
     private $password_token = null;
     private $active = null;
+    private $bio = null;
 
     public function getUserId() { return $this->user_id; }
     public function getMail() { return $this->mail; }
@@ -21,14 +22,15 @@ class User {
     public function getPassword() { return $this->password; }
     public function getLastName() { return $this->last_name; }
     public function getFirstName() { return $this->first_name; }
-    public function getGender() { return $this->user_id; }
+    public function getGender() { return $this->gender; }
     public function getSignupToken() { return $this->signup_token; }
     public function getPasswordToken() { return $this->password_token; }
     public function getActive() { return $this->active; }
+    public function getBio() { return $this->bio; }
     public function getAll() {
         return array('userId' => $this->user_id, 'mail' => $this->mail, 'login' => $this->login, 
                      'lastName' => $this->last_name, 'firstName' => $this->first_name,
-                     'gender' => $this->gender, 'active' => $this->active);
+                     'gender' => $this->gender, 'active' => $this->active, 'bio' => $this->bio);
     }
     
 
@@ -44,6 +46,20 @@ SQL
         if (($user = $userQuery->fetch()) !== false)
             return $user;
         throw new Exception("Login incorrect");
+    }
+
+    public static function createFromId($id) {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM user
+        WHERE user_id = ?
+SQL
+        );
+        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $userQuery->execute(array($id));
+        if (($user = $userQuery->fetch()) !== false)
+            return $user;
+        throw new Exception("Id inccorect");
     }
 
     public static function alreadyExist($mail, $login) {
@@ -65,8 +81,8 @@ SQL
     public static function insertUser($userTab)
     {
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
-        INSERT INTO user (mail, login, password, last_name, first_name, gender, signup_token, active)
-        VALUES (:mail, :login, :password, :lastName, :firstName, :gender, :signupToken, :active)
+        INSERT INTO user (mail, login, password, last_name, first_name, gender, signup_token, active, bio)
+        VALUES (:mail, :login, :password, :lastName, :firstName, :gender, :signupToken, :active, :bio)
 SQL
         );
         $userQuery->execute(array(
@@ -77,7 +93,28 @@ SQL
             ':firstName' => $userTab['firstName'],
             ':gender' => $userTab['gender'],
             ':signupToken' => $userTab['signupToken'],
-            ':active' => $userTab['active']
+            ':active' => $userTab['active'],
+            ':bio' => $userTab['bio']
         ));
     }
+
+    public static function UpdateUser($userTab)
+    {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        UPDATE user
+        SET mail = :mail, password = :password, last_name = :lastName, 
+            first_name = :firstName, gender = :gender, bio = :bio 
+        WHERE user_id = :userId
+SQL
+        );
+        $userQuery->execute(array(
+            ':mail' => $userTab['mail'],
+            ':password' => $userTab['password'],
+            ':lastName' => $userTab['lastName'],
+            ':firstName' => $userTab['firstName'],
+            ':gender' => $userTab['gender'],
+            ':bio' => $userTab['bio'],
+            ':userId' => $userTab['userId']
+        ));
+    }   
 }

@@ -23,7 +23,7 @@ final class myPDO {
             if (self::hasConfiguration()) {
                 try {
                     self::$_PDOInstance = new PDO(self::$_DSN, self::$_username, self::$_password, self::$_driverOptions);
-                } catch (Exception $e) {
+                } catch (PDOException $e) {
                     echo $e->getMessage();
                 }
             } else {

@@ -42,7 +42,19 @@ class WebPage {
 		$this->head .= '<link rel="stylesheet" href="'.$url.'">';
 	}
 
+
 	public function toHTML() {
+	$page_name = basename($_SERVER['PHP_SELF']);
+	$home = "<a class='navbar-item' href='index.php'>Home</a>";
+	$users = "<a class='navbar-item' href='users.php'>Users</a>";
+	$galery = "<a class='navbar-item' href='galery.php'>Galery</a>";
+
+	if ($page_name === "index.php")
+		$home = str_replace("class='navbar-item'", "class='navbar-item is-active'", $home);
+	else if ($page_name === "users.php")
+		$users = str_replace("class='navbar-item'", "class='navbar-item is-active'", $users);
+	else if ($page_name === "galery.php")
+		$galery = str_replace("class='navbar-item'", "class='navbar-item is-active'", $galery);	
 
 	$page=<<<HTML
 <!DOCTYPE HTML>
@@ -78,9 +90,12 @@ class WebPage {
 
 				<div class="navbar-menu">
 					<div class="navbar-start">
-						<a class="navbar-item" href="index.php">Home</a>
-						<a class="navbar-item" href="">Users</a>
-						<a class="navbar-item" href="">Galery</a>
+HTML;
+	$page .= <<<HTML
+
+						$home
+						$users
+						$galery
 					</div>
 
 					<div class="navbar-end">
@@ -89,7 +104,7 @@ class WebPage {
 HTML;
 
 	if (!isset($_SESSION['user'])) {
-$page .= <<<HTML
+		$page .= <<<HTML
 
 								<p class="control">
 									<a class="button button is-dark" id="login_button">
@@ -103,7 +118,7 @@ $page .= <<<HTML
 								</p>
 HTML;
 	} else {
-$page .= <<<HTML
+		$page .= <<<HTML
 
 								<p class="control">
 									<a class="button button is-dark" id="profile_button" href="profile.php">
@@ -118,7 +133,7 @@ $page .= <<<HTML
 HTML;
 	}
 
-$page .= <<<HTML
+		$page .= <<<HTML
 
 							</div>
 						</div>
