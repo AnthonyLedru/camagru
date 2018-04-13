@@ -51,6 +51,8 @@ if (isset($_POST['mail']) && $_POST['mail'] !== "" &&
                 if (areFieldsValid($userTab)) {
                     if (!User::alreadyExist($userTab['mail'], $userTab['login'])) {
                         User::insertUser($userTab);
+                        $user = User::createFromLogin($userTab['login']);
+                        UserPreference::insertDefaultPreference($user->getUserId());
                         echo "A confirmation mail to activate your account has been sent to " . $userTab['mail'];
                     } else
                         echo "An account with this mail or login already exists";

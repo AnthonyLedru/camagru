@@ -200,7 +200,7 @@ window.onload = function() {
             var gender = informations_form.elements['gender'].value;
             var bio = informations_form.elements['bio'].value;
             request  = new Request ({
-                url        : "script/profile_update.php",
+                url        : "script/profileUpdate.php",
                 method     : 'POST',
                 handleAs   : 'text',
                 parameters : { mail : mail, password : password, newPass1 : newPass1, newPass2 : newPass2,

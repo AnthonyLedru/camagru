@@ -6,6 +6,8 @@ require_once 'include/autoload.include.php';
 
 if (isset($_SESSION['user'])) {
     $user = User::createFromId($_SESSION['user']['userId']);
+    UserPreference::insertDefaultPreference($user->getUserId());
+    $userPreferences = UserPreference::createFromUserId($_SESSION['user']['userId']);
     $page = new Webpage("My Profile");
     $page->appendContent(<<<HTML
 
@@ -40,7 +42,7 @@ if (isset($_SESSION['user'])) {
 
         <div class="hero-body is-visible" id="informations">
             <div class="container has-text-centered">
-                <form action="script/profile_update.php" method="post" id="informations_form">
+                <form action="script/profileUpdate.php" method="post" id="informations_form">
                     <div class="columns is-centered">
                         <div class="column is-one-quarter">
                             <div class="field">
@@ -159,7 +161,22 @@ HTML
                         <div class="column">
                             <div class="field">
                                 <label class="label">Mail notification when someone comment your photos</label>
+HTML
+);
+    $send_mail = UserPreference::getUserPreferenceFromTab($userPreferences, "send_mail");
+    if ($send_mail->getActive() == 1)
+        $page->appendContent(<<<HTML
+
+                                <input type="checkbox" checked>
+HTML
+);
+    else
+        $page->appendContent(<<<HTML
+
                                 <input type="checkbox">
+HTML
+);
+$page->appendContent(<<<HTML
                             </div>
                         </div>
                     </div>
