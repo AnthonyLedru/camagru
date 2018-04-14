@@ -7,12 +7,20 @@ EE6C4D
 293241
 */
 
+/* ------------ Global ------------ */
+
 label {
     color: #293241;
 }
 
 .hero-body {
     padding: 5rem 1.5rem;
+}
+
+.title {
+    font-size: 250% !important;
+    font-weight: bold !important;
+    color: #293241;
 }
 
 /* ------------ Button ------------ */
@@ -170,9 +178,3 @@ figure:hover #profile_img {
 }
 
 /* ------------ Galery ------------ */
-
-#galery_title {
-    font-size: 200% !important;
-    font-weight: bold !important;
-    color: #293241;
-}

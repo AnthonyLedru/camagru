@@ -121,7 +121,11 @@ HTML;
 HTML;
 	} else {
 		$page .= <<<HTML
-
+									<p class="control">
+										<a class="button button is-dark" id="photo_button" href="photo.php">
+											<span>Photo</span>
+										</a>
+									</p>
 									<p class="control">
 										<a class="button button is-dark" id="profile_button" href="profile.php">
 											<span>Profile</span>
