@@ -222,4 +222,29 @@ window.onload = function() {
         }
     }
 
+    if (document.getElementById('preferences_form')) {
+        var preferences_form = document.getElementById('preferences_form');
+        preferences_form.onsubmit = function(e) {
+            console.log(preferences_form);
+            var notification = preferences_form.elements['notification'].value;
+            var theme = preferences_form.elements['theme'].value;
+            request  = new Request ({
+                url        : "script/userPreferenceUpdate.php",
+                method     : 'POST',
+                handleAs   : 'text',
+                parameters : { notification : notification, theme: theme,  wait : true },
+                onSuccess  : function(message) {
+                                if (message === "Preferences updated !")
+                                    display_notification("notification", "green", message);
+                                else
+                                    display_notification("notification", "red", message);
+                },
+                onError    : function(status, message) {
+                                display_notification("notification", "red", status + ": " + message);
+                }
+            });
+            return false;
+        }
+    }
+
 };

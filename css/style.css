@@ -40,8 +40,12 @@ label {
     color: #fff !important;
 }
 
-nav .is-active {
+.navbar-menu .is-active {
     background-color: #EE6C4D !important;  
+}
+
+.navbar-menu {
+    background-color: #293241 !important;  
 }
 
 /* ------------ Footer ------------ */

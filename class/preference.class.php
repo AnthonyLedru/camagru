@@ -10,7 +10,6 @@ Class Preference {
     public function getPreferenceId() { return $this->preference_id; }
     public function getName() { return $this->name; }
 
-
     public static function createFromName($name) {
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *

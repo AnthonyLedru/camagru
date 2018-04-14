@@ -8,7 +8,7 @@ class UserPreference {
     private $user_id = null;
     private $preference_id = null;
     private $active = null;
-    const DEFAULT_PREFERENCES = array(array('send_mail', 1), array('default_theme', 1), array('test', 0));
+    const DEFAULT_PREFERENCES = array(array('notification', 1), array('default_theme', 1));
 
     public function getUserPreferenceId() { return $this->user_preference_id; }
     public function getUserId() { return $this->user_id; }
@@ -67,6 +67,16 @@ SQL
                 return $userPreference;
         }
         return false;
+    }
+
+    public static function updateUserPreference($userPreferenceId, $active) {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        UPDATE user_preference
+        SET active = :active
+        WHERE user_preference_id = :user_preference_id
+SQL
+        );
+        $userQuery->execute(array(':active' => $active, ':user_preference_id' => $userPreferenceId));
     }
 }
 
