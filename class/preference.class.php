@@ -11,39 +11,39 @@ Class Preference {
     public function getName() { return $this->name; }
 
     public static function createFromName($name) {
-        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM preference
         WHERE name = ?
 SQL
         );
-        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $userQuery->execute(array($name));
-        if (($preference = $userQuery->fetch()) !== false)
+        $preferenceQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $preferenceQuery->execute(array($name));
+        if (($preference = $preferenceQuery->fetch()) !== false)
             return $preference;
         return false;
     }
 
     public static function createFromId($id) {
-        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM preference
         WHERE preference_id = ?
 SQL
         );
-        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $userQuery->execute(array($id));
-        if (($preference = $userQuery->fetch()) !== false)
+        $preferenceQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $preferenceQuery->execute(array($id));
+        if (($preference = $preferenceQuery->fetch()) !== false)
             return $preference;
         return false;
     }
 
     public static function insertFromName($name) {
-        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
         INSERT INTO preference (name)
         VALUES (?)
 SQL
         );
-        $userQuery->execute(array($name));
+        $preferenceQuery->execute(array($name));
     }
 }

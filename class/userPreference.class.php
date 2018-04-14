@@ -16,26 +16,26 @@ class UserPreference {
     public function getActive() { return $this->active; }
 
     public static function createFromUserId($userId) {
-        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        $userPrefQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM user_preference
         WHERE user_id = ?
 SQL
         );
-        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $userQuery->execute(array($userId));
-        if (($userPreference = $userQuery->fetchAll()) !== false)
+        $userPrefQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $userPrefQuery->execute(array($userId));
+        if (($userPreference = $userPrefQuery->fetchAll()) !== false)
             return $userPreference;
         return false;
     }
 
     public static function insertUserPreference($userId, $preferenceId, $active) {
-        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        $userPrefQuery = myPDO::getInstance()->prepare(<<<SQL
         INSERT INTO user_preference (user_id, preference_id, active)
         VALUES (:userId, :preferenceId, :active)
 SQL
         );
-        $userQuery->execute(array(
+        $userPrefQuery->execute(array(
             ':userId' => $userId,
             ':preferenceId' => $preferenceId,
             ':active' => $active,
@@ -70,13 +70,13 @@ SQL
     }
 
     public static function updateUserPreference($userPreferenceId, $active) {
-        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        $userPrefQuery = myPDO::getInstance()->prepare(<<<SQL
         UPDATE user_preference
         SET active = :active
         WHERE user_preference_id = :user_preference_id
 SQL
         );
-        $userQuery->execute(array(':active' => $active, ':user_preference_id' => $userPreferenceId));
+        $userPrefQuery->execute(array(':active' => $active, ':user_preference_id' => $userPreferenceId));
     }
 }
 
