@@ -191,6 +191,7 @@ window.onload = function() {
     if (document.getElementById('informations_form')) {
         var informations_form = document.getElementById('informations_form');
         informations_form.onsubmit = function(e) {
+            var login = informations_form.elements['login'].value;
             var mail = informations_form.elements['mail'].value;
             var password = informations_form.elements['password'].value;
             var newPass1 = informations_form.elements['newPass1'].value;
@@ -203,11 +204,13 @@ window.onload = function() {
                 url        : "script/profileUpdate.php",
                 method     : 'POST',
                 handleAs   : 'text',
-                parameters : { mail : mail, password : password, newPass1 : newPass1, newPass2 : newPass2,
+                parameters : { login: login, mail : mail, password : password, newPass1 : newPass1, newPass2 : newPass2,
                                 lastName : lastName, firstName : firstName, gender: gender, bio : bio, wait : true },
                 onSuccess  : function(message) {
-                                if (message === "Profile updated !")
+                                if (message === "Profile updated !") {
                                     display_notification("notification", "green", message);
+                                    document.getElementById('profile_name').innerHTML = "Hello, " + htmlEntities(login) + " ! 😎";
+                                }
                                 else
                                     display_notification("notification", "red", message);
                 },

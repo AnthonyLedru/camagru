@@ -168,3 +168,11 @@ figure:hover #profile_img {
     background-color: #293241 !important;
     border-color: #293241 !important
 }
+
+/* ------------ Galery ------------ */
+
+#galery_title {
+    font-size: 200% !important;
+    font-weight: bold !important;
+    color: #293241;
+}

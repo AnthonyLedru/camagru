@@ -17,7 +17,7 @@ if (isset($_SESSION['user'])) {
                     <div class="columns is-fullwidth has-text-centered">
                         <div class="column">
                             <h1 class="profile_name">
-                                <a class="profile_name" href="profile.php">Hello, {$user->getLogin()} ! 😎</a>
+                                <a class="profile_name" id="profile_name" href="profile.php">Hello, {$user->getLogin()} ! 😎</a>
                             </h1>
                         </div>
                     </div>
@@ -54,7 +54,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="field-body">
                                         <div class="field">
                                             <p class="control is-expanded">
-                                                <input class="input" type="text" disabled value="{$user->getLogin()}">
+                                                <input class="input" type="text" name="login" value="{$user->getLogin()}">
                                             </p>
                                         </div>
                                     </div>

@@ -69,6 +69,7 @@ class WebPage {
 		<link rel="stylesheet" href="css/bulma.css">
 		<link rel="stylesheet" href="css/style.css">
 		<script src="js/notification.js"></script>
+		<script src="js/utils.js"></script>
 		<script src="js/request.js"></script>
 		<script src="js/onload.js"></script>
 		$this->title

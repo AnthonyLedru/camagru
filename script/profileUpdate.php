@@ -9,6 +9,8 @@ function areFieldsValid($userTab) {
     $valid = false;
     if (!filter_var($userTab['mail'], FILTER_VALIDATE_EMAIL))
         echo "Invalid mail";
+    else if (!preg_match('/^[A-Za-z][A-Za-z0-9]{5,30}$/', $userTab['login']))
+        echo "Login must have at least 6 characters and include letters and numbers only.";
     else if (strlen($userTab['password']) < 8 ||
                 !preg_match("#[0-9]+#", $userTab['password']) || 
                 !preg_match("#[a-zA-Z]+#", $userTab['password'])) {
@@ -30,7 +32,8 @@ if (isset($_SESSION['user'])) {
     if (isset($_POST['gender']) && $_POST['gender'] !== "" &&
         isset($_POST['mail']) && $_POST['mail'] !== "" &&
         isset($_POST['firstName']) && $_POST['firstName'] !== "" &&
-        isset($_POST['lastName']) && $_POST['lastName'] !== "") {
+        isset($_POST['lastName']) && $_POST['lastName'] !== "" &&
+        isset($_POST['login']) && $_POST['login'] !== "") {
 
         if (isset($_POST['password']) && $_POST['password'] !== "") {
             try {
@@ -45,6 +48,7 @@ if (isset($_SESSION['user'])) {
                     (isset($_POST['newPass2']) && $_POST['newPass2'] !== "")) {
                     if ($_POST['newPass1'] === $_POST['newPass2']) {
                         $userTab = array(
+                            'login' => htmlspecialchars($_POST['login']),
                             'mail' => htmlspecialchars($_POST['mail']),
                             'password' => $_POST['newPass1'],
                             'lastName' => htmlspecialchars($_POST['lastName']),
@@ -59,6 +63,7 @@ if (isset($_SESSION['user'])) {
                     }
                 } else {
                     $userTab = array(
+                        'login' => htmlspecialchars($_POST['login']),
                         'mail' => htmlspecialchars($_POST['mail']),
                         'password' => $_POST['password'],
                         'lastName' => htmlspecialchars($_POST['lastName']),
@@ -70,16 +75,22 @@ if (isset($_SESSION['user'])) {
                 }
                 if (areFieldsValid($userTab)) {
                     $userTab['password'] = hash('whirlpool', $userTab['password']);
-                    try {
-                        User::UpdateUser($userTab);
-                        $user = User::createFromId($_SESSION['user']['userId']);
-                        unset($_SESSION['user']);
-                        $_SESSION['user'] = $user->getAll();
-                        echo "Profile updated !";
-                    }
-                    catch (Exception $e) {
-                        echo "An error occurred " . $e->getMessage();
-                    }
+                    if (!User::loginAlreadyTaken($userTab['login']) || $user->getLogin() == $userTab['login']) {
+                        if (!User::mailAlreadyTaken($userTab['mail']) || $user->getMail() == $userTab['mail']) {
+                            try {
+                                User::UpdateUser($userTab);
+                                $user = User::createFromId($_SESSION['user']['userId']);
+                                unset($_SESSION['user']);
+                                $_SESSION['user'] = $user->getAll();
+                                echo "Profile updated !";
+                            }
+                            catch (Exception $e) {
+                                echo "An error occurred " . $e->getMessage();
+                            }
+                        } else
+                            echo "Mail already taken";
+                    } else
+                        echo "Login already taken";
                 }
             } else
                 echo "Password incorrect";

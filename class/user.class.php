@@ -78,6 +78,36 @@ SQL
             return false;
     }
 
+    public static function loginAlreadyTaken($login) {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM user
+        WHERE login = :login
+SQL
+        );
+        $userQuery->execute(array(':login' => $login));
+        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__);
+        if (count($userQuery->fetchAll()) > 0)
+            return true;
+        else
+            return false;
+    }
+
+    public static function mailAlreadyTaken($mail) {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM user
+        WHERE mail = :mail
+SQL
+        );
+        $userQuery->execute(array(':mail' => $mail));
+        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__);
+        if (count($userQuery->fetchAll()) > 0)
+            return true;
+        else
+            return false;
+    }
+
     public static function insertUser($userTab)
     {
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
@@ -102,12 +132,13 @@ SQL
     {
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
         UPDATE user
-        SET mail = :mail, password = :password, last_name = :lastName, 
+        SET login = :login, mail = :mail, password = :password, last_name = :lastName, 
             first_name = :firstName, gender = :gender, bio = :bio 
         WHERE user_id = :userId
 SQL
         );
         $userQuery->execute(array(
+            ':login' => $userTab['login'],
             ':mail' => $userTab['mail'],
             ':password' => $userTab['password'],
             ':lastName' => $userTab['lastName'],

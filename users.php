@@ -22,7 +22,6 @@ $page->appendContent(<<<HTML
                     </div>
                 </div>
             </div>
-            
 HTML
 );
 
