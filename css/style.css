@@ -18,8 +18,10 @@ label {
 }
 
 .title {
-    font-size: 250% !important;
-    font-weight: bold !important;
+    color: #293241;
+}
+
+.link {
     color: #293241;
 }
 
@@ -178,3 +180,7 @@ figure:hover #profile_img {
 }
 
 /* ------------ Galery ------------ */
+
+.like:hover {
+    cursor: Pointer;
+}

@@ -4,21 +4,22 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once 'include/autoload.include.php';
 
+$page = new Webpage("My Profile");
+
 if (isset($_SESSION['user'])) {
     $user = User::createFromId($_SESSION['user']['userId']);
     UserPreference::insertDefaultPreference($user->getUserId());
     $userPreferences = UserPreference::createFromUserId($_SESSION['user']['userId']);
     $notification = UserPreference::getUserPreferenceFromTab($userPreferences, "notification");
-    $page = new Webpage("My Profile");
     $page->appendContent(<<<HTML
 
             <div class="hero-body" id="profile_card">
                 <div class="container has-text-centered">
                     <div class="columns is-fullwidth has-text-centered">
                         <div class="column">
-                            <h1 class="profile_name">
+                            <p class="title is-4">
                                 <a class="profile_name" id="profile_name" href="profile.php">Hello, {$user->getLogin()} ! 😎</a>
-                            </h1>
+                            </p>
                         </div>
                     </div>
                     <div class="columns">
@@ -265,9 +266,23 @@ HTML
 
 HTML
 );
-    
-    echo $page->toHTML();
 
+} else {
+    
+    $page->appendContent(<<<HTML
+    
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <div class="columns is-vcentered">
+                        <div class="column is-fullWidth">
+                            <h1 class="title">Forbidden</h1>
+                            <p>You must be logged in to access this page</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+HTML
+    );
 }
-else
-    header("location:index.php");
+
+echo $page->toHTML();

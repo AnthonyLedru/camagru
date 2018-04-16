@@ -27,6 +27,7 @@ class User {
     public function getPasswordToken() { return $this->password_token; }
     public function getActive() { return $this->active; }
     public function getBio() { return $this->bio; }
+    public function getFullName() { return $this->last_name . " " . $this->first_name; }
     public function getAll() {
         return array('userId' => $this->user_id, 'mail' => $this->mail, 'login' => $this->login, 
                      'lastName' => $this->last_name, 'firstName' => $this->first_name,
@@ -147,5 +148,5 @@ SQL
             ':bio' => $userTab['bio'],
             ':userId' => $userTab['userId']
         ));
-    }   
+    }
 }

@@ -228,7 +228,6 @@ window.onload = function() {
     if (document.getElementById('preferences_form')) {
         var preferences_form = document.getElementById('preferences_form');
         preferences_form.onsubmit = function(e) {
-            console.log(preferences_form);
             var notification = preferences_form.elements['notification'].value;
             var theme = preferences_form.elements['theme'].value;
             request  = new Request ({
@@ -250,4 +249,93 @@ window.onload = function() {
         }
     }
 
+    /* ------------ Galery ----------- */
+
+    if (document.getElementsByClassName('like')) {
+        var like_icons = document.getElementsByClassName('like');
+        for (i = 0; i < like_icons.length; i++) {
+            like_icons[i].addEventListener('click', function(e) {
+                var imageId = this.parentNode.children[0].value;
+                var nb_like = this.parentNode.children[1];
+                var like_icon = this.parentNode.children[2];
+                console.log(nb_like);
+                request  = new Request ({
+                    url        : "script/like.php",
+                    method     : 'POST',
+                    handleAs   : 'text',
+                    parameters : { imageId : imageId, wait : true },
+                    onSuccess  : function(message) {
+                                    if (message === "You unliked this image") {
+                                        nb_like.innerHTML = parseInt(nb_like.innerHTML) - 1;
+                                        like_icon.innerHTML = " like(s) ❤️";
+                                    } else if (message === "You liked this image") {
+                                        nb_like.innerHTML = parseInt(nb_like.innerHTML) + 1;
+                                        like_icon.innerHTML = " like(s) 💔";
+                                    } else {
+                                        display_notification("notification", "red", message);
+                                    }
+                    },
+                    onError    : function(status, message) {
+                                    display_notification("notification", "red", status + ": " + message);
+                    }
+                });
+            });
+        }
+    }
+
+    if (document.getElementsByClassName('send_message')) {
+        var send_message = document.getElementsByClassName('send_message');
+        for (i = 0; i < send_message.length; i++) {
+            send_message[i].addEventListener('click', function(e) {
+                var imageId = this.parentNode.parentNode.parentNode.children[3].children[1].children[0].value;
+                var comment = this.parentNode.parentNode.children[0].children[0].value;
+                var comment_raw = this.parentNode.parentNode.children[0].children[0];
+                request  = new Request ({
+                    url        : "script/comment.php",
+                    method     : 'POST',
+                    handleAs   : 'text',
+                    parameters : { imageId : imageId, comment : comment, wait : true },
+                    onSuccess  : function(message) {
+                                    if (message === "Comment sent") {
+                                        display_notification("notification", "green", message);
+                                        comment_raw.value = "";
+                                    }
+                                    else
+                                        display_notification("notification", "red", message);
+                    },
+                    onError    : function(status, message) {
+                                    display_notification("notification", "red", status + ": " + message);
+                    }
+                });
+            });
+        }
+    }
+
+    if (document.getElementsByClassName('comment_link')) {
+        var comment_link = document.getElementsByClassName('comment_link');
+        for (i = 0; i < comment_link.length; i++) {
+            comment_link[i].addEventListener('click', function(e) {
+                event.preventDefault();
+                var modal = document.getElementById('comments_modal');
+                var html = document.querySelector('html');
+                modal.classList.add('is-active');
+                html.classList.add('is-clipped');
+            
+                modal.querySelector('.modal-background').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.classList.remove('is-active');
+                    html.classList.remove('is-clipped');
+                });
+    
+                var comments_cancel = document.getElementsByClassName('comments_cancel');
+                for (i = 0; i < comments_cancel.length; i++) {
+                    comments_cancel[i].addEventListener('click', function(e) {
+                        e.preventDefault();
+                        modal.classList.remove('is-active');
+                        html.classList.remove('is-clipped');
+                    });
+                }
+            });
+        }
+    }
 };

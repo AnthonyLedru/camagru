@@ -166,7 +166,7 @@ HTML;
 									<input class="input" type="password" placeholder="*********" name="password">
 								</div>
 								<br>
-								<a>Forgot your password ?</a>
+								<a class="link">Forgot your password ?</a>
 							</form>
 						</section>
 						<footer class="modal-card-foot">
