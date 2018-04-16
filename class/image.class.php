@@ -29,7 +29,7 @@ SQL
         $ImageQuery->execute(array($id));
         if (($image = $ImageQuery->fetch()) !== false)
             return $image;
-        throw new Exception("Id incorrect");
+        return false;
     }
 
     public static function deleteFromId($id) {

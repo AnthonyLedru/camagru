@@ -47,13 +47,12 @@ SQL
     public static function add($commentTab) {
         $likeQuery = myPDO::getInstance()->prepare(<<<SQL
         INSERT INTO comment (user_id, image_id, comment, `date`)
-        VALUES (:user_id, :image_id, :comment, :date)
+        VALUES (:user_id, :image_id, :comment, CURRENT_TIMESTAMP)
 SQL
         );
         $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
         $likeQuery->execute(array(':user_id' => $commentTab['userId'],
                                   ':image_id' => $commentTab['imageId'],
-                                  ':comment' => $commentTab['comment'],
-                                  ':date' => $commentTab['date']));
+                                  ':comment' => $commentTab['comment']));
     }
 }

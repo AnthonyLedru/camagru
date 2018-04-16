@@ -1,7 +1,7 @@
 <?php
 
 if (session_status() == PHP_SESSION_NONE)
-session_start();
+    session_start();
 
 require_once 'include/autoload.include.php';
 
@@ -26,20 +26,23 @@ foreach ($images as $image) {
                     <div class="columns is-vcentered">
 HTML
 );
+    var_dump($image->getDate());
         $page->appendContent(<<<HTML
         
                         <div class="column is-one-third">
                             <div class="card">
                                 <div class="card-image">
                                     <figure class="image is-4by3">
-                                        <img src="{$image->getPath()}" alt="galery image">
+                                        <a href="image.php?image_id={$image->getImageId()}">
+                                            <img src="{$image->getPath()}" alt="galery image">
+                                        </a>
                                     </figure>
                                 </div>
                                 <div class="card-content">
                                     <div class="media">
                                         <div class="media-left">
                                             <figure class="image is-48x48">
-                                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                                <img src="https://bulma.io/images/placeholders/96x96.png"  alt="Placeholder image">
                                             </figure>
                                         </div>
                                         <div class="media-content">
@@ -52,7 +55,7 @@ HTML
                                         <br><br>
                                         <div class="columns">
                                             <div class="column">
-                                                <time datetime="2016-1-1">{$image->getDate()}</time>
+                                                <time>{$image->getDate()}</time>
                                             </div>
                                             <div class="column">
                                                 <input name="imageId" value="{$image->getImageId()}" type="hidden">
@@ -82,7 +85,7 @@ HTML
                                                 <button class="button is-dark send_message" type="submit">Send</button>
                                             </div>
                                         </div>
-                                        <a class="link comment_link">See all comments</a>
+                                        <a href="image.php?image_id={$image->getImageId()}" class="link comment_link">See comments</a>
                                     </div>
                                 </div>
                             </div>

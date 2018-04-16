@@ -310,32 +310,4 @@ window.onload = function() {
             });
         }
     }
-
-    if (document.getElementsByClassName('comment_link')) {
-        var comment_link = document.getElementsByClassName('comment_link');
-        for (i = 0; i < comment_link.length; i++) {
-            comment_link[i].addEventListener('click', function(e) {
-                event.preventDefault();
-                var modal = document.getElementById('comments_modal');
-                var html = document.querySelector('html');
-                modal.classList.add('is-active');
-                html.classList.add('is-clipped');
-            
-                modal.querySelector('.modal-background').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    modal.classList.remove('is-active');
-                    html.classList.remove('is-clipped');
-                });
-    
-                var comments_cancel = document.getElementsByClassName('comments_cancel');
-                for (i = 0; i < comments_cancel.length; i++) {
-                    comments_cancel[i].addEventListener('click', function(e) {
-                        e.preventDefault();
-                        modal.classList.remove('is-active');
-                        html.classList.remove('is-clipped');
-                    });
-                }
-            });
-        }
-    }
 };
