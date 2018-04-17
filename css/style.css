@@ -187,7 +187,6 @@ figure:hover #profile_img {
 
 /* ------------- Image ------------- */
 
-/* Downloaded from https://www.codeseek.co/ */
 .image_card_id {
     height: 100%;
     border-radius: 5px;
@@ -198,13 +197,15 @@ figure:hover #profile_img {
     flex-flow: column nowrap;
 }
 
-
-.comment_card {
-    overflow-y: scroll;
-    max-height: 650px;
+#comment_card {
+    overflow-y: auto;
+    max-height: 580px;
+    padding: 0px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
-  .image_card_id .card-footer {
+.image_card_id .card-footer {
     margin-top: auto;
 }
 
@@ -212,3 +213,19 @@ figure:hover #profile_img {
     justify-content: center !important;
 }
 
+#send_message_photo {
+    width: 100%;
+}
+
+.div_gray {
+    background-color: #F5F5F5;
+}
+
+#list_comment div {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.name_date {
+    text-align: left !important;
+}

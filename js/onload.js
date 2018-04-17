@@ -258,7 +258,6 @@ window.onload = function() {
                 var imageId = this.parentNode.children[0].value;
                 var nb_like = this.parentNode.children[1];
                 var like_icon = this.parentNode.children[2];
-                console.log(nb_like);
                 request  = new Request ({
                     url        : "script/like.php",
                     method     : 'POST',
@@ -286,28 +285,69 @@ window.onload = function() {
     if (document.getElementsByClassName('send_message')) {
         var send_message = document.getElementsByClassName('send_message');
         for (i = 0; i < send_message.length; i++) {
-            send_message[i].addEventListener('click', function(e) {
-                var imageId = this.parentNode.parentNode.parentNode.children[3].children[1].children[0].value;
-                var comment = this.parentNode.parentNode.children[0].children[0].value;
-                var comment_raw = this.parentNode.parentNode.children[0].children[0];
+            send_message[i].onsubmit = function(e) {
+                var imageId = this.elements['imageId'].value;
+                var comment = this.elements['comment'].value
+                var comment_raw = this.elements['comment'];
                 request  = new Request ({
                     url        : "script/comment.php",
                     method     : 'POST',
-                    handleAs   : 'text',
+                    handleAs   : 'json',
                     parameters : { imageId : imageId, comment : comment, wait : true },
                     onSuccess  : function(message) {
-                                    if (message === "Comment sent") {
-                                        display_notification("notification", "green", message);
-                                        comment_raw.value = "";
+                                    if (message['message'] === "Comment sent") {
+                                        display_notification("notification", "green", message['message']);
                                     }
                                     else
-                                        display_notification("notification", "red", message);
+                                        display_notification("notification", "red", message['message']);
                     },
                     onError    : function(status, message) {
-                                    display_notification("notification", "red", status + ": " + message);
+                                    display_notification("notification", "red", status + ": " + message['message']);
                     }
                 });
+                comment_raw.value = "";
+                comment_raw.placeholder = "Comment..."
+                return false;
+            }
+        }
+    }
+
+    if (document.getElementById('send_message_photo')) {
+        var send_message_photo = document.getElementById('send_message_photo');
+        send_message_photo.onsubmit = function(e) {
+            var imageId = this.elements['imageId'].value;
+            var comment = this.elements['comment'].value
+            var comment_raw = this.elements['comment'];
+            request  = new Request ({
+                url        : "script/comment.php",
+                method     : 'POST',
+                handleAs   : 'json',
+                parameters : { imageId : imageId, comment : comment, wait : true },
+                onSuccess  : function(message) {
+                                if (message['message'] === "Comment sent") {
+                                    var list_comment = document.getElementById('list_comment');
+                                    var first_child = document.getElementById('list_comment').childNodes[1];
+                                    var div = document.createElement("div");
+                                    if (first_child !== undefined)
+                                        if (first_child.className !== "div_gray")
+                                            div.classList.add('div_gray');
+                                    var p = document.createElement("p");
+                                    p.innerHTML = "@" + message['login'] + " (" + message['date'] + ") :<br> <i>" + message['comment'] + "</i>";
+                                    div.appendChild(p);
+                                    list_comment.insertBefore(div, first_child);
+                                    display_notification("notification", "green", message['message']);
+                                }
+                                else
+                                    display_notification("notification", "red", message['message']);
+                },
+                onError    : function(status, message) {
+                                display_notification("notification", "red", status + ": " + message['message']);
+                }
             });
+            document.getElementById('comment_card').scrollTop = 0;
+            comment_raw.value = "";
+            comment_raw.placeholder = "Comment..."
+            return false;
         }
     }
 };

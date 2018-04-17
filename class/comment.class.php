@@ -35,6 +35,7 @@ SQL
         SELECT *
         FROM comment
         WHERE image_id = ?
+        ORDER BY DATE DESC
 SQL
         );
         $commentQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );

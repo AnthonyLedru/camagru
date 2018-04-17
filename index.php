@@ -25,8 +25,8 @@ $page->appendContent(<<<HTML
                             </h2>
                             <br>
                             <p class="has-text-centered">
-                                <a class="button is-dark" href="galery.php">
-                                    See galery
+                                <a class="button is-dark" href="gallery.php">
+                                    See gallery
                                 </a>
                             </p>
                         </div>
