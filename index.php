@@ -21,7 +21,7 @@ $page->appendContent(<<<HTML
                                 Camagru
                             </h1>
                             <h2 class="subtitle is-4">
-                                Share your best moments with your friends
+                                Share your best photos with your friends
                             </h2>
                             <br>
                             <p class="has-text-centered">
