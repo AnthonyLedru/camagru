@@ -22,10 +22,10 @@ if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id']
                 <div class="container has-text-centered">
                     <p class="title is-1">Photo page</p>
                     <br>
-                    <div class="columns ">
+                    <div class="columns">
                         <div class="column is-half">
                             <div class="card image_card_id image_desc_card">
-                                <div class="card-image">
+                                <div class="card">
                                     <figure class="image is-4by3">
                                         <img src="{$image->getPath()}" alt="galery image">
                                     </figure>

@@ -12,10 +12,27 @@ if (isset($_SESSION['user'])) {
     $page->appendContent(<<<HTML
 
                 <div class="hero-body">
-                    <div class="container has-text-centered">
+                    <div class="has-text-centered" id="cam_page">
                         <div class="columns is-vcentered">
                             <div class="column is-fullWidth">
-                                <h1 class="title">Photo editing</h1>
+                                <p class="title is-1">Photo editing</p>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="columns is-vcentered is-desktop">
+                            <div class="column is-two-thirds-desktop cam_menu">
+                                <h1 class="title is-2">Cam</h1>
+                                <video autoplay="true" id="video"></video>
+                                <br>
+                                <button class="button is-dark" id="take_photos" type="submit">Take photo</button>
+                                <button class="button is-dark" id="upload" type="submit">Upload</button>
+                            </div>
+                            <div class="column cam_menu">
+                                <h1 class="title is-2">Photo list</h1>
+                                <div class="has-text-centered" id="photo_list"></div>
+                                <br>
+                                <button class="button is-dark" id="cancel_photo" type="submit">Cancel</button>
+                                <button class="button is-dark" id="save_photo" type="submit">Save photo(s)</button>
                             </div>
                         </div>
                     </div>

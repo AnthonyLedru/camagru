@@ -358,4 +358,64 @@ window.onload = function() {
             return false;
         }
     }
+
+    /* ---------- Photo edit --------- */
+
+    if (document.querySelector("#video")) {
+        HTMLMediaElement.srcObject
+        var ctx;
+        var video = document.querySelector("#video");
+        var photo_list = document.getElementById("photo_list");
+        
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || 
+                                 navigator.mozGetUserMedia || navigator.msGetUserMedia || 
+                                 navigator.oGetUserMedia;
+        
+        if (navigator.getUserMedia)     
+            navigator.getUserMedia({video: true}, handleVideo, videoError);
+        
+        function handleVideo(stream) {
+            video.srcObject = stream;
+            document.getElementById("take_photos").addEventListener('click', function(e) {
+                canvas = document.createElement("canvas");
+                canvas.classList.add("cam_photo");
+                canvas.width = video.videoWidth / 1.75;
+                canvas.height = video.videoHeight / 1.75;
+                ctx = canvas.getContext('2d');
+                photo_list.appendChild(canvas);
+                br = document.createElement("br");
+                photo_list.appendChild(br);
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                var image = canvas.toDataURL('image/png');
+                request  = new Request ({
+                    url        : "script/saveImage.php",
+                    method     : 'POST',
+                    handleAs   : 'text',
+                    parameters : { data : image },
+                    onSuccess  : function(message) {
+                                    if (message === "Comment sent") {
+                                        display_notification("notification", "green", message);
+                                    }
+                                    else
+                                        display_notification("notification", "red", message);
+                    },
+                    onError    : function(status, message) {
+                                    display_notification("notification", "red", status + ": " + message);
+                    }
+                });
+            });
+        }
+        
+        function videoError(e) {
+        }
+
+        document.getElementById("cancel_photo").addEventListener('click', function(e) {
+            while (photo_list.firstChild) {
+                photo_list.removeChild(photo_list.firstChild);
+            }
+        });
+
+        document.getElementById("save_photo").addEventListener('click', function(e) {
+        });
+    }
 };
