@@ -9,7 +9,11 @@ $page = new Webpage("Photo page");
 $images = Image::getAll();
 
 if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id'])) !== false)) {
-    $user = User::createFromId($image->getUserId());
+    if (isset($_SESSION['user']))
+        $currentUser = User::createFromLogin($_SESSION['user']['login']);
+    else
+        $currentUser = null;
+    $imageUser = User::createFromId($image->getUserId());
     $like = Like::countFromImageId($image->getImageId());
     $comments = Comment::getAllFromImage($image->getImageId());
     $page->appendContent(<<<HTML
@@ -34,8 +38,8 @@ if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id']
                                             </figure>
                                         </div>
                                         <div class="media-content">
-                                            <p class="title is-4">{$user->getFullName()}</p>
-                                            <p class="subtitle is-6">@{$user->getLogin()}</p>
+                                            <p class="title is-4">{$imageUser->getFullName()}</p>
+                                            <p class="subtitle is-6">@{$imageUser->getLogin()}</p>
                                         </div>
                                     </div>
                                     <div class="content">
@@ -50,16 +54,22 @@ if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id']
                                                 <span>$like</span>
 HTML
     );
-        if (Like::hasUserLiked($user->getUserId(), $image->getImageId()))
+        if ($currentUser === null)
+            $page->appendContent(<<<HTML
+        
+                                                <span class="like" title="Like it"> like(s) ❤️</span>
+HTML
+        );
+        else if (Like::hasUserLiked($currentUser->getUserId(), $image->getImageId()))
             $page->appendContent(<<<HTML
 
-                                                <span class="like"> like(s) 💔</span>
+                                                <span class="like" title="Unlike it"> like(s) 💔</span>
 HTML
             );
         else
             $page->appendContent(<<<HTML
 
-                                                <span class="like"> like(s) ❤️</span>
+                                                <span class="like" title="Like it"> like(s) ❤️</span>
 HTML
             );
         $page->appendContent(<<<HTML

@@ -335,6 +335,14 @@ window.onload = function() {
                                     p.innerHTML = "@" + message['login'] + " (" + message['date'] + ") :<br> <i>" + message['comment'] + "</i>";
                                     div.appendChild(p);
                                     list_comment.insertBefore(div, first_child);
+                                    if (list_comment.children.length > 1) {
+                                        for (var i = 0; i < list_comment.children.length; i++) {
+                                            if (list_comment.children[i].className !== "div_gray")
+                                                list_comment.children[i].classList.add('div_gray');
+                                            else
+                                                list_comment.children[i].classList.remove('div_gray');
+                                        }
+                                    }
                                     display_notification("notification", "green", message['message']);
                                 }
                                 else

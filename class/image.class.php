@@ -15,8 +15,11 @@ class Image {
     public function getUserId() { return $this->user_id; }
     public function getPath() { return $this->path; }
     public function getDescription() { return $this->description; }
-    public function getDate() { return $this->date; }
     public function getNbLike() { return $this->nb_like; }
+    public function getDate() {
+        $date_obj = new DateTime($this->date);
+        return $date_obj->format("F j, Y, g:i a"); 
+    }
 
     public static function createFromId($id) {
         $ImageQuery = myPDO::getInstance()->prepare(<<<SQL

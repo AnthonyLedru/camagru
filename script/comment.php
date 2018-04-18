@@ -18,13 +18,15 @@ if (isset($_SESSION['user'])) {
                     $image = Image::createFromId($_POST['imageId']);
                     $commentTab = array('userId' => $user->getUserId(),
                                         'imageId' => $image->getImageId(),
-                                        'comment' => htmlspecialchars($_POST['comment']),
-                                        'date' => date("Y-m-d H:i:s"));
+                                        'comment' => htmlspecialchars($_POST['comment']));
                     Comment::add($commentTab);
+                    date_default_timezone_set('Europe/Paris');
+                    $date = date("F j, Y, g:i a", time());
                     $json = array('comment' => htmlspecialchars($_POST['comment']),
-                                                'date' => date("Y-m-d H:i:s"),
+                                                'date' => $date,
                                                 'login' => $user->getLogin(),
                                                 'message' => "Comment sent");
+                                                
                 } catch (Exception $e) {
                     $json['message'] = $e->getMessage();
                 }

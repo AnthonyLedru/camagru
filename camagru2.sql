@@ -2,10 +2,10 @@
 -- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le :  mar. 17 avr. 2018 à 13:30
--- Version du serveur :  5.7.21
--- Version de PHP :  7.1.16
+-- Host: localhost:3306
+-- Generation Time: Apr 18, 2018 at 04:14 AM
+-- Server version: 5.7.21
+-- PHP Version: 7.1.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `camagru`
+-- Database: `camagru`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `comment`
+-- Table structure for table `comment`
 --
 
 CREATE TABLE `comment` (
@@ -36,10 +36,18 @@ CREATE TABLE `comment` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`comment_id`, `user_id`, `image_id`, `comment`, `date`) VALUES
+(1, 3, 2, 'That\'s beautiful', '2018-04-18 10:55:57'),
+(2, 4, 3, 'Salut', '2018-04-18 11:09:41');
+
 -- --------------------------------------------------------
 
 --
--- Structure de la table `filter`
+-- Table structure for table `filter`
 --
 
 CREATE TABLE `filter` (
@@ -50,7 +58,7 @@ CREATE TABLE `filter` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `follow_user`
+-- Table structure for table `follow_user`
 --
 
 CREATE TABLE `follow_user` (
@@ -62,7 +70,7 @@ CREATE TABLE `follow_user` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `hashtag`
+-- Table structure for table `hashtag`
 --
 
 CREATE TABLE `hashtag` (
@@ -73,7 +81,7 @@ CREATE TABLE `hashtag` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `hashtag_image`
+-- Table structure for table `hashtag_image`
 --
 
 CREATE TABLE `hashtag_image` (
@@ -86,7 +94,7 @@ CREATE TABLE `hashtag_image` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `image`
+-- Table structure for table `image`
 --
 
 CREATE TABLE `image` (
@@ -98,18 +106,18 @@ CREATE TABLE `image` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `image`
+-- Dumping data for table `image`
 --
 
 INSERT INTO `image` (`image_id`, `user_id`, `path`, `description`, `date`) VALUES
-(4, 3, 'photos/cafe.jpeg', 'A cup of cafe', '2018-04-17 20:28:27'),
-(5, 3, 'photos/mountain.jpeg', 'A beautiful mountain', '2018-04-17 20:29:30'),
-(6, 3, 'photos/test.jpeg', 'A simple test', '2018-04-17 20:29:52');
+(1, 3, 'photos/cafe.jpeg', 'A cup of cafe', '2018-04-18 10:54:20'),
+(2, 3, 'photos/mountain.jpeg', 'A beautiful mountain', '2018-04-18 10:54:50'),
+(3, 3, 'photos/test.jpeg', 'A test', '2018-04-18 10:55:13');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `like`
+-- Table structure for table `like`
 --
 
 CREATE TABLE `like` (
@@ -119,16 +127,18 @@ CREATE TABLE `like` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `like`
+-- Dumping data for table `like`
 --
 
 INSERT INTO `like` (`like_id`, `user_id`, `image_id`) VALUES
-(54, 3, 4);
+(6, 3, 1),
+(2, 4, 2),
+(7, 4, 3);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `preference`
+-- Table structure for table `preference`
 --
 
 CREATE TABLE `preference` (
@@ -137,7 +147,7 @@ CREATE TABLE `preference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `preference`
+-- Dumping data for table `preference`
 --
 
 INSERT INTO `preference` (`preference_id`, `name`) VALUES
@@ -147,7 +157,7 @@ INSERT INTO `preference` (`preference_id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -165,16 +175,17 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`user_id`, `mail`, `login`, `password`, `last_name`, `first_name`, `gender`, `signup_token`, `password_token`, `active`, `bio`) VALUES
-(3, 'a@b.fr', 'AnthonyLedru', '5b349742da6bb10907d815dfd8dcbc0b8945431c98f92531d73f2f31c21694a919a29fd146ac906f6d5818dd8d35aed70ad970da79a4602e251ef370b657aebf', 'Anthony', 'Ledru', 'Male', '75700896bb71fef1a95d9afc535a512afc5fe8ec5a591980ccce06cf01738da9d2c9345e8ec5de81b179fc19d8fd5efc8684', NULL, 1, '');
+(3, 'test@test.fr', 'AnthonyLedru', '6fa663e52b3d7da9780204facb3032f889b243a82185d0ef4e21d1c3669896acca8aae3325dce8e72f82e9acde04f8c139b811423ca9732333ff31d75fbd9230', 'Anthony', 'Ledru', 'Male', 'f45d16563966a0b2a99734a83d1669104be2826f0d977fe600ff26ab8322dd943bd69e71b9398cfe0f668da17d55634a2b2f', NULL, 1, ''),
+(4, 'test2@test.fr', 'SalutSalut', '6fa663e52b3d7da9780204facb3032f889b243a82185d0ef4e21d1c3669896acca8aae3325dce8e72f82e9acde04f8c139b811423ca9732333ff31d75fbd9230', 'Anthony', 'Salut', 'Male', 'f03a58ea42742d27f6a31bccea2df2b224cd970c0606bfa6cff3a2107cb8d00f6cda94b2e29d103a4d2343bde904a0fc52ac', NULL, 1, '');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user_preference`
+-- Table structure for table `user_preference`
 --
 
 CREATE TABLE `user_preference` (
@@ -185,19 +196,21 @@ CREATE TABLE `user_preference` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `user_preference`
+-- Dumping data for table `user_preference`
 --
 
 INSERT INTO `user_preference` (`user_preference_id`, `user_id`, `preference_id`, `active`) VALUES
 (5, 3, 3, 1),
-(6, 3, 4, 1);
+(6, 3, 4, 1),
+(7, 4, 3, 1),
+(8, 4, 4, 1);
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `comment`
+-- Indexes for table `comment`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`comment_id`,`user_id`,`image_id`),
@@ -205,13 +218,13 @@ ALTER TABLE `comment`
   ADD KEY `fkIdx_289` (`image_id`);
 
 --
--- Index pour la table `filter`
+-- Indexes for table `filter`
 --
 ALTER TABLE `filter`
   ADD PRIMARY KEY (`filter_id`);
 
 --
--- Index pour la table `follow_user`
+-- Indexes for table `follow_user`
 --
 ALTER TABLE `follow_user`
   ADD PRIMARY KEY (`follow_user_id`,`user_id`,`user_id_2`),
@@ -219,13 +232,13 @@ ALTER TABLE `follow_user`
   ADD KEY `fkIdx_234` (`user_id_2`);
 
 --
--- Index pour la table `hashtag`
+-- Indexes for table `hashtag`
 --
 ALTER TABLE `hashtag`
   ADD PRIMARY KEY (`hashtag_id`);
 
 --
--- Index pour la table `hashtag_image`
+-- Indexes for table `hashtag_image`
 --
 ALTER TABLE `hashtag_image`
   ADD PRIMARY KEY (`hashtag_image_id`,`image_id`,`hashtag_id`,`user_id`),
@@ -233,34 +246,34 @@ ALTER TABLE `hashtag_image`
   ADD KEY `fkIdx_222` (`hashtag_id`);
 
 --
--- Index pour la table `image`
+-- Indexes for table `image`
 --
 ALTER TABLE `image`
   ADD PRIMARY KEY (`image_id`,`user_id`),
   ADD KEY `fkIdx_259` (`user_id`);
 
 --
--- Index pour la table `like`
+-- Indexes for table `like`
 --
 ALTER TABLE `like`
   ADD PRIMARY KEY (`like_id`,`user_id`,`image_id`),
   ADD KEY `fkIdx_268` (`user_id`),
-  ADD KEY `fkIdx_272` (`image_id`,`user_id`);
+  ADD KEY `fkIdx_272` (`image_id`);
 
 --
--- Index pour la table `preference`
+-- Indexes for table `preference`
 --
 ALTER TABLE `preference`
   ADD PRIMARY KEY (`preference_id`);
 
 --
--- Index pour la table `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Index pour la table `user_preference`
+-- Indexes for table `user_preference`
 --
 ALTER TABLE `user_preference`
   ADD PRIMARY KEY (`user_preference_id`,`user_id`,`preference_id`),
@@ -268,109 +281,109 @@ ALTER TABLE `user_preference`
   ADD KEY `fkIdx_125` (`preference_id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `comment`
+-- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT pour la table `filter`
+-- AUTO_INCREMENT for table `filter`
 --
 ALTER TABLE `filter`
   MODIFY `filter_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `follow_user`
+-- AUTO_INCREMENT for table `follow_user`
 --
 ALTER TABLE `follow_user`
   MODIFY `follow_user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `hashtag`
+-- AUTO_INCREMENT for table `hashtag`
 --
 ALTER TABLE `hashtag`
   MODIFY `hashtag_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `hashtag_image`
+-- AUTO_INCREMENT for table `hashtag_image`
 --
 ALTER TABLE `hashtag_image`
   MODIFY `hashtag_image_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `image`
+-- AUTO_INCREMENT for table `image`
 --
 ALTER TABLE `image`
-  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT pour la table `like`
+-- AUTO_INCREMENT for table `like`
 --
 ALTER TABLE `like`
-  MODIFY `like_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `like_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT pour la table `preference`
+-- AUTO_INCREMENT for table `preference`
 --
 ALTER TABLE `preference`
   MODIFY `preference_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `user_preference`
+-- AUTO_INCREMENT for table `user_preference`
 --
 ALTER TABLE `user_preference`
-  MODIFY `user_preference_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_preference_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `comment`
+-- Constraints for table `comment`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `FK_285` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   ADD CONSTRAINT `FK_289` FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 --
--- Contraintes pour la table `follow_user`
+-- Constraints for table `follow_user`
 --
 ALTER TABLE `follow_user`
   ADD CONSTRAINT `FK_230` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   ADD CONSTRAINT `FK_234` FOREIGN KEY (`user_id_2`) REFERENCES `user` (`user_id`);
 
 --
--- Contraintes pour la table `hashtag_image`
+-- Constraints for table `hashtag_image`
 --
 ALTER TABLE `hashtag_image`
   ADD CONSTRAINT `FK_218` FOREIGN KEY (`image_id`,`user_id`) REFERENCES `image` (`image_id`, `user_id`),
   ADD CONSTRAINT `FK_222` FOREIGN KEY (`hashtag_id`) REFERENCES `hashtag` (`hashtag_id`);
 
 --
--- Contraintes pour la table `image`
+-- Constraints for table `image`
 --
 ALTER TABLE `image`
   ADD CONSTRAINT `FK_259` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Contraintes pour la table `like`
+-- Constraints for table `like`
 --
 ALTER TABLE `like`
   ADD CONSTRAINT `FK_268` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `FK_272` FOREIGN KEY (`image_id`,`user_id`) REFERENCES `image` (`image_id`, `user_id`);
+  ADD CONSTRAINT `FK_272` FOREIGN KEY (`image_id`) REFERENCES `image` (`image_id`);
 
 --
--- Contraintes pour la table `user_preference`
+-- Constraints for table `user_preference`
 --
 ALTER TABLE `user_preference`
   ADD CONSTRAINT `FK_117` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),

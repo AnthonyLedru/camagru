@@ -15,6 +15,10 @@ $page->appendContent(<<<HTML
                     <br>
 HTML
 );
+if (isset($_SESSION['user']))
+    $currentUser = User::createFromLogin($_SESSION['user']['login']);
+else
+    $currentUser = null;
 $i = 0;
 foreach ($images as $image) {
     $user = User::createFromId($image->getUserId());
@@ -24,7 +28,7 @@ foreach ($images as $image) {
         
                     <div class="columns is-vcentered">
 HTML
-);
+        );
         $page->appendContent(<<<HTML
         
                         <div class="column is-one-third">
@@ -59,20 +63,26 @@ HTML
                                                 <input name="imageId" value="{$image->getImageId()}" type="hidden">
                                                 <span>$like</span>
 HTML
-);
-        if (Like::hasUserLiked($user->getUserId(), $image->getImageId()))
+        );
+        if ($currentUser === null)
             $page->appendContent(<<<HTML
 
-                                                <span class="like"> like(s) 💔</span>
+                                                <span class="like" title="Like it"> like(s) ❤️</span>
 HTML
-);
+        );
+        else if (Like::hasUserLiked($currentUser->getUserId(), $image->getImageId()))
+            $page->appendContent(<<<HTML
+
+                                                <span class="like" title="Unlike it"> like(s) 💔</span>
+HTML
+        );
         else
             $page->appendContent(<<<HTML
 
-                                                <span class="like"> like(s) ❤️</span>
+                                                <span class="like" title="Like it"> like(s) ❤️</span>
 HTML
-);
-            $page->appendContent(<<<HTML
+        );
+        $page->appendContent(<<<HTML
                                             </div>
                                         </div>
                                         <form class="send_message">
@@ -92,23 +102,23 @@ HTML
                             </div>
                         </div>
 HTML
-);
+        );
 
     if ($i % 2 === 0 && $i !== 0)
         $page->appendContent(<<<HTML
 
                     </div>
 HTML
-);
+        );
         $i++;
-    }
+}
 
 if ($i % 3 !== 0)
     $page->appendContent(<<<HTML
 
             </div>
 HTML
-);
+    );
 
 $page->appendContent(<<<HTML
 

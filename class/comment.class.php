@@ -14,7 +14,10 @@ class Comment {
     public function getUserId() { return $this->user_id; }
     public function getImageId() { return $this->image_id; }
     public function getComment() { return $this->comment; }
-    public function getDate() { return $this->date; }
+    public function getDate() {
+        $date_obj = new DateTime($this->date);
+        return $date_obj->format("F j, Y, g:i a"); 
+    }
 
     public static function createFromId($commentId) {
         $commentQuery = myPDO::getInstance()->prepare(<<<SQL
