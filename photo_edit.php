@@ -8,7 +8,7 @@ require_once 'include/autoload.include.php';
 $page = new Webpage("Photo Editing");
 
 if (isset($_SESSION['user'])) {
-
+    $user = User::createFromLogin($_SESSION['user']['login']);
     $page->appendContent(<<<HTML
 
                 <div class="hero-body">
@@ -24,6 +24,7 @@ if (isset($_SESSION['user'])) {
                                 <h1 class="title is-2">Cam</h1>
                                 <video autoplay="true" id="video"></video>
                                 <br>
+                                <input type="hidden" name="userId" value="{$user->getUserId()}" id="userId">
                                 <button class="button is-dark" id="take_photos" type="submit">Take photo</button>
                                 <button class="button is-dark" id="upload" type="submit">Upload</button>
                             </div>

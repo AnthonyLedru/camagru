@@ -1,15 +1,27 @@
 <?php
 
-if (isset($_POST['data'])) {
-    $data = $_POST['data'];
-    $path = $_SERVER['DOCUMENT_ROOT'] . "/photos/";
-    echo $path;
-    $file = md5($path . uniqid() . '.png');
+require_once '../include/autoload.include.php';
 
-    $uri =  substr($data, strpos($data, ","), 1);
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
 
-    file_put_contents($file, base64_decode($uri));
-
-    echo json_encode($file);
-
-}
+if (isset($_POST['image'])) {
+    if (isset($_SESSION['user'])) {
+        $user = User::createFromLogin($_SESSION['user']['login']);
+        $img = $_POST['image'];
+        if (!is_dir(__DIR__ . "/../photos/user_{$user->getUserId()}")) {
+            if (!mkdir(__DIR__ . "/../photos/user_{$user->getUserId()}"))
+                echo "An error ocurred during the save";
+                return ;
+        } else {
+            $path = __DIR__ . "/../photos/user_{$user->getUserId()}/";
+            $file = $path . md5(uniqid()) . '.png';
+            $img = str_replace('data:image/png;base64,', '', $img);
+            $img = str_replace(' ', '+', $img);
+            file_put_contents($file, base64_decode($img));
+            echo "Image(s) saved";
+        }
+    } else 
+    echo "You must be logged in to save images";
+} else
+    echo "No image data found";

@@ -60,7 +60,7 @@ SQL
         $userQuery->execute(array($id));
         if (($user = $userQuery->fetch()) !== false)
             return $user;
-        throw new Exception("Id inccorect");
+        throw new Exception("Id incorrect");
     }
 
     public static function alreadyExist($mail, $login) {

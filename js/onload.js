@@ -391,7 +391,7 @@ window.onload = function() {
                     url        : "script/saveImage.php",
                     method     : 'POST',
                     handleAs   : 'text',
-                    parameters : { data : image },
+                    parameters : { image : image },
                     onSuccess  : function(message) {
                                     if (message === "Comment sent") {
                                         display_notification("notification", "green", message);

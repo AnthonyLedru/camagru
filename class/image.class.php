@@ -45,6 +45,20 @@ SQL
         $ImageQuery->execute(array($id));
     }
 
+    public static function insert($imageTab) {
+        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        INSERT INTO image (user_id, path, description, date)
+        VALUES (:userId, :path, :description, :date)
+SQL
+        );
+        $ImageQuery->execute(array(
+            ':user_id' => $imageTab['userId'],
+            ':path' => $imageTab['path'],
+            ':description' => $imageTab['description'],
+            ':date' => $imageTab['date'],
+        ));
+    }
+
     public static function getAll() {
         $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
