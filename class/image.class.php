@@ -48,14 +48,13 @@ SQL
     public static function insert($imageTab) {
         $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
         INSERT INTO image (user_id, path, description, date)
-        VALUES (:userId, :path, :description, :date)
+        VALUES (:userId, :path, :description, CURRENT_TIMESTAMP)
 SQL
         );
         $ImageQuery->execute(array(
-            ':user_id' => $imageTab['userId'],
+            ':userId' => $imageTab['userId'],
             ':path' => $imageTab['path'],
             ':description' => $imageTab['description'],
-            ':date' => $imageTab['date'],
         ));
     }
 

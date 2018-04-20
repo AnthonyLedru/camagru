@@ -26,7 +26,6 @@ if (isset($_SESSION['user'])) {
                                                 'date' => $date,
                                                 'login' => $user->getLogin(),
                                                 'message' => "Comment sent");
-                                                
                 } catch (Exception $e) {
                     $json['message'] = $e->getMessage();
                 }

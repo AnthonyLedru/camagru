@@ -19,20 +19,21 @@ if (isset($_SESSION['user'])) {
                                 <br>
                             </div>
                         </div>
-                        <div class="columns is-vcentered is-desktop">
-                            <div class="column is-two-thirds-desktop cam_menu">
+                        <div class="columns is-vcentered">
+                            <div class="column cam_menu">
                                 <h1 class="title is-2">Cam</h1>
                                 <video autoplay="true" id="video"></video>
                                 <br>
                                 <input type="hidden" name="userId" value="{$user->getUserId()}" id="userId">
                                 <button class="button is-dark" id="take_photos" type="submit">Take photo</button>
-                                <button class="button is-dark" id="upload" type="submit">Upload</button>
                             </div>
                             <div class="column cam_menu">
                                 <h1 class="title is-2">Photo list</h1>
                                 <div class="has-text-centered" id="photo_list"></div>
                                 <br>
                                 <button class="button is-dark" id="cancel_photo" type="submit">Cancel</button>
+                                <input name="file" class="button is-dark" id="file_input" type="file">
+                                <label for="file_input" class="button is-dark">Upload</label>
                                 <button class="button is-dark" id="save_photo" type="submit">Save photo(s)</button>
                             </div>
                         </div>

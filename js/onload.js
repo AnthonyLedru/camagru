@@ -361,6 +361,19 @@ window.onload = function() {
 
     /* ---------- Photo edit --------- */
 
+    function draw (obj) {
+        canvas = document.createElement("canvas");
+        canvas.classList.add("cam_photo");
+        canvas.width = video.videoWidth / 1.75;
+        canvas.height = video.videoHeight / 1.75;
+        ctx = canvas.getContext('2d');
+        photo_list.appendChild(canvas);
+        br = document.createElement("br");
+        photo_list.appendChild(br);
+        ctx.drawImage(obj, 0, 0, canvas.width, canvas.height);
+        var image = canvas.toDataURL('image/png');
+    }
+
     if (document.querySelector("#video")) {
         HTMLMediaElement.srcObject
         var ctx;
@@ -377,45 +390,69 @@ window.onload = function() {
         function handleVideo(stream) {
             video.srcObject = stream;
             document.getElementById("take_photos").addEventListener('click', function(e) {
-                canvas = document.createElement("canvas");
-                canvas.classList.add("cam_photo");
-                canvas.width = video.videoWidth / 1.75;
-                canvas.height = video.videoHeight / 1.75;
-                ctx = canvas.getContext('2d');
-                photo_list.appendChild(canvas);
-                br = document.createElement("br");
-                photo_list.appendChild(br);
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                var image = canvas.toDataURL('image/png');
-                request  = new Request ({
-                    url        : "script/saveImage.php",
-                    method     : 'POST',
-                    handleAs   : 'text',
-                    parameters : { image : image },
-                    onSuccess  : function(message) {
-                                    if (message === "Comment sent") {
-                                        display_notification("notification", "green", message);
-                                    }
-                                    else
-                                        display_notification("notification", "red", message);
-                    },
-                    onError    : function(status, message) {
-                                    display_notification("notification", "red", status + ": " + message);
-                    }
-                });
+                draw(video);
             });
         }
         
         function videoError(e) {
+            document.getElementById('video').style.display = 'none';
+            var p = document.createElement('p');
+            p.innerHTML = "Your webcam is not active";
+            var first = document.getElementsByClassName('cam_menu')[0].childNodes[2];
+            document.getElementsByClassName('cam_menu')[0].insertBefore(p, first);
+            document.getElementById('take_photos').disabled = true;
         }
 
         document.getElementById("cancel_photo").addEventListener('click', function(e) {
             while (photo_list.firstChild) {
                 photo_list.removeChild(photo_list.firstChild);
             }
+            display_notification("notification", "green", "Image(s) removed");
         });
 
         document.getElementById("save_photo").addEventListener('click', function(e) {
+            var imagesTab = {};
+            var canvas_list = photo_list.getElementsByTagName('canvas');
+            for (var i = 0; i < canvas_list.length; i++) {
+                imagesTab[i] = canvas_list[i].toDataURL('image/png');
+            }
+            while (photo_list.firstChild) {
+                photo_list.removeChild(photo_list.firstChild);
+            }
+            request  = new Request ({
+                url        : "script/saveImage.php",
+                method     : 'POST',
+                handleAs   : 'text',
+                parameters : { imagesTab : JSON.stringify(imagesTab) },
+                onSuccess  : function(message) {
+                    console.log(message);
+                                if (message === "Image(s) saved") {
+                                    display_notification("notification", "green", message);
+                                }
+                                else
+                                    display_notification("notification", "red", message);
+                },
+                onError    : function(status, message) {
+                                display_notification("notification", "red", status + ": " + message);
+                }
+            });
         });
+
+        function imageLoaded() {
+            draw(this);
+        }
+
+        function createImage() {
+            img = new Image();
+            img.onload = imageLoaded;
+            img.src = this.result;
+        }
+
+        file_input.onchange = function(event) {
+            var img = document.getElementById('file_input').files[0];
+            var reader = new FileReader();
+            reader.onload = createImage;
+            reader.readAsDataURL(img); 
+         }
     }
 };
