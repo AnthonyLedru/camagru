@@ -230,8 +230,6 @@ figure:hover #profile_img {
     text-align: left !important;
 }
 
-
-
 /* ---------- Photo_Edit ----------- */
 
 #cam_page {
@@ -245,6 +243,10 @@ figure:hover #profile_img {
 #photo_list {
     max-height: 800px;
     overflow-y: auto;
+}
+
+.cam_photo {
+    cursor: Pointer;
 }
 
 .cam_menu {

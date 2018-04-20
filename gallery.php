@@ -20,15 +20,19 @@ if (isset($_SESSION['user']))
 else
     $currentUser = null;
 $i = 0;
+$is_div_closed = true;
 foreach ($images as $image) {
     $user = User::createFromId($image->getUserId());
     $like = Like::countFromImageId($image->getImageId());
-    if ($i % 3 === 0)
+    var_dump($i);
+    if ($i == 0) {
+        $is_div_closed = false;
         $page->appendContent(<<<HTML
         
                     <div class="columns is-vcentered">
 HTML
         );
+    }
         $page->appendContent(<<<HTML
         
                         <div class="column is-one-third">
@@ -83,6 +87,7 @@ HTML
 HTML
         );
         $page->appendContent(<<<HTML
+
                                             </div>
                                         </div>
                                         <form class="send_message">
@@ -103,17 +108,19 @@ HTML
                         </div>
 HTML
         );
-
-    if ($i % 2 === 0 && $i !== 0)
+    $i++;
+    if ($i == 3) {
+        $i = 0;
+        $is_div_closed = true;
         $page->appendContent(<<<HTML
 
                     </div>
 HTML
         );
-        $i++;
+    }
 }
 
-if ($i % 3 !== 0)
+if ($is_div_closed === false)
     $page->appendContent(<<<HTML
 
             </div>

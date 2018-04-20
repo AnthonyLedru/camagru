@@ -361,7 +361,15 @@ window.onload = function() {
 
     /* ---------- Photo edit --------- */
 
+    function removeCanvas(br) {
+        return function() {
+            this.remove();
+            br.remove();
+        }
+    }
+
     function draw (obj) {
+        
         canvas = document.createElement("canvas");
         canvas.classList.add("cam_photo");
         canvas.width = video.videoWidth / 1.75;
@@ -372,6 +380,12 @@ window.onload = function() {
         photo_list.appendChild(br);
         ctx.drawImage(obj, 0, 0, canvas.width, canvas.height);
         var image = canvas.toDataURL('image/png');
+        canvas.addEventListener('click', removeCanvas(br));
+
+        var applied_filters = document.getElementById('filters').value;
+        filter_image = new Image();
+        filter_image.src = 'photos/filters/cadre.png';
+        ctx.drawImage(filter_image, 0, 0, canvas.width, canvas.height);        
     }
 
     if (document.querySelector("#video")) {
@@ -422,18 +436,17 @@ window.onload = function() {
             request  = new Request ({
                 url        : "script/saveImage.php",
                 method     : 'POST',
-                handleAs   : 'text',
+                handleAs   : 'json',
                 parameters : { imagesTab : JSON.stringify(imagesTab) },
-                onSuccess  : function(message) {
-                    console.log(message);
-                                if (message === "Image(s) saved") {
-                                    display_notification("notification", "green", message);
+                onSuccess  : function(res) {
+                                if (res['message'] === "Image(s) saved") {
+                                    display_notification("notification", "green", res['message']);
                                 }
                                 else
-                                    display_notification("notification", "red", message);
+                                    display_notification("notification", "red", res['message']);
                 },
-                onError    : function(status, message) {
-                                display_notification("notification", "red", status + ": " + message);
+                onError    : function(status, res) {
+                                display_notification("notification", "red", status + ": " + res['message']);
                 }
             });
         });
@@ -453,6 +466,6 @@ window.onload = function() {
             var reader = new FileReader();
             reader.onload = createImage;
             reader.readAsDataURL(img); 
-         }
+        }
     }
 };

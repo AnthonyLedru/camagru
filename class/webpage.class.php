@@ -120,6 +120,7 @@ HTML;
 HTML;
 	} else {
 		$page .= <<<HTML
+
 									<p class="control">
 										<a class="button button is-dark" id="photo_button" href="photo_edit.php">
 											<span>Photo</span>
@@ -232,6 +233,7 @@ HTML;
 
 			<div id="notification"></div>
 			$this->body
+
 			<div class="hero-foot">
 				<footer class="footer">
 					<div class="container">

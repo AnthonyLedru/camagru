@@ -52,7 +52,8 @@ INSERT INTO `comment` (`comment_id`, `user_id`, `image_id`, `comment`, `date`) V
 
 CREATE TABLE `filter` (
   `filter_id` int(11) NOT NULL,
-  `path` varchar(255) NOT NULL
+  `path` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
