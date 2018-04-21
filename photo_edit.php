@@ -54,7 +54,7 @@ HTML
                             </div>
                             <div class="has-text-centered">
                                 <button class="button is-dark" id="take_photos" type="submit">Take photo</button>
-                                <input name="file" class="button is-dark" id="file_input" type="file">
+                                <input name="file" class="button is-dark" accept="image/*" id="file_input" type="file">
                                 <label for="file_input" class="button is-dark">Upload</label>
                             </div>
                         </div>
