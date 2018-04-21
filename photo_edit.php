@@ -12,32 +12,35 @@ if (isset($_SESSION['user'])) {
     $page->appendContent(<<<HTML
 
             <div class="hero-body">
-                <div class="has-text-centered" id="cam_page">
-                    <div class="columns is-vcentered">
+                <div class="" id="cam_page">
+                    <div class="columns has-text-centered">
                         <div class="column is-fullWidth">
                             <p class="title is-1">Photo editing</p>
                             <br>
                         </div>
                     </div>
-                    <div class="columns is-vcentered">
+                    <div class="columns is-vcentered is-desktop">
                         <div class="column cam_menu">
-                                <h1 class="title is-2">Cam</h1>
-                                <div class="columns is-gapless">
-                                    <div class="column cam_menu">
-                                        <video autoplay="true" id="video"></video>
+                            <h1 class="title is-2 has-text-centered">Cam</h1>
+                            <div class="columns is-gapless">
+                                <div class="column is-four-fifths">
+                                <div class="outer-container">
+                                    <div id="inner_container">
+                                        <video id="video" autoplay=true></video>
                                     </div>
-                                    <div class="column cam_menu">
-                                        <input type="hidden" name="userId" value="{$user->getUserId()}" id="userId">
-                                        <div class="select is-multiple">
-                                            <label>Filters</label>
-                                            <select id="filters" multiple size="6">
+                                </div>
+                                </div>
+                                <div class="column cam_menu has-text-centered">
+                                    <input type="hidden" name="userId" value="{$user->getUserId()}" id="userId">
+                                    <div class="select is-multiple" id="filters_container">
+                                        <select name="filters[]" id="filters" multiple>
 HTML
     );
     $filters = Filter::getAll();
     foreach ($filters as $filter) {
         $page->appendContent(<<<HTML
 
-                                                <option value="{$filter->getPath()}">{$filter->getName()}</option>
+                                            <option value="{$filter->getPath()}">{$filter->getName()}</option>
 HTML
     );
     }
@@ -47,17 +50,17 @@ HTML
                                     </div>
                                     <br>
                                     <br>
-                                    <button class="button is-dark" id="take_photos" type="submit">Take photo</button>
-                                    <input name="file" class="button is-dark" id="file_input" type="file">
-                                    <br>
-                                    <br>
-                                    <label for="file_input" class="button is-dark">Upload</label>
                                 </div>
                             </div>
+                            <div class="has-text-centered">
+                                <button class="button is-dark" id="take_photos" type="submit">Take photo</button>
+                                <input name="file" class="button is-dark" id="file_input" type="file">
+                                <label for="file_input" class="button is-dark">Upload</label>
+                            </div>
                         </div>
-                        <div class="column cam_menu">
+                        <div class="column cam_menu has-text-centered">
                             <h1 class="title is-2">Photo list</h1>
-                            <div class="has-text-centered" id="photo_list"></div>
+                            <div id="photo_list"></div>
                             <br>
                             <button class="button is-dark" id="cancel_photo" type="submit">Cancel</button>
                             <button class="button is-dark" id="save_photo" type="submit">Save photo(s)</button>

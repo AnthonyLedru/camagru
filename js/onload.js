@@ -361,74 +361,47 @@ window.onload = function() {
 
     /* ---------- Photo edit --------- */
 
-    function removeCanvas(br) {
-        return function() {
-            this.remove();
-            br.remove();
-        }
-    }
-
-    function draw (obj) {
-        
-        canvas = document.createElement("canvas");
-        canvas.classList.add("cam_photo");
-        canvas.width = video.videoWidth / 1.75;
-        canvas.height = video.videoHeight / 1.75;
-        ctx = canvas.getContext('2d');
-        photo_list.appendChild(canvas);
-        br = document.createElement("br");
-        photo_list.appendChild(br);
-        ctx.drawImage(obj, 0, 0, canvas.width, canvas.height);
-        var image = canvas.toDataURL('image/png');
-        canvas.addEventListener('click', removeCanvas(br));
-
-        var applied_filters = document.getElementById('filters').value;
-        filter_image = new Image();
-        filter_image.src = 'photos/filters/cadre.png';
-        ctx.drawImage(filter_image, 0, 0, canvas.width, canvas.height);        
-    }
-
     if (document.querySelector("#video")) {
         HTMLMediaElement.srcObject
         var ctx;
         var video = document.querySelector("#video");
         var photo_list = document.getElementById("photo_list");
-        
+        var constraints = { audio: false, video: true }; 
+
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || 
                                  navigator.mozGetUserMedia || navigator.msGetUserMedia || 
                                  navigator.oGetUserMedia;
         
         if (navigator.getUserMedia)     
-            navigator.getUserMedia({video: true}, handleVideo, videoError);
-        
-        function handleVideo(stream) {
+            navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
             video.srcObject = stream;
             document.getElementById("take_photos").addEventListener('click', function(e) {
                 draw(video);
             });
-        }
-        
-        function videoError(e) {
+        }).catch(function (eror) {
             document.getElementById('video').style.display = 'none';
             var p = document.createElement('p');
             p.innerHTML = "Your webcam is not active";
             var first = document.getElementsByClassName('cam_menu')[0].childNodes[2];
             document.getElementsByClassName('cam_menu')[0].insertBefore(p, first);
             document.getElementById('take_photos').disabled = true;
-        }
+        });
 
         document.getElementById("cancel_photo").addEventListener('click', function(e) {
-            while (photo_list.firstChild) {
-                photo_list.removeChild(photo_list.firstChild);
-            }
-            display_notification("notification", "green", "Image(s) removed");
+            if (photo_list.firstChild) {
+                while (photo_list.firstChild) {
+                    photo_list.removeChild(photo_list.firstChild);
+                }
+                display_notification("notification", "green", "Image(s) removed");
+            } else
+                display_notification("notification", "red", "There is no images to remove");
         });
 
         document.getElementById("save_photo").addEventListener('click', function(e) {
             var imagesTab = {};
-            var canvas_list = photo_list.getElementsByTagName('canvas');
-            for (var i = 0; i < canvas_list.length; i++) {
-                imagesTab[i] = canvas_list[i].toDataURL('image/png');
+            var image_list = photo_list.getElementsByTagName('img');
+            for (var i = 0; i < image_list.length; i++) {
+                imagesTab[i] = image_list[i].src;
             }
             while (photo_list.firstChild) {
                 photo_list.removeChild(photo_list.firstChild);
@@ -449,6 +422,54 @@ window.onload = function() {
                                 display_notification("notification", "red", status + ": " + res['message']);
                 }
             });
+        });
+
+        function removeImage(br) {
+            return function() {
+                this.remove();
+                br.remove();
+            }
+        }
+    
+        function draw (obj) {
+            canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth / 1.75;
+            canvas.height = video.videoHeight / 1.75;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(obj, 0, 0, canvas.width, canvas.height);
+            var applied_filters = document.getElementById('filters');
+            for (var i = 0; i < applied_filters.options.length; i++) {
+                if (applied_filters.options[i].selected) {
+                    filter_image = new Image();
+                    filter_image.src = applied_filters.options[i].value;
+                    ctx.drawImage(filter_image, 0, 0, canvas.width, canvas.height);
+                }
+            }
+            var data = canvas.toDataURL('image/png');
+            img = document.createElement("img");
+            img.classList.add("cam_photo");
+            img.setAttribute('src', data);
+            photo_list.appendChild(img);
+            var br = document.createElement("br");
+            photo_list.appendChild(br);
+            img.addEventListener('click', removeImage(br));
+        }
+
+        document.getElementById('filters').addEventListener('change', function(e) {
+            var applied_filters = document.getElementById('filters');
+            var inner_container = document.getElementById('inner_container');
+            var elements = inner_container.getElementsByTagName("img");
+            for (i = elements.length - 1; i >= 0; i--) {
+                elements[i].remove();
+            }
+            for (var i = 0; i < applied_filters.options.length; i++) {
+                if (applied_filters[i].selected) {
+                    var img = document.createElement('img');
+                    img.src = applied_filters.options[i].value;
+                    img.classList.add("video-overlay");
+                    inner_container.insertBefore(img, document.getElementById('video'));
+                }
+            }
         });
 
         function imageLoaded() {

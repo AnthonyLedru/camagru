@@ -237,6 +237,9 @@ figure:hover #profile_img {
 }
 
 #video {
+    display: flex;
+    height: 100%;
+    width: 100%;
     background-color: #ffffff;
 }
 
@@ -255,4 +258,19 @@ figure:hover #profile_img {
 
 #file_input {
     display: none;
+}
+
+#inner_container {
+    position: relative;
+}
+
+.video-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#filters_container {
+    display: flex;
+    height: 100%;
 }
