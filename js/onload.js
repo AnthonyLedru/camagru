@@ -9,11 +9,11 @@ window.onload = function() {
     /* --------- Login modal --------- */
 
     if (document.getElementById('login_button')) {
+        var modal = document.getElementById('login_modal');
+        var html = document.querySelector('html');
         document.getElementById('login_button').addEventListener('click', function(event) {
             document.querySelector('.navbar-menu').classList.remove('is-active');
             event.preventDefault();
-            var modal = document.getElementById('login_modal');
-            var html = document.querySelector('html');
             modal.classList.add('is-active');
             html.classList.add('is-clipped');
         
@@ -37,7 +37,6 @@ window.onload = function() {
         login_form.onsubmit = function(e) {
             var login = login_form.elements['login'].value;
             var password = login_form.elements['password'].value;
-
             request  = new Request ({
                 url        : "script/login.php",
                 method     : 'POST',
@@ -487,6 +486,32 @@ window.onload = function() {
             var reader = new FileReader();
             reader.onload = createImage;
             reader.readAsDataURL(img); 
+        }
+    }
+
+    /* -------- Password reset ------- */
+
+    if (document.getElementById('reset_password_form')) {
+        document.getElementById('reset_password_form').onsubmit = function(e) {
+            var mail = this.elements['mail'].value;
+            console.log(mail);
+            request  = new Request ({
+                url        : "script/resetPasswordMail.php",
+                method     : 'POST',
+                handleAs   : 'json',
+                parameters : { mail: mail },
+                onSuccess  : function(message) {
+                                if (message['message'] === "A mail to reset your password has been sent")
+                                    display_notification("notification", "green", message['message']);
+                                else
+                                    display_notification("notification", "red", message['message']);
+                },
+                onError    : function(status, message) {
+                                display_notification("notification", "red", "An error occured");
+                }
+            });
+            document.getElementById("reset_password_form").reset();
+            return false;
         }
     }
 };

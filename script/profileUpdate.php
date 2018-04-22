@@ -78,7 +78,7 @@ if (isset($_SESSION['user'])) {
                     if (!User::loginAlreadyTaken($userTab['login']) || $user->getLogin() == $userTab['login']) {
                         if (!User::mailAlreadyTaken($userTab['mail']) || $user->getMail() == $userTab['mail']) {
                             try {
-                                User::UpdateUser($userTab);
+                                User::udateFromTab($userTab);
                                 $user = User::createFromId($_SESSION['user']['userId']);
                                 unset($_SESSION['user']);
                                 $_SESSION['user'] = $user->getAll();

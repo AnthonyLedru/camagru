@@ -2,6 +2,14 @@
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
+function sendRegisterMail($user) {
+    $message = "Hello {$user->getFirstName()},\r\n
+                Thank you for signing up.\r\n
+                To activate your account, please click on the following link:\r\n
+                http://$_SERVER[HTTP_HOST]/camagru/script/activateAccount.php?token={$user->getSignupToken()}";
+    mail($user->getMail(), "Account confirmation", $message);
+}
+
 function areFieldsValid($userTab) {
     $valid = false;
     if (!filter_var($userTab['mail'], FILTER_VALIDATE_EMAIL))
@@ -50,10 +58,11 @@ if (isset($_POST['mail']) && $_POST['mail'] !== "" &&
                 );
                 if (areFieldsValid($userTab)) {
                     if (!User::alreadyExist($userTab['mail'], $userTab['login'])) {
-                        User::insertUser($userTab);
+                        User::insert($userTab);
                         $user = User::createFromLogin($userTab['login']);
                         UserPreference::insertDefaultPreference($user->getUserId());
-                        echo "A confirmation mail to activate your account has been sent to " . $userTab['mail'];
+                        sendRegisterMail($user);
+                        echo "A confirmation mail to activate your account has been sent to " . $user->getMail();
                     } else
                         echo "An account with this mail or login already exists";
                 }

@@ -4,6 +4,14 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
+function sendRegisterMail($user) {
+    $message = "Hello {$user->getFirstName()},\r\n
+                Thank you for signing up.\r\n
+                To activate your account, please click on the following link:\r\n
+                http://$_SERVER[HTTP_HOST]/camagru/script/activateAccount.php?token={$user->getSignupToken()}";
+    mail($user->getMail(), "Account confirmation", $message);
+}
+
 if (isset($_POST['login']) && isset($_POST['password'])) {
 
     $login = htmlspecialchars($_POST['login']);
@@ -15,8 +23,10 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
             if ($user->getActive()) {
                 $_SESSION['user'] = $user->getAll();
                 echo "Welcome " . $user->getFirstName();
-            } else
-                echo "Please confirm your account by clicking on the link in your mail: <a href='lol'>click here to send a new one</a>";
+            } else {
+                sendRegisterMail($user);
+                echo "Your account is not active, a new confirmation mail has been sent to {$user->getMail()}";
+            }
         else
             echo "Password incorrect";
     } catch (Exception $e) {
