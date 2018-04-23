@@ -104,7 +104,7 @@ label {
     width: 70%;
     margin: auto;
     color: #ffffff;
-    opacity: 0.7;
+    opacity: 0.85;
     border-radius: 15px;
     cursor: Pointer;
 }
@@ -238,7 +238,6 @@ figure:hover #profile_img {
 
 #video {
     display: flex;
-    height: 100%;
     width: 100%;
     background-color: #ffffff;
 }
@@ -273,4 +272,9 @@ figure:hover #profile_img {
 #filters_container {
     display: flex;
     height: 100%;
+}
+
+#filters {
+    width: 100%;
+    text-align-last: center;
 }

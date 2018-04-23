@@ -20,6 +20,8 @@ if (isset($_SESSION['user'])) {
                                         'imageId' => $image->getImageId(),
                                         'comment' => htmlspecialchars($_POST['comment']));
                     Comment::add($commentTab);
+                    if ($user->getUserId() !== $image->getUserId())
+                        $user->sendCommentMail($image);
                     date_default_timezone_set('Europe/Paris');
                     $date = date("F j, Y, g:i a", time());
                     $json = array('comment' => htmlspecialchars($_POST['comment']),

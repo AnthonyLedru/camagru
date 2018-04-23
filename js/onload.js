@@ -375,11 +375,44 @@ window.onload = function() {
             navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
             video.srcObject = stream;
             document.getElementById("take_photos").addEventListener('click', function(e) {
-                draw(video);
+                var applied_filters = document.getElementById('filters');
+                var data = {};
+                var filters = [];
+                canvas = document.createElement("canvas");
+                canvas.width = video.videoWidth / 1.75;
+                canvas.height = video.videoHeight / 1.75;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                data.img_data = canvas.toDataURL('image/png');
+                var j = 0;
+                for (var i = 0; i < applied_filters.options.length; i++)
+                    if (applied_filters.options[i].selected)
+                        filters.push(applied_filters.options[i].value); 
+                data.filters = filters;
+                canvas.remove();
+                request  = new Request ({
+                    url        : "script/imageMerge.php",
+                    method     : 'POST',
+                    handleAs   : 'json',
+                    parameters : { data : JSON.stringify(data) },
+                    onSuccess  : function(res) {
+                                    if (res['message'] === "Image added") {
+                                        display_notification("notification", "green", res['message']);
+                                        console.log(res['photo']);
+                                    }
+                                    else
+                                        display_notification("notification", "red", res['message']);
+                    },
+                    onError    : function(status, res) {
+                                    display_notification("notification", "red", status + ": " + res['message']);
+                    }
+                });
+
             });
         }).catch(function (eror) {
             document.getElementById('video').style.display = 'none';
             var p = document.createElement('p');
+            p.classList.add("has-text-centered");
             p.innerHTML = "Your webcam is not active";
             var first = document.getElementsByClassName('cam_menu')[0].childNodes[2];
             document.getElementsByClassName('cam_menu')[0].insertBefore(p, first);
@@ -458,17 +491,23 @@ window.onload = function() {
             var applied_filters = document.getElementById('filters');
             var inner_container = document.getElementById('inner_container');
             var elements = inner_container.getElementsByTagName("img");
+            var has_selected_filter = false;
             for (i = elements.length - 1; i >= 0; i--) {
                 elements[i].remove();
             }
             for (var i = 0; i < applied_filters.options.length; i++) {
                 if (applied_filters[i].selected) {
+                    has_selected_filter = true;
                     var img = document.createElement('img');
                     img.src = applied_filters.options[i].value;
                     img.classList.add("video-overlay");
                     inner_container.insertBefore(img, document.getElementById('video'));
                 }
             }
+            if (has_selected_filter)
+                document.getElementById('take_photos').disabled = false;
+            else
+                document.getElementById('take_photos').disabled = true;
         });
 
         function imageLoaded() {

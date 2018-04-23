@@ -227,4 +227,36 @@ SQL
             ':passwordToken' => $this->password_token,
         ));
     }
+
+    public function sendCommentMail($image) {
+        if (($imageOwner = User::createFromId($image->getUserId())) !== false) {
+            if (($userPreferences = UserPreference::createFromUserId($imageOwner->getUserId())) !== false) {
+                foreach ($userPreferences as $userPreference) {
+                    if (($preference = Preference::createFromId($userPreference->getPreferenceId())) !== false) {
+                        if ($preference->getName() === "notification" && $userPreference->getActive() === "1") {
+                            $headers = 'Content-type: text/html; charset=utf-8';
+                            $message = <<<HTML
+                            <html>
+                                <head>
+                                    <style>
+                                        p, h1, a {
+                                            text-align: center
+                                        }
+                                    </style>
+                                </head>
+                                <body>
+                                        <h1>A new comment on your photo</h1>
+                                        <p>Hello {$imageOwner->getLogin()},</p>
+                                        <p>{$this->login} recently commented your photo,
+                                        <a href="http://$_SERVER[HTTP_HOST]/camagru/photo.php?image_id={$image->getImageId()}">click here to see the comment</a></p>
+                                </body>
+                            </html>
+HTML;
+                            mail($imageOwner->getMail(), "A new comment on your photo", $message, $headers);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -20,11 +20,11 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                     <div class="columns is-vcentered is-desktop">
-                        <div class="column cam_menu">
+                        <div class="column is-offset-2-desktop cam_menu">
                             <h1 class="title is-2 has-text-centered">Cam</h1>
                             <div class="columns is-gapless">
                                 <div class="column is-four-fifths">
-                                <div class="outer-container">
+                                <div id="outer_container">
                                     <div id="inner_container">
                                         <video id="video" autoplay=true></video>
                                     </div>
@@ -52,10 +52,21 @@ HTML
                                     <br>
                                 </div>
                             </div>
-                            <div class="has-text-centered">
-                                <button class="button is-dark" id="take_photos" type="submit">Take photo</button>
-                                <input name="file" class="button is-dark" accept="image/*" id="file_input" type="file">
-                                <label for="file_input" class="button is-dark">Upload</label>
+                            <div class="columns is-vcentered is-centered">
+                                <div class="column is-half has-text-centered">
+                                    <div class="field is-horizontal">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <p class="control is-expanded">
+                                                <input class="input" type="text" name="description" id="description" placeholder="Describe your photo...">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="button is-dark" id="take_photos" type="submit" disabled>Take photo</button>
+                                    <input name="file" class="button is-dark" accept="image/*" id="file_input" type="file">
+                                    <label for="file_input" class="button is-dark">Upload</label>
+                                </div>
                             </div>
                         </div>
                         <div class="column cam_menu has-text-centered">
