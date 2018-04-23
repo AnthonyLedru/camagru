@@ -3,10 +3,11 @@
 require_once __DIR__ . '/../include/autoload.include.php';
 
 function sendResetPasswordMail($user) {
-    $message = "Hello {$user->getFirstName()},\r\n
-                To reset your password, please click on the following link:\r\n
+    $headers = 'Content-type: text/html; charset=utf-8' . "\r\n";
+    $message = "Hello {$user->getFirstName()},<br>
+                To reset your password, please click on the following link:<br>
                 http://$_SERVER[HTTP_HOST]/camagru/resetPassword.php?token={$user->getPasswordToken()}";
-    mail($user->getMail(), "Reset Password", $message);
+    mail($user->getMail(), "Reset Password", $message, $headers);
 }
 
 $json = array('message' => "");

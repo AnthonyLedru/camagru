@@ -103,6 +103,20 @@ SQL
         return false;
     }
 
+    public static function createFromPasswordToken($token) {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM user
+        WHERE password_token = ?
+SQL
+        );
+        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $userQuery->execute(array($token));
+        if (($user = $userQuery->fetch()) !== false)
+            return $user;
+        return false;
+    }
+
     public static function alreadyExist($mail, $login) {
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *

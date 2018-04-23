@@ -3,11 +3,12 @@
 require_once __DIR__ . '/../include/autoload.include.php';
 
 function sendRegisterMail($user) {
-    $message = "Hello {$user->getFirstName()},\r\n
-                Thank you for signing up.\r\n
-                To activate your account, please click on the following link:\r\n
+    $headers = 'Content-type: text/html; charset=utf-8' . "\r\n";
+    $message = "Hello {$user->getFirstName()},<br>
+                Thank you for signing up.<br>
+                To activate your account, please click on the following link:<br>
                 http://$_SERVER[HTTP_HOST]/camagru/script/activateAccount.php?token={$user->getSignupToken()}";
-    mail($user->getMail(), "Account confirmation", $message);
+    mail($user->getMail(), "Account confirmation", $message, $headers);
 }
 
 function areFieldsValid($userTab) {
