@@ -379,8 +379,10 @@ window.onload = function() {
                 var data = {};
                 var filters = [];
                 canvas = document.createElement("canvas");
-                canvas.width = video.videoWidth / 1.75;
-                canvas.height = video.videoHeight / 1.75;
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                data.width = video.videoWidth;
+                data.height = video.videoHeight;
                 var ctx = canvas.getContext('2d');
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                 data.img_data = canvas.toDataURL('image/png');
@@ -398,7 +400,14 @@ window.onload = function() {
                     onSuccess  : function(res) {
                                     if (res['message'] === "Image added") {
                                         display_notification("notification", "green", res['message']);
-                                        console.log(res['photo']);
+                                        img = document.createElement("img");
+                                        img.classList.add("cam_photo");
+                                        img.setAttribute('src', res['photo']);
+                                        photo_list.appendChild(img);
+                                        var br = document.createElement("br");
+                                        photo_list.appendChild(br);
+                                        img.addEventListener('click', removeImage(br));
+
                                     }
                                     else
                                         display_notification("notification", "red", res['message']);
