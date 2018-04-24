@@ -28,7 +28,7 @@ function areFieldsValid($userTab) {
     if (!filter_var($userTab['mail'], FILTER_VALIDATE_EMAIL))
         echo "Invalid mail";
     else if (!preg_match('/^[A-Za-z][A-Za-z0-9]{5,30}$/', $userTab['login']))
-        echo "Login must have at least 6 characters and include letters and numbers only.";
+        echo "Login must have at least 6 characters and include letters and numbers only";
     else if (strlen($userTab['password']) < 8 ||
                 !preg_match("#[0-9]+#", $userTab['password']) || 
                 !preg_match("#[a-zA-Z]+#", $userTab['password'])) {

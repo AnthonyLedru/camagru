@@ -5,6 +5,7 @@ require_once __DIR__ . '/../include/autoload.include.php';
 class User {
 
     private $user_id = null;
+    private $image_id = null;
     private $mail = null;
     private $login = null;
     private $password = null;
@@ -17,6 +18,7 @@ class User {
     private $bio = null;
 
     public function getUserId() { return $this->user_id; }
+    public function getImageId() { return $this->image_id; }
     public function getMail() { return $this->mail; }
     public function getLogin() { return $this->login; }
     public function getPassword() { return $this->password; }
@@ -35,6 +37,7 @@ class User {
     }
 
     public function setUserId($userId) { $this->user_id = $userId; }
+    public function setImageId($imageId) { $this->image_id = $imageId; }
     public function setMail($mail) { $this->mail = $mail; }
     public function setLogin($login) { $this->login = $login; }
     public function setPassword($password) { $this->password = $password; }
@@ -72,7 +75,7 @@ SQL
         $userQuery->execute(array($id));
         if (($user = $userQuery->fetch()) !== false)
             return $user;
-        throw new Exception("Id incorrect");
+        return false;
     }
 
     public static function createFromMail($mail) {
@@ -207,7 +210,7 @@ SQL
     public function update() {
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
         UPDATE user
-        SET login = :login, mail = :mail, password = :password, last_name = :lastName, 
+        SET image_id = :imageId, login = :login, mail = :mail, password = :password, last_name = :lastName, 
             first_name = :firstName, gender = :gender, bio = :bio, signup_token = :signupToken,
             active = :active, password_token = :passwordToken
         WHERE user_id = :userId
@@ -215,6 +218,7 @@ SQL
         );
         $userQuery->execute(array(
             'userId' => $this->user_id,
+            'imageId' => $this->image_id,
             ':login' => $this->login,
             ':mail' => $this->mail,
             ':password' => $this->password,

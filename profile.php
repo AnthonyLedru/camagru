@@ -33,8 +33,8 @@ if (isset($_SESSION['user'])) {
                         <div class="column">
                             <div class="tabs is-toggle is-fullwidth is-medium">
                                 <ul>
-                                    <li id="informations_button" class="is-active"><a>Informations</a></li>
-                                    <li id="preferences_button"><a>Preferences</a></li>
+                                    <li id="first_tab_button" class="is-active"><a>Informations</a></li>
+                                    <li id="second_tab_button"><a>Preferences</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -42,7 +42,7 @@ if (isset($_SESSION['user'])) {
                 </div>
             </div>
 
-            <div class="hero-body is-visible" id="informations">
+            <div class="hero-body is-visible" id="first_tab">
                 <div class="container has-text-centered">
                     <form method="post" id="informations_form">
                         <div class="columns">
@@ -188,7 +188,7 @@ HTML
                 </div>
             </div>
 
-            <div class="hero-body is-hidden" id="preferences">
+            <div class="hero-body is-hidden" id="second_tab">
                 <div class="container has-text-centered">
                     <form method="post" id="preferences_form">
                         <div class="columns">

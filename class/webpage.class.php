@@ -65,6 +65,7 @@ class WebPage {
 		<meta name="description" content="Camagru">
 		<meta name="author" content="Anthony Ledru">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 		<link rel="stylesheet" href="css/bulma.css">
 		<link rel="stylesheet" href="css/style.css">
 		<script src="js/notification.js"></script>

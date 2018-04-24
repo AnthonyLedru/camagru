@@ -24,7 +24,6 @@ $is_div_closed = true;
 foreach ($images as $image) {
     $user = User::createFromId($image->getUserId());
     $like = Like::countFromImageId($image->getImageId());
-    var_dump($i);
     if ($i == 0) {
         $is_div_closed = false;
         $page->appendContent(<<<HTML
@@ -57,7 +56,7 @@ HTML
                                         </div>
                                     </div>
                                     <div class="content">
-                                        <i>{$image->getDescription()}</i>
+                                        <i class="italic_desc">{$image->getDescription()}</i>
                                         <br><br>
                                         <div class="columns">
                                             <div class="column">

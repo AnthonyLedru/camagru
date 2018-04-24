@@ -160,32 +160,31 @@ window.onload = function() {
 
     /* ------------ Profile ----------- */
 
-    if (document.getElementById('preferences_button')) {
-        document.getElementById('preferences_button').addEventListener('click', function(event) {
-            var informations_class = document.getElementById('informations').classList;
-            var preferences_class = document.getElementById('preferences').classList;
-            informations_class.remove('is-visible');
-            informations_class.add('is-hidden');
-            preferences_class.remove('is-hidden');
-            preferences_class.add('is-visible');
-            document.getElementById('preferences_button').classList.add('is-active')
-            document.getElementById('informations_button').classList.remove('is-active')
+    if (document.getElementById('second_tab_button')) {
+        document.getElementById('second_tab_button').addEventListener('click', function(event) {
+            var first_tab = document.getElementById('first_tab').classList;
+            var second_tab = document.getElementById('second_tab').classList;
+            first_tab.remove('is-visible');
+            first_tab.add('is-hidden');
+            second_tab.remove('is-hidden');
+            second_tab.add('is-visible');
+            document.getElementById('second_tab_button').classList.add('is-active')
+            document.getElementById('first_tab_button').classList.remove('is-active')
         });
     }
 
-    if (document.getElementById('informations_button')) {
-        document.getElementById('informations_button').addEventListener('click', function(event) {
-            var informations_class = document.getElementById('informations').classList;
-            var preferences_class = document.getElementById('preferences').classList;
-            preferences_class.remove('is-visible');
-            preferences_class.add('is-hidden');
-            informations_class.remove('is-hidden');
-            informations_class.add('is-visible');
-            document.getElementById('preferences_button').classList.remove('is-active')
-            document.getElementById('informations_button').classList.add('is-active')
+    if (document.getElementById('first_tab_button')) {
+        document.getElementById('first_tab_button').addEventListener('click', function(event) {
+            var first_tab = document.getElementById('first_tab').classList;
+            var second_tab = document.getElementById('second_tab').classList;
+            second_tab.remove('is-visible');
+            second_tab.add('is-hidden');
+            first_tab.remove('is-hidden');
+            first_tab.add('is-visible');
+            document.getElementById('second_tab_button').classList.remove('is-active')
+            document.getElementById('first_tab_button').classList.add('is-active')
         });
     }
-
 
     if (document.getElementById('informations_form')) {
         var informations_form = document.getElementById('informations_form');
@@ -202,19 +201,19 @@ window.onload = function() {
             request  = new Request ({
                 url        : "script/profileUpdate.php",
                 method     : 'POST',
-                handleAs   : 'text',
+                handleAs   : 'json',
                 parameters : { login: login, mail : mail, password : password, newPass1 : newPass1, newPass2 : newPass2,
                                 lastName : lastName, firstName : firstName, gender: gender, bio : bio, wait : true },
-                onSuccess  : function(message) {
-                                if (message === "Profile updated !") {
-                                    display_notification("notification", "green", message);
-                                    document.getElementById('profile_name').innerHTML = "Hello, " + htmlEntities(login) + " ! 😎";
+                onSuccess  : function(res) {
+                                if (res['message'] === "Profile updated !") {
+                                    display_notification("notification", "green", res['message']);
+                                    document.getElementById('profile_name').innerHTML = "Hello, " + res['login'] + " ! 😎";
                                 }
                                 else
-                                    display_notification("notification", "red", message);
+                                    display_notification("notification", "red", res['message']);
                 },
                 onError    : function(status, message) {
-                                display_notification("notification", "red", status + ": " + message);
+                                display_notification("notification", "red", status + ": " + res['message']);
                 }
             });
             informations_form.elements['password'].value = "";
@@ -379,18 +378,23 @@ window.onload = function() {
                 var data = {};
                 var filters = [];
                 canvas = document.createElement("canvas");
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                data.width = video.videoWidth;
-                data.height = video.videoHeight;
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.width = video.videoWidth / 1.7;
+                canvas.height = video.videoHeight / 1.7;
+                data.width = video.videoWidth / 1.7;
+                data.height = video.videoHeight / 1.7;
+                if (document.getElementById('uploaded_photo')) {
+                    var uploaded_photo = document.getElementById('uploaded_photo');
+                    canvas.getContext('2d').drawImage(uploaded_photo, 0, 0, canvas.width, canvas.height);
+                    uploaded_photo.remove();
+                }
+                else
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
                 data.img_data = canvas.toDataURL('image/png');
-                var j = 0;
                 for (var i = 0; i < applied_filters.options.length; i++)
                     if (applied_filters.options[i].selected)
                         filters.push(applied_filters.options[i].value); 
                 data.filters = filters;
+                data.description = document.getElementById('description').value;
                 canvas.remove();
                 request  = new Request ({
                     url        : "script/imageMerge.php",
@@ -398,16 +402,19 @@ window.onload = function() {
                     handleAs   : 'json',
                     parameters : { data : JSON.stringify(data) },
                     onSuccess  : function(res) {
-                                    if (res['message'] === "Image added") {
+                                    if (res['message'] === "Image added to the list") {
                                         display_notification("notification", "green", res['message']);
-                                        img = document.createElement("img");
+                                        var img = document.createElement("img");
                                         img.classList.add("cam_photo");
                                         img.setAttribute('src', res['photo']);
                                         photo_list.appendChild(img);
+                                        var p = document.createElement("p");
+                                        p.innerHTML = res['description'];
+                                        photo_list.appendChild(p);
                                         var br = document.createElement("br");
                                         photo_list.appendChild(br);
-                                        img.addEventListener('click', removeImage(br));
-
+                                        img.addEventListener('click', removeImage(br, p));
+                                        
                                     }
                                     else
                                         display_notification("notification", "red", res['message']);
@@ -418,7 +425,7 @@ window.onload = function() {
                 });
 
             });
-        }).catch(function (eror) {
+        }).catch(function (error) {
             document.getElementById('video').style.display = 'none';
             var p = document.createElement('p');
             p.classList.add("has-text-centered");
@@ -440,9 +447,19 @@ window.onload = function() {
 
         document.getElementById("save_photo").addEventListener('click', function(e) {
             var imagesTab = {};
-            var image_list = photo_list.getElementsByTagName('img');
-            for (var i = 0; i < image_list.length; i++) {
-                imagesTab[i] = image_list[i].src;
+            var images = photo_list.getElementsByTagName('img');
+            var descriptions = photo_list.getElementsByTagName('p');
+            var j = 0;
+            for (var i = 0; i < images.length; i++) {
+                var imageInfo = {};
+                imageInfo.src = images[i].src;
+                imagesTab[j] = imageInfo;
+                j++;
+            }
+            j = 0;
+            for (i = 0; i < descriptions.length; i++) {
+                imagesTab[j].description = descriptions[i].innerHTML;
+                j++;
             }
             while (photo_list.firstChild) {
                 photo_list.removeChild(photo_list.firstChild);
@@ -465,35 +482,12 @@ window.onload = function() {
             });
         });
 
-        function removeImage(br) {
+        function removeImage(br, p) {
             return function() {
                 this.remove();
                 br.remove();
+                p.remove();
             }
-        }
-    
-        function draw (obj) {
-            canvas = document.createElement("canvas");
-            canvas.width = video.videoWidth / 1.75;
-            canvas.height = video.videoHeight / 1.75;
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(obj, 0, 0, canvas.width, canvas.height);
-            var applied_filters = document.getElementById('filters');
-            for (var i = 0; i < applied_filters.options.length; i++) {
-                if (applied_filters.options[i].selected) {
-                    filter_image = new Image();
-                    filter_image.src = applied_filters.options[i].value;
-                    ctx.drawImage(filter_image, 0, 0, canvas.width, canvas.height);
-                }
-            }
-            var data = canvas.toDataURL('image/png');
-            img = document.createElement("img");
-            img.classList.add("cam_photo");
-            img.setAttribute('src', data);
-            photo_list.appendChild(img);
-            var br = document.createElement("br");
-            photo_list.appendChild(br);
-            img.addEventListener('click', removeImage(br));
         }
 
         document.getElementById('filters').addEventListener('change', function(e) {
@@ -501,15 +495,15 @@ window.onload = function() {
             var inner_container = document.getElementById('inner_container');
             var elements = inner_container.getElementsByTagName("img");
             var has_selected_filter = false;
-            for (i = elements.length - 1; i >= 0; i--) {
-                elements[i].remove();
-            }
+            for (i = elements.length - 1; i >= 0; i--)
+                if (elements[i].id != "uploaded_photo")
+                    elements[i].remove();
             for (var i = 0; i < applied_filters.options.length; i++) {
                 if (applied_filters[i].selected) {
                     has_selected_filter = true;
                     var img = document.createElement('img');
                     img.src = applied_filters.options[i].value;
-                    img.classList.add("video-overlay");
+                    img.classList.add("video_overlay");
                     inner_container.insertBefore(img, document.getElementById('video'));
                 }
             }
@@ -519,13 +513,18 @@ window.onload = function() {
                 document.getElementById('take_photos').disabled = true;
         });
 
-        function imageLoaded() {
-            draw(this);
-        }
 
         function createImage() {
             img = new Image();
-            img.onload = imageLoaded;
+            img.onload = function imageLoaded() {
+                if (document.getElementById("uploaded_photo"))
+                    document.getElementById("uploaded_photo").remove();
+                var img = document.createElement('img');
+                img.src = this.src;
+                img.classList.add("video_overlay");
+                img.id = "uploaded_photo";
+                inner_container.insertBefore(img, inner_container.firstChild);
+            };
             img.src = this.result;
         }
 

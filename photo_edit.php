@@ -58,7 +58,7 @@ HTML
                                         <div class="field-body">
                                             <div class="field">
                                                 <p class="control is-expanded">
-                                                <input class="input" type="text" name="description" id="description" placeholder="Describe your photo...">
+                                                    <input class="input" type="text" name="description" id="description" placeholder="Describe your photo...">
                                                 </p>
                                             </div>
                                         </div>

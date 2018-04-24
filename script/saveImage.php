@@ -18,16 +18,17 @@ if (isset($_POST['imagesTab'])) {
             }
         }
         $imagesTab = json_decode($_POST['imagesTab'], true);
+        $json['message'] = $imagesTab[0]['src'];
         if (count($imagesTab) !== 0) {
             foreach ($imagesTab as $img) {
                 try {
-                $file = $path . md5(uniqid()) . '.png';
-                $img = str_replace('data:image/png;base64,', '', $img);
-                $img = str_replace(' ', '+', $img);
-                file_put_contents($file, base64_decode($img));
-                Image::insert(array('userId' => $user->getUserId(),
-                                    'path' => substr(strstr($file, "/photos/"), 1),
-                                    'description' => ""));
+                    $file = $path . md5(uniqid()) . '.png';
+                    $img['src'] = str_replace('data:image/png;base64,', '', $img['src']);
+                    $img['src'] = str_replace(' ', '+', $img['src']);
+                    file_put_contents($file, base64_decode($img['src']));
+                    Image::insert(array('userId' => $user->getUserId(),
+                                        'path' => substr(strstr($file, "/photos/"), 1),
+                                        'description' => htmlentities($img['description'])));
                 } catch (Exception $e) {
                     $json['message'] = $e->getMessage();
                     echo json_encode($json);
@@ -40,6 +41,6 @@ if (isset($_POST['imagesTab'])) {
     } else 
         $json['message'] = "You must be logged in to save images";
 } else
-    $json['message'] = "No image data found";
+    $json['message'] = "No image found";
 
 echo json_encode($json);

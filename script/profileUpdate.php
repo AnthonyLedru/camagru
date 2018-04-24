@@ -5,24 +5,27 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
+$json = array('message' => "", 'photo' => "");
+
 function areFieldsValid($userTab) {
+    global $json;
     $valid = false;
     if (!filter_var($userTab['mail'], FILTER_VALIDATE_EMAIL))
-        echo "Invalid mail";
+        $json['message'] = "Invalid mail";
     else if (!preg_match('/^[A-Za-z][A-Za-z0-9]{5,30}$/', $userTab['login']))
-        echo "Login must have at least 6 characters and include letters and numbers only.";
+        $json['message'] = "Login must have at least 6 characters and include letters and numbers only";
     else if (strlen($userTab['password']) < 8 ||
                 !preg_match("#[0-9]+#", $userTab['password']) || 
                 !preg_match("#[a-zA-Z]+#", $userTab['password'])) {
-        echo "Password must have at least 8 characters and include at least one number and letter";
+        $json['message'] = "Password must have at least 8 characters and include at least one number and letter";
     } else if (!preg_match("/[a-zA-z]+([ '-][a-zA-Z]+)*/", $userTab['lastName']))
-        echo "Last name invalid";
+        $json['message'] =  "Last name invalid";
     else if (!preg_match("/[a-zA-z]+([ '-][a-zA-Z]+)*/", $userTab['firstName']))
-        echo "First name invalid";
+        $json['message'] =  "First name invalid";
     else if ($userTab['gender'] !== "Male" && $userTab['gender'] !== "Female")
-        echo "Gender invalid";
+        $json['message'] =  "Gender invalid";
     else if (strlen($userTab['bio']) > 300)
-        echo "Bio can't have more than 300 characters";
+        $json['message'] =  "Bio can't have more than 300 characters";
     else
         $valid = true;
     return $valid;
@@ -40,7 +43,7 @@ if (isset($_SESSION['user'])) {
                 $user = User::createFromId($_SESSION['user']['userId']);
             }
             catch (Exception $e) {
-                echo "An error occurred: " . $e->getMessage();
+                $json['message'] = "An error occurred: " . $e->getMessage();
                 return ;
             }
             if ($user->getPassword() === hash('whirlpool', $_POST['password'])) {
@@ -58,7 +61,8 @@ if (isset($_SESSION['user'])) {
                             'userId' => $user->getUserId()
                         );
                     } else {
-                        echo "Passwords are not identical";
+                        $json['message'] = "Passwords are not identical";
+                        echo json_encode($json);
                         exit();
                     }
                 } else {
@@ -82,21 +86,24 @@ if (isset($_SESSION['user'])) {
                                 $user = User::createFromId($_SESSION['user']['userId']);
                                 unset($_SESSION['user']);
                                 $_SESSION['user'] = $user->getAll();
-                                echo "Profile updated !";
+                                $json['login'] = $user->getLogin();
+                                $json['message'] = "Profile updated !";
                             }
                             catch (Exception $e) {
-                                echo "An error occurred " . $e->getMessage();
+                                $json['message'] = "An error occurred " . $e->getMessage();
                             }
                         } else
-                            echo "Mail already taken";
+                            $json['message'] = "Mail already taken";
                     } else
-                        echo "Login already taken";
+                        $json['message'] = "Login already taken";
                 }
             } else
-                echo "Password incorrect";
+                $json['message'] = "Password incorrect";
         } else
-            echo "You must specify you password to update your profile";
+            $json['message'] = "You must specify you password to update your profile";
     } else
-        echo "A required field is empty";
+        $json['message'] = "A required field is empty";
 } else
-    echo "You are not connected";
+    $json['message'] = "You are not connected";
+
+echo json_encode($json);

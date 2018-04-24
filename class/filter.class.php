@@ -22,4 +22,18 @@ SQL
             return $filters;
         return false;
     }
+
+    public static function isValidPath($path) {
+        $filterQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM filter
+        WHERE path = :path
+SQL
+        );
+        $filterQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $filterQuery->execute(array('path' => $path));
+        if (($filters = $filterQuery->fetchAll()) !== false)
+            return true;
+        return false;
+    }
 }

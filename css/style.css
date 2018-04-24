@@ -25,6 +25,14 @@ label {
     color: #293241;
 }
 
+.is-left {
+    text-align: left;
+}
+
+.is-right {
+    text-align: right;
+}
+
 /* ------------ Button ------------ */
 
 .is-dark {
@@ -179,12 +187,17 @@ figure:hover #profile_img {
     border-color: #293241 !important
 }
 
-/* ------------ Galery ------------ */
+/* ------------ Gallery ------------ */
 
 .like:hover {
     cursor: Pointer;
 }
 
+.italic_desc {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+ 
 /* ------------- Photo ------------ */
 
 .image_card_id {
@@ -263,7 +276,7 @@ figure:hover #profile_img {
     position: relative;
 }
 
-.video-overlay {
+.video_overlay {
     position: absolute;
     width: 100%;
     height: 100%;
