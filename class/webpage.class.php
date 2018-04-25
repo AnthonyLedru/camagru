@@ -128,7 +128,12 @@ HTML;
 										</a>
 									</p>
 									<p class="control">
-										<a class="button button is-dark" id="profile_button" href="profile.php">
+										<a class="button button is-dark" id="account_button" href="account.php">
+											<span>Account</span>
+										</a>
+									</p>
+									<p class="control">
+										<a class="button button is-dark" id="profile_button" href="profile.php?user_id={$_SESSION['user']['userId']}">
 											<span>Profile</span>
 										</a>
 									</p>

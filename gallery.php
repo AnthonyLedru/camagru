@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE)
 require_once 'include/autoload.include.php';
 
 $page = new Webpage("Gallery");
-$images = Image::getAll();
+$images = Image::getLastPhotos(0, 6);
 $page->appendContent(<<<HTML
 
             <div class="hero-body">
@@ -28,7 +28,7 @@ foreach ($images as $image) {
         $is_div_closed = false;
         $page->appendContent(<<<HTML
         
-                    <div class="columns is-vcentered">
+                    <div class="columns is-vcentered card_container">
 HTML
         );
     }
@@ -52,7 +52,7 @@ HTML
                                         </div>
                                         <div class="media-content">
                                             <p class="title is-4">{$user->getFullName()}</p>
-                                            <p class="subtitle is-6">@{$user->getLogin()}</p>
+                                            <p class="subtitle is-6"><a class="link" href="profile.php?user_id={$user->getUserId()}">@{$user->getLogin()}</a></p>
                                         </div>
                                     </div>
                                     <div class="content">

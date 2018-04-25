@@ -39,7 +39,7 @@ if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id']
                                         </div>
                                         <div class="media-content">
                                             <p class="title is-4">{$imageUser->getFullName()}</p>
-                                            <p class="subtitle is-6">@{$imageUser->getLogin()}</p>
+                                            <p class="subtitle is-6"><a class="link" href="profile.php?user_id={$imageUser->getUserId()}">@{$imageUser->getLogin()}</a></p>
                                         </div>
                                     </div>
                                     <div class="content">
@@ -99,7 +99,7 @@ HTML
 
                                         <div $class>
                                             <p>
-                                                <span class="name_date">@{$user->getLogin()} ({$comment->getDate()}) :</span>
+                                                <span class="name_date"><a class="link" href="profile.php?user_id={$imageUser->getUserId()}">@{$user->getLogin()}</a> ({$comment->getDate()}) :</span>
                                                 <br>
                                                 <i>{$comment->getComment()}</i>
                                             </p>

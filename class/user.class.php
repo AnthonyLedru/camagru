@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
-class User {
+class User implements JsonSerializable {
 
     private $user_id = null;
     private $image_id = null;
@@ -262,5 +262,48 @@ HTML;
                 }
             }
         }
+    }
+
+    public function getNbLikes() {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT COUNT(*)
+        FROM `like`, `image`
+        WHERE like.image_id = image.image_id
+        AND image.user_id = :userId
+SQL
+        );
+        $userQuery->execute(array(
+            ':userId' => $this->user_id,
+        ));
+        return ($userQuery->fetchColumn());
+    }
+
+    public function getNbPhotos() {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT COUNT(*)
+        FROM `image`
+        WHERE image.user_id = :userId
+SQL
+        );
+        $userQuery->execute(array(
+            ':userId' => $this->user_id,
+        ));
+        return ($userQuery->fetchColumn());
+    }
+
+    public function jsonSerialize()
+    {
+        return 
+        [
+            'userId' => $this->getUserId(),
+            'imageId' => $this->getImageId(),
+            'mail' => $this->getMail(),
+            'login' => $this->getLogin(),
+            'first_name' => $this->getFirstName(),
+            'last_name' => $this->getLastName(),
+            'gender' => $this->getGender(),
+            'bio' => $this->getBio(),
+            'fullName' => $this->getFullName()
+        ];
     }
 }

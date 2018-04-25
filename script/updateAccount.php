@@ -87,7 +87,7 @@ if (isset($_SESSION['user'])) {
                                 unset($_SESSION['user']);
                                 $_SESSION['user'] = $user->getAll();
                                 $json['login'] = $user->getLogin();
-                                $json['message'] = "Profile updated !";
+                                $json['message'] = "Account updated !";
                             }
                             catch (Exception $e) {
                                 $json['message'] = "An error occurred " . $e->getMessage();
@@ -100,7 +100,7 @@ if (isset($_SESSION['user'])) {
             } else
                 $json['message'] = "Password incorrect";
         } else
-            $json['message'] = "You must specify you password to update your profile";
+            $json['message'] = "You must specify you password to update your account";
     } else
         $json['message'] = "A required field is empty";
 } else

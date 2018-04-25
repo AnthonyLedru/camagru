@@ -2,20 +2,18 @@
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
-class Image {
+class Image implements JsonSerializable {
 
     private $image_id = null;
     private $user_id = null;
     private $path = null;
     private $description = null;
     private $date = null;
-    private $nb_like = null;
 
     public function getImageId() { return $this->image_id; }
     public function getUserId() { return $this->user_id; }
     public function getPath() { return $this->path; }
     public function getDescription() { return $this->description; }
-    public function getNbLike() { return $this->nb_like; }
     public function getDate() {
         $date_obj = new DateTime($this->date);
         return $date_obj->format("F j, Y, g:i a"); 
@@ -72,4 +70,36 @@ SQL
         return false;
     }
 
+    public static function getLastPhotos($skip, $limit) {
+        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM image
+        ORDER BY date DESC
+        LIMIT :skip, :limit;
+SQL
+        );
+        $ImageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $ImageQuery->bindValue(':skip', (int)$skip, PDO::PARAM_INT);
+        $ImageQuery->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $ImageQuery->execute();
+        if (($userImages = $ImageQuery->fetchAll()) !== false)
+            return $userImages;
+        return false;
+    }
+
+    public function jsonSerialize()
+    {
+        $user = User::createFromId($this->getUserId());
+        return 
+        [
+            'imageId' => $this->getImageId(),
+            'userId' => $this->getUserId(),
+            'path' => $this->getPath(),
+            'description' => $this->getDescription(),
+            'date' => $this->getDate(),
+            'hasLiked' => false,
+            'user' => $user,
+            'nbLikes' => Like::countFromImageId($this->getImageId())
+        ];
+    }
 }
