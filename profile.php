@@ -85,16 +85,46 @@ HTML
 
             <div class="hero-body is-hidden" id="second_tab">
                 <div class="container has-text-centered">
-                    <form method="post" id="preferences_form">
-                        <div class="columns">
-                            <div class="column"></div>  
-                                <div class="column is-half">
-
-                                </div>
-                                <div class="column"></div>
+HTML
+        );
+        $i = 0;
+        $is_div_closed = true;
+        $images = Image::getLastPhotosFromUser($user->getUserId(), 0, 6);
+        foreach ($images as $image) {
+            $user = User::createFromId($image->getUserId());
+            $like = Like::countFromImageId($image->getImageId());
+            if ($i === 0) {
+                $is_div_closed = false;
+                $page->appendContent(<<<HTML
+                
+                        <div class="columns is-vcentered image_container">
+HTML
+                );
+            }
+                $page->appendContent(<<<HTML
+                
+                            <div class="column is-one-third">
+                                <figure class="image is-4by3">
+                                    <a href="photo.php?image_id={$image->getImageId()}">
+                                        <img src="{$image->getPath()}" alt="gallery image">
+                                    </a>
+                                </figure>
                             </div>
+HTML
+                );
+            $i++;
+            if ($i == 3) {
+                $i = 0;
+                $is_div_closed = true;
+                $page->appendContent(<<<HTML
+        
                         </div>
-                    </form>
+HTML
+                );
+            }
+        }
+            $page->appendContent(<<<HTML
+                    <div class="column"></div>
                 </div>
             </div>
 

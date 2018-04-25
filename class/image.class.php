@@ -87,6 +87,25 @@ SQL
         return false;
     }
 
+    public static function getLastPhotosFromUser($userId, $skip, $limit) {
+        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM image
+        WHERE image.user_id = :userId
+        ORDER BY date DESC
+        LIMIT :skip, :limit;
+SQL
+        );
+        $ImageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $ImageQuery->bindValue(':userId', (int)$userId, PDO::PARAM_INT);
+        $ImageQuery->bindValue(':skip', (int)$skip, PDO::PARAM_INT);
+        $ImageQuery->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $ImageQuery->execute();
+        if (($userImages = $ImageQuery->fetchAll()) !== false)
+            return $userImages;
+        return false;
+    }
+
     public function jsonSerialize()
     {
         $user = User::createFromId($this->getUserId());

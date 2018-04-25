@@ -306,4 +306,22 @@ SQL
             'fullName' => $this->getFullName()
         ];
     }
+
+    public function getLastPhotos($skip, $limit) {
+        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM image, user
+        WHERE user.user_id = image.user_id
+        ORDER BY date DESC
+        LIMIT :skip, :limit;
+SQL
+        );
+        $ImageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $ImageQuery->bindValue(':skip', (int)$skip, PDO::PARAM_INT);
+        $ImageQuery->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $ImageQuery->execute();
+        if (($userImages = $ImageQuery->fetchAll()) !== false)
+            return $userImages;
+        return false;
+    }
 }

@@ -464,7 +464,7 @@ window.onload = function() {
         }
     };
 
-    /* ---------- Photo edit --------- */
+    /* ---------- Edit Photo --------- */
 
     if (document.querySelector("#video")) {
         HTMLMediaElement.srcObject
@@ -643,7 +643,7 @@ window.onload = function() {
         }
     }
 
-    /* -------- Password reset ------- */
+    /* -------- Reset Password ------- */
 
     if (document.getElementById('reset_password_form')) {
         document.getElementById('reset_password_form').onsubmit = function(e) {
