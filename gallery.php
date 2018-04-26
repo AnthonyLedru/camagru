@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE)
 require_once 'include/autoload.include.php';
 
 $page = new Webpage("Gallery");
+$page->appendJsUrl('js/gallery.js');
 $images = Image::getLastPhotos(0, 6);
 $page->appendContent(<<<HTML
 

@@ -5,6 +5,7 @@ if (session_status() == PHP_SESSION_NONE)
 require_once 'include/autoload.include.php';
 
 $page = new Webpage("My Account");
+$page->appendJsUrl('js/account.js');
 
 if (isset($_SESSION['user'])) {
     $user = User::createFromId($_SESSION['user']['userId']);

@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE)
 require_once 'include/autoload.include.php';
 
 $page = new Webpage("Photo Editing");
+$page->appendJsUrl('js/editPhoto.js');
 
 if (isset($_SESSION['user'])) {
     $user = User::createFromLogin($_SESSION['user']['login']);

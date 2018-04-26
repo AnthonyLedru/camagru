@@ -32,7 +32,7 @@ class WebPage {
 		$this->head .= $head;
 	}
 
-	public function appendScript($script) {
+	public function appendJs($script) {
 		$this->head .= "<script>".$script."</script>";
 	}
 
@@ -68,12 +68,11 @@ class WebPage {
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 		<link rel="stylesheet" href="css/bulma.css">
 		<link rel="stylesheet" href="css/style.css">
-		<script src="js/notification.js"></script>
 		<script src="js/utils.js"></script>
 		<script src="js/request.js"></script>
-		<script src="js/onload.js"></script>
-		$this->title
+		<script src="js/common.js"></script>
 		$this->head
+		$this->title
 	</head>
 
 	<body>
@@ -123,7 +122,7 @@ HTML;
 		$page .= <<<HTML
 
 									<p class="control">
-										<a class="button button is-dark" id="photo_button" href="photo_edit.php">
+										<a class="button button is-dark" id="photo_button" href="editPhoto.php">
 											<span>Photo</span>
 										</a>
 									</p>
