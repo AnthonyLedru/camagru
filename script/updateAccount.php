@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
-$json = array('message' => "", 'photo' => "");
+$json = array('message' => "", 'login' => "", 'valid' => false);
 
 function areFieldsValid($userTab) {
     global $json;
@@ -86,6 +86,7 @@ if (isset($_SESSION['user'])) {
                                 $user = User::createFromId($_SESSION['user']['userId']);
                                 unset($_SESSION['user']);
                                 $_SESSION['user'] = $user->getAll();
+                                $json['valid'] = true;
                                 $json['login'] = $user->getLogin();
                                 $json['message'] = "Account updated !";
                             }

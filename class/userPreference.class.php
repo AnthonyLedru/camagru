@@ -69,14 +69,14 @@ SQL
         return false;
     }
 
-    public static function updateUserPreference($userPreferenceId, $active) {
+    public function updateUserPreference($active) {
         $userPrefQuery = myPDO::getInstance()->prepare(<<<SQL
         UPDATE user_preference
         SET active = :active
         WHERE user_preference_id = :user_preference_id
 SQL
         );
-        $userPrefQuery->execute(array(':active' => $active, ':user_preference_id' => $userPreferenceId));
+        $userPrefQuery->execute(array(':active' => $active, ':user_preference_id' => $this->getUserPreferenceId()));
     }
 }
 

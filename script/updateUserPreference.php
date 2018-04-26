@@ -1,4 +1,7 @@
 <?php
+
+$json = array('message' => "", 'valid' => false);
+
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
@@ -15,18 +18,21 @@ if (isset($_SESSION['user'])) {
                     $pref = Preference::createFromId($userPreference->getPreferenceId());
                     if ($pref->getName() === 'notification') {
                         if ($_POST['notification'] === "Enabled")
-                            UserPreference::updateUserPreference($userPreference->getUserPreferenceId(), 1);
+                            $userPreference->updateUserPreference(1);
                         else if ($_POST['notification'] === "Disabled")
-                            UserPreference::updateUserPreference($userPreference->getUserPreferenceId(), 0);
+                            $userPreference->updateUserPreference(0);
                     }
                 }
-                echo "Preferences updated !";
+                $json['message'] =  "Preferences updated !";
+                $json['valid'] = true;
             } else 
-                echo "Send mail field is invalid";
+                $json['message'] =  "Send mail field is invalid";
         } else
-            echo "Please, select a valid theme";
+            $json['message'] =  "Please, select a valid theme";
 
     } else
-        echo "A required field is empty";
+        $json['message'] =  "A required field is empty";
 } else
-    echo "You are not connected";
+    $json['message'] = "You are not connected";
+
+echo json_encode($json);

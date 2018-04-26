@@ -68,7 +68,6 @@ class WebPage {
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 		<link rel="stylesheet" href="css/bulma.css">
 		<link rel="stylesheet" href="css/style.css">
-		<script src="js/utils.js"></script>
 		<script src="js/request.js"></script>
 		<script src="js/common.js"></script>
 		$this->head
