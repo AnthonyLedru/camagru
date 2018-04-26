@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE)
 require_once 'include/autoload.include.php';
 
 $page = new Webpage("Profile");
+$page->appendJsUrl('js/tabs.js');
 $error = false;
 if (isset($_GET['user_id'])) {
     if (($user = User::createFromId($_GET['user_id'])) !== false) {

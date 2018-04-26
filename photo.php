@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE)
 require_once 'include/autoload.include.php';
 
 $page = new Webpage("Photo page");
+$page->appendJsUrl('js/photo.js');
 $images = Image::getAll();
 
 if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id'])) !== false)) {

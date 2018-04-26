@@ -6,8 +6,8 @@ if (session_status() == PHP_SESSION_NONE)
 require_once __DIR__ . '/include/autoload.include.php';
 
 if (!isset($_SESSION['user'])) {
-    $page = new Webpage("Password Reset");
-    $page->appendJsUrl('js/resetPassword.js');
+    $page = new Webpage("Change password");
+    $page->appendJsUrl('js/changePassword.js');
     if (isset($_GET['token'])) {
         if (($user = User::createFromPasswordToken($_GET['token'])) !== false) {
             $page->appendContent(<<<HTML

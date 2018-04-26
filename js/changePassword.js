@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 
-    /* -------- Reset Password ------- */
+    /* -------- Change Password ------- */
 
     if (document.getElementById('reset_password_form')) {
         document.getElementById('reset_password_form').onsubmit = function(e) {
@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 method     : 'POST',
                 handleAs   : 'json',
                 parameters : { mail : mail },
-                onSuccess  : function(message) {
-                                if (message['message'] === "A mail to reset your password has been sent")
-                                    display_notification("notification", "green", message['message']);
+                onSuccess  : function(res) {
+                                if (res['valid'])
+                                    display_notification("notification", "green", res['message']);
                                 else
-                                    display_notification("notification", "red", message['message']);
+                                    display_notification("notification", "red", res['message']);
                 },
                 onError    : function(status, message) {
-                                display_notification("notification", "red", "An error occured");
+                                display_notification("notification", "red", status + ": " + message);
                 }
             });
             document.getElementById("reset_password_form").reset();
@@ -35,19 +35,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 method     : 'POST',
                 handleAs   : 'json',
                 parameters : { passwordToken : passwordToken, password : password, passwordConf : passwordConf},
-                onSuccess  : function(message) {
-                                if (message['message'] === "Password changed") {
+                onSuccess  : function(res) {
+                                if (res['valid']) {
                                     location.reload();
                                 } else {
-                                    display_notification("notification", "red", message['message']);
-                                    document.getElementById("change_password_form").reset();
+                                    display_notification("notification", "red", res['message']);
                                 }
                 },
                 onError    : function(status, message) {
-                                display_notification("notification", "red", "An error occured");
-                                document.getElementById("change_password_form").reset();
+                                display_notification("notification", "red", status + ": " + message);
                 }
             });
+            document.getElementById("change_password_form").reset();
             return false;
         }
     }

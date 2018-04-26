@@ -49,17 +49,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
             request  = new Request ({
                 url        : "script/login.php",
                 method     : 'POST',
-                handleAs   : 'text',
+                handleAs   : 'json',
                 parameters : { login : login, password : password },
-                onSuccess  : function(message) {
-                                var color = "red";
-                                if (message.indexOf("Welcome") !== -1)
+                onSuccess  : function(res) {
+                                if (res['valid'])
                                     location.reload();
                                 else {
                                     document.getElementById('login_modal').classList.remove('is-active');
                                     document.querySelector('html').classList.remove('is-clipped');
                                     document.getElementById("login_form").reset();
-                                    display_notification("notification", color, message);
+                                    display_notification("notification", "red", res['message']);
                                 }
                 },
                 onError    : function(status, message) {
@@ -111,14 +110,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 request  = new Request ({
                     url        : "script/signup.php",
                     method     : 'POST',
-                    handleAs   : 'text',
+                    handleAs   : 'json',
                     parameters : { mail : mail, login : login, password : password, passwordConf : passwordConf,
                                     lastName : lastName, firstName : firstName, gender: gender },
-                    onSuccess  : function(message) {
-                                    var color = "red";
-                                    if (message.indexOf("A confirmation mail to activate your account has been sent to ") !== -1)
-                                        color = "green";
-                                    display_notification("notification", color, message);
+                    onSuccess  : function(res) {
+                                    if (res['valid'])
+                                        display_notification("notification", "green", res['message']);
+                                    else
+                                        display_notification("notification", "red", res['message']);
                     },
                     onError    : function(status, message) {
                                     display_notification("notification", "red", status + ": " + message);
@@ -139,17 +138,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
             request  = new Request ({
                 url        : "script/logout.php",
                 method     : 'POST',
-                handleAs   : 'text',
-                onSuccess  : function(message) {
-                                var color = "red";
-                                if (message === "Good bye !") {
+                handleAs   : 'json',
+                onSuccess  : function(res) {
+                                if (res['valid']) {
                                     location.reload();
                                 }
                                 else {
                                     document.getElementById('signup_modal').classList.remove('is-active');
                                     document.querySelector('html').classList.remove('is-clipped');
                                     document.getElementById("signup_form").reset();
-                                    display_notification("notification", color, message);
+                                    display_notification("notification", "red", res['message']);
                                 }
                 },
                 onError    : function(status, message) {
@@ -159,33 +157,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
     }
 
-    /* ------------- Tab -------------- */
-
-    if (document.getElementById('second_tab_button')) {
-        document.getElementById('second_tab_button').addEventListener('click', function(event) {
-            var first_tab = document.getElementById('first_tab').classList;
-            var second_tab = document.getElementById('second_tab').classList;
-            first_tab.remove('is-visible');
-            first_tab.add('is-hidden');
-            second_tab.remove('is-hidden');
-            second_tab.add('is-visible');
-            document.getElementById('second_tab_button').classList.add('is-active')
-            document.getElementById('first_tab_button').classList.remove('is-active')
-        });
-    }
-
-    if (document.getElementById('first_tab_button')) {
-        document.getElementById('first_tab_button').addEventListener('click', function(event) {
-            var first_tab = document.getElementById('first_tab').classList;
-            var second_tab = document.getElementById('second_tab').classList;
-            second_tab.remove('is-visible');
-            second_tab.add('is-hidden');
-            first_tab.remove('is-hidden');
-            first_tab.add('is-visible');
-            document.getElementById('second_tab_button').classList.remove('is-active')
-            document.getElementById('first_tab_button').classList.add('is-active')
-        });
-    }
 });
 
 function display_notification(div_name, color, message) {

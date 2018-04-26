@@ -61,7 +61,7 @@ SQL
         $userQuery->execute(array($userLogin));
         if (($user = $userQuery->fetch()) !== false)
             return $user;
-        throw new Exception("Login incorrect");
+        return false;
     }
 
     public static function createFromId($id) {

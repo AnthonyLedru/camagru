@@ -4,6 +4,8 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
+$json = array('message' => "", 'valid' => false);
+
 function sendRegisterMail($user) {
     $headers = 'Content-type: text/html; charset=utf-8';
     $message = <<<HTML
@@ -26,26 +28,26 @@ HTML;
 }
 
 if (isset($_POST['login']) && isset($_POST['password'])) {
-
     $login = htmlspecialchars($_POST['login']);
     $password = hash('whirlpool', $_POST['password']);
-
-    try {
-        $user = User::createFromLogin($login);
-        if ($user->getPassword() === $password)
+    if (($user = User::createFromLogin($login)) !== false) {
+        if ($user->getPassword() === $password) {
             if ($user->getActive()) {
                 $_SESSION['user'] = $user->getAll();
-                echo "Welcome " . $user->getFirstName();
+                $json['message'] =  "Welcome " . $user->getFirstName();
+                $json['valid'] = true;
             } else {
                 $user->setSignupToken(bin2hex(random_bytes(50)));
                 $user->update();
                 sendRegisterMail($user);
-                echo "Your account is not active, a new confirmation mail has been sent to {$user->getMail()}";
+                $json['message'] =  "Your account is not active, a new confirmation mail has been sent to {$user->getMail()}";
             }
+        }
         else
-            echo "Password incorrect";
-    } catch (Exception $e) {
-        echo $e->getMessage();
+            $json['message'] =  "Incorrect Password";
     }
+    else
+        $json['message'] =  "Incorrect login";
 } else
-    echo "Login failed";
+    $json['message'] = "Login or password not specified";
+echo json_encode($json);

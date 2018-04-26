@@ -3,8 +3,13 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-if (session_status() == PHP_SESSION_ACTIVE) {
+$json = array('message' => "", 'valid' => false);
+
+if (isset($_SESSION['user'])) {
     session_destroy();
-    echo "Good bye !";
+    $json['message'] = "Good bye !";
+    $json['valid'] = true;
 } else
-    echo "You are not connected";
+    $json['message'] = "You are not connected";
+
+echo json_encode($json);

@@ -170,7 +170,7 @@ HTML;
 									<input class="input" type="password" placeholder="*********" name="password">
 								</div>
 								<br>
-								<a class="link" href="resetPassword.php">Forgot your password ?</a>
+								<a class="link" href="changePassword.php">Forgot your password ?</a>
 							</form>
 						</section>
 						<footer class="modal-card-foot">

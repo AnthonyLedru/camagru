@@ -16,14 +16,14 @@ function sendResetPasswordMail($user) {
         <body>
                 <h1>Change your password</h1>
                 <p>Hello {$user->getLogin()},</p>
-                <p>To reset your password, please click <a href="http://$_SERVER[HTTP_HOST]/camagru/resetPassword.php?token={$user->getPasswordToken()}">here</a></p>
+                <p>To reset your password, please click <a href="http://$_SERVER[HTTP_HOST]/camagru/changePassword.php?token={$user->getPasswordToken()}">here</a></p>
         </body>
     </html>
 HTML;
     mail($user->getMail(), "Change your password", $message, $headers);
 }
 
-$json = array('message' => "");
+$json = array('message' => "", 'valid' => false);
 
 if (isset($_POST['mail'])) {
     if (($user = User::createFromMail($_POST['mail'])) !== false) {
@@ -31,6 +31,7 @@ if (isset($_POST['mail'])) {
             $user->setPasswordToken(bin2hex(random_bytes(50)));
             $user->update();
             sendResetPasswordMail($user);
+            $json['valid'] = true;
             $json['message'] = "A mail to reset your password has been sent";
         } else
             $json['message'] = "Your account is not active";

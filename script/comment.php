@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
-$json = array('message' => "");
+$json = array('message' => "", 'valid' => false);
 
 if (isset($_SESSION['user'])) {
     if (isset($_POST['comment']))
@@ -28,6 +28,7 @@ if (isset($_SESSION['user'])) {
                                                 'date' => $date,
                                                 'login' => $user->getLogin(),
                                                 'message' => "Comment sent");
+                    $json['valid'] = true;
                 } catch (Exception $e) {
                     $json['message'] = $e->getMessage();
                 }

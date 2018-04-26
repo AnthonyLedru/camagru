@@ -5,7 +5,7 @@ require_once '../include/autoload.include.php';
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-$json = array('message' => "");
+$json = array('message' => "", 'valid' => false);
 
 if (isset($_POST['imagesTab'])) {
     if (isset($_SESSION['user'])) {
@@ -34,6 +34,7 @@ if (isset($_POST['imagesTab'])) {
                     echo json_encode($json);
                     exit();
                 }
+                $json['valid'] = true;
                 $json['message'] = "Image(s) saved";
             }
         } else

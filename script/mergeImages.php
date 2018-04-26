@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
-$json = array('message' => "", 'photo' => "");
+$json = array('message' => "", 'photo' => "", 'valid' => false);
 if (isset($_POST['data'])) {
     $data = json_decode($_POST['data'], true);
     if (strlen($data['description']) <= 80) {
@@ -26,6 +26,7 @@ if (isset($_POST['data'])) {
         $final_image_data_base_64 = base64_encode($final_image_data);
         $json['photo'] = 'data:image/png;base64,' . $final_image_data_base_64;
         imagedestroy($dest);
+        $json['valid'] = true;
         $json['message'] = "Image added to the list";
         $json['description'] = htmlspecialchars($data['description']);
     } else {

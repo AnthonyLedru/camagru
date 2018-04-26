@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var notification = preferences_form.elements['notification'].value;
         var theme = preferences_form.elements['theme'].value;
         request  = new Request ({
-            url        : "script/updateUserPreferenceppp.php",
+            url        : "script/updateUserPreference.php",
             method     : 'POST',
             handleAs   : 'json',
             parameters : { notification : notification, theme: theme },

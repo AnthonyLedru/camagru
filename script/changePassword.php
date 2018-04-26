@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
-$json = array('message' => "");
+$json = array('message' => "", 'valid' => false);
 if (isset($_POST['passwordToken']) &&
     isset($_POST['password']) &&
     isset($_POST['passwordConf'])) {
@@ -17,6 +17,7 @@ if (isset($_POST['passwordToken']) &&
                     $user->setPassword($password);
                     $user->setPasswordToken(null);
                     $user->update();
+                    $json['valid'] = true;
                     $json['message'] = "Password changed";
                 } else
                     $json['message'] = "Token invalid";

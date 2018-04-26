@@ -6,6 +6,7 @@ require_once 'include/autoload.include.php';
 
 $page = new Webpage("My Account");
 $page->appendJsUrl('js/account.js');
+$page->appendJsUrl('js/tabs.js');
 
 if (isset($_SESSION['user'])) {
     $user = User::createFromId($_SESSION['user']['userId']);

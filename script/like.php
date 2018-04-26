@@ -5,6 +5,8 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once __DIR__ . '/../include/autoload.include.php';
 
+$json = array('message' => "", 'like' => false, 'unlike' => false, 'nbLike' => 0);
+
 if (isset($_SESSION['user'])) { 
     if (isset($_POST['imageId'])) {
         try {
@@ -12,16 +14,22 @@ if (isset($_SESSION['user'])) {
             $image = Image::createFromId($_POST['imageId']);
             if (($like = Like::hasUserLiked($user->getUserId(), $image->getImageId())) !== false) {
                 Like::delete($like->getLikeId());
-                echo "You unliked this image";
+                $json['nbLike'] = Like::countFromImageId($image->getImageId());
+                $json['unlike'] = true;
+                $json['message'] = "You unliked this image";
             }
             else {
                 Like::add($user->getUserId(), $image->getImageId());
-                echo "You liked this image";
+                $json['nbLike'] = Like::countFromImageId($image->getImageId());
+                $json['like'] = true;
+                $json['message'] = "You liked this image";
             }
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $json['message'] = $e->getMessage();
         }
     } else
-        echo "Image does not exists";
+        $json['message'] = "Image does not exists";
 } else
-    echo "You need to be logged in to like photos";
+    $json['message'] = "You need to be logged in to like photos";
+
+echo json_encode($json);

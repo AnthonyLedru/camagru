@@ -1,11 +1,12 @@
 <?php
 
-$json = array('message' => "", 'valid' => false);
-
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/../include/autoload.include.php';
+
+$json = array('message' => "", 'valid' => false);
+
 if (isset($_SESSION['user'])) {
     if (isset($_POST['notification']) && $_POST['notification'] !== "" &&
             isset($_POST['theme']) && $_POST['theme'] !== "") {
