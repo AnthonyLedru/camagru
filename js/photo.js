@@ -84,4 +84,46 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
+    document.getElementById('delete_photo_link').addEventListener('click', function(event) {
+        var modal = document.getElementById('delete_photo_modal');
+        var html = document.querySelector('html');
+        event.preventDefault();
+        modal.classList.add('is-active');
+        html.classList.add('is-clipped');
+    
+        modal.querySelector('.modal-background').addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.remove('is-active');
+            html.classList.remove('is-clipped');
+        });
+
+        var delete_cancel = document.getElementsByClassName('delete_cancel');
+        for (i = 0; i < delete_cancel.length; i++) {
+            delete_cancel[i].addEventListener('click', function(e) {
+                e.preventDefault();
+                modal.classList.remove('is-active');
+                html.classList.remove('is-clipped');
+            });
+        }
+    });
+
+    document.getElementById('delete_photo_button').addEventListener('click', function(event) {
+        var imageId = document.getElementById('image_id').value;
+        request  = new Request ({
+            url        : "script/deleteImage.php",
+            method     : 'POST',
+            handleAs   : 'json',
+            parameters : { imageId : imageId },
+            onSuccess  : function(res) {
+                            if (res['valid'])
+                                window.location.href = 'profile.php?user_id=' + res['userId'];
+                            else
+                                display_notification("notification", "red", res['message']);
+            },
+            onError    : function(status, message) {
+                            display_notification("notification", "red", status + ": " + message);
+            }
+        });
+    });
+
 });

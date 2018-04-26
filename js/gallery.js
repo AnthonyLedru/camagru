@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         column.innerHTML = '<div class="card">\
                             <div class="card-image">\
                                 <figure class="image is-4by3">\
-                                    <a href="photo.php?image_id={$image->getImageId()}">\
+                                    <a href="photo.php?image_id=' + image.imageId + '">\
                                         <img src="' + image.path + '" alt="gallery image">\
                                     </a>\
                                 </figure>\
@@ -143,13 +143,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 handleAs   : 'json',
                 parameters : { skip : skip, limit : limit },
                 onSuccess  : function(res) {
-                                if (res['message'] === "Images loaded") {
+                                if (res['valid']) {
                                     var nb_cards = document.getElementsByClassName('card').length;
                                     skip += res['images'].length;
                                     for (var i = 0; i < res['images'].length; i++) {
                                         if (nb_cards % 3 === 0) {
                                             var columns = document.createElement('div');
-                                            columns.setAttribute('class', 'columns is-vcentered card_container');
+                                            columns.setAttribute('class', 'columns is-vcentered card_container is-centered');
                                             var container = document.getElementsByClassName('container');
                                             container[0].appendChild(columns);
                                         }
@@ -171,4 +171,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
         }
     };
-    });
+});

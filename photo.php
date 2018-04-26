@@ -7,7 +7,6 @@ require_once 'include/autoload.include.php';
 
 $page = new Webpage("Photo page");
 $page->appendJsUrl('js/photo.js');
-$images = Image::getAll();
 
 if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id'])) !== false)) {
     if (isset($_SESSION['user']))
@@ -76,6 +75,17 @@ HTML
         $page->appendContent(<<<HTML
                                             </div>
                                         </div>
+HTML
+        );
+        if ($currentUser !== null && $currentUser->getUserId() === $image->getUserId()) {
+            $page->appendContent(<<<HTML
+                                        <div class="is-right">
+                                            <a class="link" id="delete_photo_link">Delete this photo</a>
+                                        </div>
+HTML
+            );
+        }
+        $page->appendContent(<<<HTML
                                     </div>
                                 </div>
                             </div>
@@ -128,6 +138,27 @@ HTML
                                 </footer>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal" id="delete_photo_modal">
+                <div class="modal-background"></div>
+                    <div class="modal-card">
+                        <header class="modal-card-head">
+                            <p class="modal-card-title">Delete photo</p>
+                            <button class="delete delete_cancel" aria-label="close"></button>
+                        </header>
+                        <section class="modal-card-body">
+                            <input value="{$image->getImageId()}" id="image_id" hidden></input>
+                            <p class="subtitle">Are you sure that you want to delete this photo ?</p>
+                            <p>* This action is irreversible</p>
+                        </section>
+                        <footer class="modal-card-foot">
+                            <button class="button is-dark" type="submit" id="delete_photo_button">Delete</button>
+                            <button class="button delete_cancel is-dark">Cancel</button>
+                        </footer>
                     </div>
                 </div>
             </div>

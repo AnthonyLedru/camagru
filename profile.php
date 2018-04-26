@@ -7,6 +7,7 @@ require_once 'include/autoload.include.php';
 
 $page = new Webpage("Profile");
 $page->appendJsUrl('js/tabs.js');
+$page->appendJsUrl('js/profile.js');
 $error = false;
 if (isset($_GET['user_id'])) {
     if (($user = User::createFromId($_GET['user_id'])) !== false) {
@@ -85,7 +86,7 @@ HTML
             </div>
 
             <div class="hero-body is-hidden" id="second_tab">
-                <div class="container has-text-centered">
+                <div class="container has-text-centered" id="image_container">
 HTML
         );
         $i = 0;
@@ -98,7 +99,7 @@ HTML
                 $is_div_closed = false;
                 $page->appendContent(<<<HTML
                 
-                        <div class="columns is-vcentered image_container">
+                        <div class="columns is-vcentered image_columns is-centered">
 HTML
                 );
             }
@@ -107,14 +108,14 @@ HTML
                             <div class="column is-one-third">
                                 <figure class="image is-4by3">
                                     <a href="photo.php?image_id={$image->getImageId()}">
-                                        <img src="{$image->getPath()}" alt="gallery image">
+                                        <img src="{$image->getPath()}" alt="profile image">
                                     </a>
                                 </figure>
                             </div>
 HTML
                 );
             $i++;
-            if ($i == 3) {
+            if ($i === 3) {
                 $i = 0;
                 $is_div_closed = true;
                 $page->appendContent(<<<HTML
@@ -124,8 +125,14 @@ HTML
                 );
             }
         }
-            $page->appendContent(<<<HTML
-                    <div class="column"></div>
+
+        if ($is_div_closed === false)
+        $page->appendContent(<<<HTML
+    
+                </div>
+HTML
+        );
+        $page->appendContent(<<<HTML
                 </div>
             </div>
 

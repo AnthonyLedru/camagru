@@ -6,8 +6,8 @@ require_once __DIR__ . '/../include/autoload.include.php';
 
 $json = array('message' => "", 'images' => "", 'valid' => false);
 
-if (isset($_POST['skip']) && isset($_POST['limit'])) {
-    $images = Image::getLastPhotos($_POST['skip'], $_POST['limit']);
+if (isset($_POST['skip']) && isset($_POST['limit']) && isset($_POST['userId'])) {
+    $images = Image::getLastPhotosFromUser($_POST['skip'], $_POST['limit']);
     $json['images'] = $images;
     $json = json_encode($json, JSON_PRETTY_PRINT);
     $json = json_decode($json, true);

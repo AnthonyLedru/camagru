@@ -29,7 +29,7 @@ foreach ($images as $image) {
         $is_div_closed = false;
         $page->appendContent(<<<HTML
         
-                    <div class="columns is-vcentered card_container">
+                    <div class="columns is-vcentered card_container is-centered">
 HTML
         );
     }
@@ -109,7 +109,7 @@ HTML
 HTML
         );
     $i++;
-    if ($i == 3) {
+    if ($i === 3) {
         $i = 0;
         $is_div_closed = true;
         $page->appendContent(<<<HTML

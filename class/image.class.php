@@ -20,36 +20,36 @@ class Image implements JsonSerializable {
     }
 
     public static function createFromId($id) {
-        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        $imageQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM image
         WHERE image_id = ?
 SQL
         );
-        $ImageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $ImageQuery->execute(array($id));
-        if (($image = $ImageQuery->fetch()) !== false)
+        $imageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $imageQuery->execute(array($id));
+        if (($image = $imageQuery->fetch()) !== false)
             return $image;
         return false;
     }
 
     public static function deleteFromId($id) {
-        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        $imageQuery = myPDO::getInstance()->prepare(<<<SQL
         DELETE FROM image 
         WHERE image_id = ?
 SQL
         );
-        $ImageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $ImageQuery->execute(array($id));
+        $imageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $imageQuery->execute(array($id));
     }
 
     public static function insert($imageTab) {
-        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        $imageQuery = myPDO::getInstance()->prepare(<<<SQL
         INSERT INTO image (user_id, path, description, date)
         VALUES (:userId, :path, :description, CURRENT_TIMESTAMP)
 SQL
         );
-        $ImageQuery->execute(array(
+        $imageQuery->execute(array(
             ':userId' => $imageTab['userId'],
             ':path' => $imageTab['path'],
             ':description' => $imageTab['description'],
@@ -57,38 +57,38 @@ SQL
     }
 
     public static function getAll() {
-        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        $imageQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM image
         ORDER BY date DESC
 SQL
         );
-        $ImageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $ImageQuery->execute();
-        if (($userImages = $ImageQuery->fetchAll()) !== false)
+        $imageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $imageQuery->execute();
+        if (($userImages = $imageQuery->fetchAll()) !== false)
             return $userImages;
         return false;
     }
 
     public static function getLastPhotos($skip, $limit) {
-        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        $imageQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM image
         ORDER BY date DESC
         LIMIT :skip, :limit;
 SQL
         );
-        $ImageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $ImageQuery->bindValue(':skip', (int)$skip, PDO::PARAM_INT);
-        $ImageQuery->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $ImageQuery->execute();
-        if (($userImages = $ImageQuery->fetchAll()) !== false)
+        $imageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $imageQuery->bindValue(':skip', (int)$skip, PDO::PARAM_INT);
+        $imageQuery->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $imageQuery->execute();
+        if (($userImages = $imageQuery->fetchAll()) !== false)
             return $userImages;
         return false;
     }
 
     public static function getLastPhotosFromUser($userId, $skip, $limit) {
-        $ImageQuery = myPDO::getInstance()->prepare(<<<SQL
+        $imageQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM image
         WHERE image.user_id = :userId
@@ -96,13 +96,27 @@ SQL
         LIMIT :skip, :limit;
 SQL
         );
-        $ImageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $ImageQuery->bindValue(':userId', (int)$userId, PDO::PARAM_INT);
-        $ImageQuery->bindValue(':skip', (int)$skip, PDO::PARAM_INT);
-        $ImageQuery->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $ImageQuery->execute();
-        if (($userImages = $ImageQuery->fetchAll()) !== false)
+        $imageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $imageQuery->bindValue(':userId', (int)$userId, PDO::PARAM_INT);
+        $imageQuery->bindValue(':skip', (int)$skip, PDO::PARAM_INT);
+        $imageQuery->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $imageQuery->execute();
+        if (($userImages = $imageQuery->fetchAll()) !== false)
             return $userImages;
+        return false;
+    }
+
+    public function delete() {
+        $imageQuery = myPDO::getInstance()->prepare(<<<SQL
+        DELETE FROM image
+        WHERE image_id = :imageId
+SQL
+        );
+        $imageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $imageQuery->bindValue(':imageId', (int)$this->image_id, PDO::PARAM_INT);
+        $imageQuery->execute();
+        if ($imageQuery->rowCount() === 1)
+            return true;
         return false;
     }
 
