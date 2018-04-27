@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         for (var i = 0; i < columns.childNodes.length; i++) {
             columns.childNodes[i].remove();
         }
+        columns.classList.add('is-hidden');
         request  = new Request ({
             url        : "script/searchUser.php",
             method     : 'POST',
@@ -37,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                 columns.appendChild(usersLoginColumn);
                                 var usersLoginColumnP = usersLoginColumn.firstChild.getElementsByTagName('p');
                                 for (var i = 0; i < res['usersLogin'].length; i++) {
-                                    //usersLoginColumn[i].setAttribute('class', 'suggestions');
                                     usersLoginColumnP[i + 2].innerHTML = "<a class='link' href='profile.php?user_id="+res['usersLogin'][i].userId+"'>" + res['usersLogin'][i].login + "</a>";
                                 }
                             }

@@ -149,7 +149,7 @@ figure {
 
 #live_search_columns {
     width: 33%;
-    border: 1px solid;
+    border: 1px solid #dbdbdb;;
 }
 
 .login p {
@@ -162,6 +162,18 @@ figure {
 .login a {
     color: #EE6C4D;
 }
+
+.login hr {
+    margin: 0.5rem 0;
+}
+
+#search_user:focus {
+    border: 1px solid;
+    border-color: #dbdbdb !important;
+    -webkit-box-shadow: 0 0 0 0em gray !important;
+    box-shadow: 0 0 0 0em gray !important;
+}
+
 
 /* ------------ Account ----------- */
 
