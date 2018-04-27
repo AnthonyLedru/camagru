@@ -48,13 +48,10 @@ class WebPage {
 	public function toHTML() {
 		$page_name = basename($_SERVER['PHP_SELF']);
 		$home = "<a class='navbar-item' href='index.php'>Home</a>";
-		$users = "<a class='navbar-item' href='users.php'>Users</a>";
 		$gallery = "<a class='navbar-item' href='gallery.php'>Gallery</a>";
 
 		if ($page_name === "index.php")
 			$home = str_replace("class='navbar-item'", "class='navbar-item is-active'", $home);
-		else if ($page_name === "users.php")
-			$users = str_replace("class='navbar-item'", "class='navbar-item is-active'", $users);
 		else if ($page_name === "gallery.php")
 			$gallery = str_replace("class='navbar-item'", "class='navbar-item is-active'", $gallery);	
 		$page=<<<HTML
@@ -94,7 +91,6 @@ HTML;
 	$page .= <<<HTML
 
 							$home
-							$users
 							$gallery
 						</div>
 

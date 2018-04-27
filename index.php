@@ -5,11 +5,17 @@ if (session_status() == PHP_SESSION_NONE)
 require_once 'include/autoload.include.php';
 
 $page = new Webpage("Camagru");
-
+$page->appendJsUrl('js/home.js');
 $page->appendContent(<<<HTML
 
             <div class="hero-body">
                 <div class="container has-text-centered">
+                    <div class="field" id="search_bar">
+                        <div class="control is-large is-loading">
+                            <input class="input is-large" id="search_user" type="text" placeholder="Search a user...">
+                            <div class="live_search is-hidden" id="live_search_columns"></div>
+                        </div>
+                    </div>
                     <div class="columns is-vcentered">
                         <div class="column is-5">
                             <figure class="image is-3by3">

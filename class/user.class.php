@@ -282,7 +282,7 @@ SQL
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT COUNT(*)
         FROM `image`
-        WHERE image.user_id = :userId
+        WHERE user_id = :userId
 SQL
         );
         $userQuery->execute(array(
@@ -291,8 +291,52 @@ SQL
         return ($userQuery->fetchColumn());
     }
 
-    public function jsonSerialize()
-    {
+    public function searchLogin($search) {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM `user`
+        WHERE login LIKE :search
+SQL
+        );
+        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $userQuery->execute(array(':search' => "%$search%"));
+        if (($users = $userQuery->fetchAll()) !== false)
+            if (count($users) > 0)
+                return $users;
+        return false;
+    }
+
+    public function searchFirstName($search) {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM `user`
+        WHERE first_name LIKE :search
+SQL
+        );
+        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $userQuery->execute(array(':search' => "%$search%"));
+        if (($users = $userQuery->fetchAll()) !== false)
+            if (count($users) > 0)
+                return $users;
+        return false;
+    }
+
+    public function searchLastName($search) {
+        $userQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM `user`
+        WHERE last_name LIKE :search
+SQL
+        );
+        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $userQuery->execute(array(':search' => "%$search%"));
+        if (($users = $userQuery->fetchAll()) !== false)
+            if (count($users) > 0)
+                return $users;
+        return false;
+    }
+
+    public function jsonSerialize() {
         return 
         [
             'userId' => $this->getUserId(),

@@ -143,6 +143,26 @@ figure {
     border-radius: 10px;
 }
 
+#search_bar {
+    margin-bottom: 10vh;
+}
+
+#live_search_columns {
+    width: 33%;
+    border: 1px solid;
+}
+
+.login p {
+    margin-left: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: #293241;
+}
+
+.login a {
+    color: #EE6C4D;
+}
+
 /* ------------ Account ----------- */
 
 #account_img {

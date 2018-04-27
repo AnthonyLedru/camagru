@@ -120,8 +120,7 @@ SQL
         return false;
     }
 
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         $user = User::createFromId($this->getUserId());
         return 
         [
