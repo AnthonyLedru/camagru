@@ -24,13 +24,20 @@ if (isset($_POST['imagesTab'])) {
             if ($count <= 5) {
                 foreach ($imagesTab as $img) {
                     try {
-                        $file = $path . md5(uniqid()) . '.png';
-                        $img['src'] = str_replace('data:image/png;base64,', '', $img['src']);
-                        $img['src'] = str_replace(' ', '+', $img['src']);
-                        file_put_contents($file, base64_decode($img['src']));
-                        Image::insert(array('userId' => $user->getUserId(),
-                                            'path' => substr(strstr($file, "/photos/"), 1),
-                                            'description' => htmlentities($img['description'])));
+                        if (strlen($img['description']) <= 80) {
+                            $file = $path . md5(uniqid()) . '.png';
+                            $img['src'] = str_replace('data:image/png;base64,', '', $img['src']);
+                            $img['src'] = str_replace(' ', '+', $img['src']);
+                            file_put_contents($file, base64_decode($img['src']));
+                            Image::insert(array('userId' => $user->getUserId(),
+                                                'path' => substr(strstr($file, "/photos/"), 1),
+                                                'description' => htmlentities($img['description'])));
+                        } else {
+                            $json['message'] = "Image description is too long, max 80 characters";
+                            echo json_encode($json);
+                            exit();
+                        }
+
                     } catch (Exception $e) {
                         $json['message'] = $e->getMessage();
                         echo json_encode($json);

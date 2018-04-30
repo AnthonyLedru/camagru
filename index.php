@@ -19,7 +19,7 @@ $page->appendContent(<<<HTML
                     <div class="columns is-vcentered">
                         <div class="column is-5">
                             <figure class="image is-3by3">
-                                <img src="img/home_img.jpeg" id="home_img" alt="Home description">
+                                <img src="img/homeImg.jpeg" id="home_img" alt="Home description">
                             </figure>
                         </div>
                         <div class="column is-6 is-offset-1">

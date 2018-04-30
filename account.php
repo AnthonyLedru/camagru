@@ -10,6 +10,10 @@ $page->appendJsUrl('js/tabs.js');
 
 if (isset($_SESSION['user'])) {
     $user = User::createFromId($_SESSION['user']['userId']);
+    if (($profilePhoto = Image::createFromId($user->getImageId())) !== false)
+        $profilePhotoPath = $profilePhoto->getPath();
+    else
+        $profilePhotoPath = "img/defaultProfile.png";
     UserPreference::insertDefaultPreference($user->getUserId());
     $userPreferences = UserPreference::createFromUserId($_SESSION['user']['userId']);
     $notification = UserPreference::getUserPreferenceFromTab($userPreferences, "notification");
@@ -27,7 +31,7 @@ if (isset($_SESSION['user'])) {
                     <div class="columns">
                         <div class="column is-flex is-horizontal-center">
                             <figure class="image" id="figure_account">
-                                <img src="img/profile.jpg" id="account_img" alt="Home description">
+                                <img src="{$profilePhotoPath}" id="account_img" alt="Home description">
                             </figure>
                         </div>
                     </div>

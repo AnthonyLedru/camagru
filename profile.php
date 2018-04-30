@@ -11,6 +11,10 @@ $page->appendJsUrl('js/profile.js');
 $error = false;
 if (isset($_GET['user_id'])) {
     if (($user = User::createFromId($_GET['user_id'])) !== false) {
+        if (($profilePhoto = Image::createFromId($user->getImageId())) !== false)
+            $profilePhotoPath = $profilePhoto->getPath();
+        else
+            $profilePhotoPath = "img/defaultProfile.png";
         $page->appendContent(<<<HTML
 
             <div class="hero-body" id="profile_card">
@@ -25,7 +29,7 @@ if (isset($_GET['user_id'])) {
                     <div class="columns">
                         <div class="column is-flex is-horizontal-center">
                             <figure class="image" id="figure_profile">
-                                <img src="img/profile.jpg" id="profile_img" alt="Home description">
+                                <img src="{$profilePhotoPath}" id="profile_img" alt="profile photo">
                             </figure>
                         </div>
                     </div>

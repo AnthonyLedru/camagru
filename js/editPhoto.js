@@ -109,13 +109,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             handleAs   : 'json',
             parameters : { imagesTab : JSON.stringify(imagesTab) },
             onSuccess  : function(res) {
-                            if (res['valid'])
+                            if (res['valid']) {
                                 display_notification("notification", "green", res['message']);
+                                while (photo_list.firstChild)
+                                    photo_list.removeChild(photo_list.firstChild);
+                            }
                             else
                                 display_notification("notification", "red", res['message']);
-                            while (photo_list.firstChild) {
-                                photo_list.removeChild(photo_list.firstChild);
-                            }
             },
             onError    : function(status, message) {
                             display_notification("notification", "red", status + ": " + message);

@@ -9,6 +9,10 @@ https://coolors.co/3d5a80-98c1d9-e0fbfc-ee6c4d-293241
 
 /* ------------ Global ------------ */
 
+.media-content {
+    overflow: hidden;
+}
+
 label {
     color: #293241;
 }
@@ -261,7 +265,7 @@ figure:hover #profile_img {
     border-radius: 100%;
 }
 
-#figure_account {
+#figure_profile {
     width: 15em;
     height: 15em;
     border-radius: 100%;
@@ -297,6 +301,11 @@ figure:hover #profile_img {
 .italic_desc {
     word-wrap: break-word;
     word-break: break-all;
+}
+
+.user_thumbnail {
+    width: 48px !important;
+    height: 48px !important;
 }
  
 /* ------------- Photo ------------ */

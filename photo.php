@@ -73,19 +73,26 @@ HTML
 HTML
             );
         $page->appendContent(<<<HTML
+
                                             </div>
                                         </div>
 HTML
         );
         if ($currentUser !== null && $currentUser->getUserId() === $image->getUserId()) {
             $page->appendContent(<<<HTML
-                                        <div class="is-right">
+                                        <div class="columns is-deskop is-mobile is-tablet">
+                                        <div class="column is-half is-left">
+                                            <a class="link" id="change_profile_photo_link">Change as profile photo</a>
+                                        </div>
+                                        <div class="column is-half is-right">
                                             <a class="link" id="delete_photo_link">Delete this photo</a>
                                         </div>
+        </div>
 HTML
             );
         }
         $page->appendContent(<<<HTML
+
                                     </div>
                                 </div>
                             </div>
@@ -151,13 +158,33 @@ HTML
                             <button class="delete delete_cancel" aria-label="close"></button>
                         </header>
                         <section class="modal-card-body">
-                            <input value="{$image->getImageId()}" id="image_id" hidden></input>
+                            <input value="{$image->getImageId()}" class="image_id" hidden></input>
                             <p class="subtitle">Are you sure that you want to delete this photo ?</p>
                             <p>* This action is irreversible</p>
                         </section>
                         <footer class="modal-card-foot">
                             <button class="button is-dark" type="submit" id="delete_photo_button">Delete</button>
                             <button class="button delete_cancel is-dark">Cancel</button>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="change_profile_photo_modal">
+                <div class="modal-background"></div>
+                    <div class="modal-card">
+                        <header class="modal-card-head">
+                            <p class="modal-card-title">Change profile photo</p>
+                            <button class="delete photo_change_cancel" aria-label="close"></button>
+                        </header>
+                        <section class="modal-card-body">
+                            <input value="{$image->getImageId()}" class="image_id" hidden></input>
+                            <p class="subtitle">Are you sure you want to make this photo as your profile photo?</p>
+                            <p>* You can change it later</p>
+                        </section>
+                        <footer class="modal-card-foot">
+                            <button class="button is-dark" type="submit" id="change_profile_photo_button">Change</button>
+                            <button class="button photo_change_cancel is-dark">Cancel</button>
                         </footer>
                     </div>
                 </div>

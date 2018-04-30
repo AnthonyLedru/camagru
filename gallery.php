@@ -25,6 +25,10 @@ $is_div_closed = true;
 foreach ($images as $image) {
     $user = User::createFromId($image->getUserId());
     $like = Like::countFromImageId($image->getImageId());
+    if (($profilePhoto = Image::createFromId($user->getImageId())) !== false)
+        $profilePhotoPath = $profilePhoto->getPath();
+    else
+        $profilePhotoPath = "img/defaultProfile.png";
     if ($i == 0) {
         $is_div_closed = false;
         $page->appendContent(<<<HTML
@@ -48,7 +52,7 @@ HTML
                                     <div class="media">
                                         <div class="media-left">
                                             <figure class="image is-48x48">
-                                                <img src="https://bulma.io/images/placeholders/96x96.png"  alt="Placeholder image">
+                                                <img class="user_thumbnail" src="{$profilePhotoPath}"  alt="Placeholder image">
                                             </figure>
                                         </div>
                                         <div class="media-content">
