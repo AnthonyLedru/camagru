@@ -19,24 +19,28 @@ if (isset($_POST['imagesTab'])) {
         }
         $imagesTab = json_decode($_POST['imagesTab'], true);
         $json['message'] = $imagesTab[0]['src'];
-        if (count($imagesTab) !== 0) {
-            foreach ($imagesTab as $img) {
-                try {
-                    $file = $path . md5(uniqid()) . '.png';
-                    $img['src'] = str_replace('data:image/png;base64,', '', $img['src']);
-                    $img['src'] = str_replace(' ', '+', $img['src']);
-                    file_put_contents($file, base64_decode($img['src']));
-                    Image::insert(array('userId' => $user->getUserId(),
-                                        'path' => substr(strstr($file, "/photos/"), 1),
-                                        'description' => htmlentities($img['description'])));
-                } catch (Exception $e) {
-                    $json['message'] = $e->getMessage();
-                    echo json_encode($json);
-                    exit();
+        $count = count($imagesTab);
+        if ($count !== 0) {
+            if ($count <= 5) {
+                foreach ($imagesTab as $img) {
+                    try {
+                        $file = $path . md5(uniqid()) . '.png';
+                        $img['src'] = str_replace('data:image/png;base64,', '', $img['src']);
+                        $img['src'] = str_replace(' ', '+', $img['src']);
+                        file_put_contents($file, base64_decode($img['src']));
+                        Image::insert(array('userId' => $user->getUserId(),
+                                            'path' => substr(strstr($file, "/photos/"), 1),
+                                            'description' => htmlentities($img['description'])));
+                    } catch (Exception $e) {
+                        $json['message'] = $e->getMessage();
+                        echo json_encode($json);
+                        exit();
+                    }
+                    $json['valid'] = true;
+                    $json['message'] = "Image(s) saved";
                 }
-                $json['valid'] = true;
-                $json['message'] = "Image(s) saved";
-            }
+            } else
+                $json['message'] = "You can't upload more than 5 images";
         } else
             $json['message'] = "There is no images to save";
     } else 

@@ -1,10 +1,10 @@
 /* Palette
 https://coolors.co/3d5a80-98c1d9-e0fbfc-ee6c4d-293241
-3D5A80
-98C1D9
-E0FBFC
-EE6C4D
-293241
+#3D5A80
+#98C1D9
+#E0FBFC
+#EE6C4D
+#293241
 */
 
 /* ------------ Global ------------ */
@@ -147,23 +147,40 @@ figure {
     margin-bottom: 10vh;
 }
 
-#live_search_columns {
-    width: 33%;
-    border: 1px solid #dbdbdb;;
+.login .subtitle {
+    margin-top: 15px;
 }
 
-.login p {
+#live_search_columns {
+    width: 100%;
+    opacity: 0.9;
+    position: absolute;
+    z-index: 999;
+    background-color: #293241;
+}
+
+.login p, .name p {
     margin-left: 10px;
     margin-top: 2px;
     margin-bottom: 2px;
-    color: #293241;
+    color: #ffffff;
 }
 
-.login a {
+.login p:last-child {
+    margin-bottom: 20px;
+}
+
+.login a, .name a {
     color: #EE6C4D;
+    font-style: italic;
 }
 
-.login hr {
+.no_results {
+    color: #EE6C4D !important;
+    font-style: italic;
+}
+
+.login hr, .name hr {
     margin: 0.5rem 0;
 }
 
@@ -172,6 +189,14 @@ figure {
     border-color: #dbdbdb !important;
     -webkit-box-shadow: 0 0 0 0em gray !important;
     box-shadow: 0 0 0 0em gray !important;
+}
+
+.last a {
+    margin-bottom: 20px;
+}
+
+.user_type {
+    margin-bottom : 10px !important
 }
 
 

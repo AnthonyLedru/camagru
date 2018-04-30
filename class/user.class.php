@@ -296,6 +296,7 @@ SQL
         SELECT *
         FROM `user`
         WHERE login LIKE :search
+        LIMIT 5
 SQL
         );
         $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
@@ -306,26 +307,13 @@ SQL
         return false;
     }
 
-    public function searchFirstName($search) {
-        $userQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT *
-        FROM `user`
-        WHERE first_name LIKE :search
-SQL
-        );
-        $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $userQuery->execute(array(':search' => "%$search%"));
-        if (($users = $userQuery->fetchAll()) !== false)
-            if (count($users) > 0)
-                return $users;
-        return false;
-    }
-
-    public function searchLastName($search) {
+    public function searchName($search) {
         $userQuery = myPDO::getInstance()->prepare(<<<SQL
         SELECT *
         FROM `user`
         WHERE last_name LIKE :search
+        OR first_name LIKE :search
+        LIMIT 5
 SQL
         );
         $userQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
