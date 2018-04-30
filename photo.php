@@ -16,6 +16,10 @@ if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id']
     $imageUser = User::createFromId($image->getUserId());
     $like = Like::countFromImageId($image->getImageId());
     $comments = Comment::getAllFromImage($image->getImageId());
+    if (($profilePhoto = Image::createFromId($imageUser->getImageId())) !== false)
+        $profilePhotoPath = $profilePhoto->getPath();
+    else
+        $profilePhotoPath = "img/defaultProfile.png";
     $page->appendContent(<<<HTML
     
             <div class="hero-body">
@@ -34,7 +38,7 @@ if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id']
                                     <div class="media">
                                         <div class="media-left">
                                             <figure class="image is-48x48">
-                                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                                <img class="user_thumbnail" src="{$profilePhotoPath}" alt="Placeholder image">
                                             </figure>
                                         </div>
                                         <div class="media-content">

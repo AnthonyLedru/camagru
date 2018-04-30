@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
                 data.img_data = canvas.toDataURL('image/png');
                 for (var i = 0; i < applied_filters.options.length; i++)
-                    if (applied_filters.options[i].selected)
+                    if (applied_filters.options[i].selected && applied_filters.options[i].value != "")
                         filters.push(applied_filters.options[i].value); 
                 data.filters = filters;
                 data.description = document.getElementById('description').value;
@@ -46,16 +46,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     parameters : { data : JSON.stringify(data) },
                     onSuccess  : function(res) {
                                     if (res['valid']) {
-                                        var img = document.createElement("img");
-                                        var p = document.createElement("p");
-                                        var br = document.createElement("br");
-                                        img.classList.add("cam_photo");
-                                        img.setAttribute('src', res['photo']);
-                                        img.addEventListener('click', removeImage(br, p));
-                                        p.innerHTML = res['description'];
-                                        photo_list.appendChild(img);
-                                        photo_list.appendChild(p);
-                                        photo_list.appendChild(br);
+                                        photo_list.appendChild(createImageContainer(res));
+                                        document.getElementById("description").value = "";
                                         display_notification("notification", "green", res['message']);
                                     }
                                     else
@@ -123,14 +115,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
     });
 
-    function removeImage(br, p) {
-        return function() {
-            this.remove();
-            br.remove();
-            p.remove();
-        }
-    }
-
     document.getElementById('filters').addEventListener('change', function(e) {
         var applied_filters = document.getElementById('filters');
         var inner_container = document.getElementById('inner_container');
@@ -142,10 +126,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         for (i = 0; i < applied_filters.options.length; i++) {
             if (applied_filters[i].selected) {
                 has_selected_filter = true;
-                var img = document.createElement('img');
-                img.src = applied_filters.options[i].value;
-                img.classList.add("video_overlay");
-                inner_container.insertBefore(img, document.getElementById('video'));
+                if (applied_filters[i].value != "") {
+                    var img = document.createElement('img');
+                    img.src = applied_filters.options[i].value;
+                    img.classList.add("video_overlay");
+                    inner_container.insertBefore(img, document.getElementById('video'));
+                }
             }
         }
         if (has_selected_filter)
@@ -154,8 +140,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
             document.getElementById('take_photos').disabled = true;
     });
 
+    function createImageContainer(img) {
+        var div = document.createElement("div");
+        div.innerHTML = "<img src='"+img['photo']+"'></img>\
+                        <a class='delete'></a>\
+                        <p>"+img['description']+"</p>";
+                        console.log(div.childNodes);
+        div.childNodes[2].addEventListener('click', deleteImageContainer);
+        return div;
+    }
 
-    function createImage() {
+    function deleteImageContainer(div) {
+        this.parentElement.remove();
+    }
+
+    function createImageUpload() {
         img = new Image();
         img.onload = function imageLoaded() {
             if (document.getElementById("uploaded_photo"))
@@ -172,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     file_input.onchange = function(event) {
         var img = document.getElementById('file_input').files[0];
         var reader = new FileReader();
-        reader.onload = createImage;
+        reader.onload = createImageUpload;
         reader.readAsDataURL(img); 
         document.getElementById('video').style.opacity = 0;
     }

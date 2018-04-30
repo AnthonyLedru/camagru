@@ -84,28 +84,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-    document.getElementById('delete_photo_link').addEventListener('click', function(event) {
-        var modal = document.getElementById('delete_photo_modal');
-        var html = document.querySelector('html');
-        event.preventDefault();
-        modal.classList.add('is-active');
-        html.classList.add('is-clipped');
-    
-        modal.querySelector('.modal-background').addEventListener('click', function(e) {
-            e.preventDefault();
-            modal.classList.remove('is-active');
-            html.classList.remove('is-clipped');
-        });
-
-        var delete_cancel = document.getElementsByClassName('delete_cancel');
-        for (i = 0; i < delete_cancel.length; i++) {
-            delete_cancel[i].addEventListener('click', function(e) {
+    if (document.getElementById('delete_photo_link')) {
+        document.getElementById('delete_photo_link').addEventListener('click', function(event) {
+            var modal = document.getElementById('delete_photo_modal');
+            var html = document.querySelector('html');
+            event.preventDefault();
+            modal.classList.add('is-active');
+            html.classList.add('is-clipped');
+        
+            modal.querySelector('.modal-background').addEventListener('click', function(e) {
                 e.preventDefault();
                 modal.classList.remove('is-active');
                 html.classList.remove('is-clipped');
             });
-        }
-    });
+
+            var delete_cancel = document.getElementsByClassName('delete_cancel');
+            for (i = 0; i < delete_cancel.length; i++) {
+                delete_cancel[i].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.classList.remove('is-active');
+                    html.classList.remove('is-clipped');
+                });
+            }
+        });
+    }
 
     document.getElementById('delete_photo_button').addEventListener('click', function(event) {
         var imageId = document.getElementsByClassName('image_id')[0].value;
@@ -126,28 +128,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
     });
 
+
     var modal = document.getElementById('change_profile_photo_modal');
     var html = document.querySelector('html');
-    document.getElementById('change_profile_photo_link').addEventListener('click', function(event) {
-        event.preventDefault();
-        modal.classList.add('is-active');
-        html.classList.add('is-clipped');
-    
-        modal.querySelector('.modal-background').addEventListener('click', function(e) {
-            e.preventDefault();
-            modal.classList.remove('is-active');
-            html.classList.remove('is-clipped');
-        });
-
-        var photo_change_cancel = document.getElementsByClassName('photo_change_cancel');
-        for (i = 0; i < photo_change_cancel.length; i++) {
-            photo_change_cancel[i].addEventListener('click', function(e) {
+    if (document.getElementById('change_profile_photo_link')) {
+        document.getElementById('change_profile_photo_link').addEventListener('click', function(event) {
+            event.preventDefault();
+            modal.classList.add('is-active');
+            html.classList.add('is-clipped');
+        
+            modal.querySelector('.modal-background').addEventListener('click', function(e) {
                 e.preventDefault();
                 modal.classList.remove('is-active');
                 html.classList.remove('is-clipped');
             });
-        }
-    });
+
+            var photo_change_cancel = document.getElementsByClassName('photo_change_cancel');
+            for (i = 0; i < photo_change_cancel.length; i++) {
+                photo_change_cancel[i].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.classList.remove('is-active');
+                    html.classList.remove('is-clipped');
+                });
+            }
+        });
+    }
 
     document.getElementById('change_profile_photo_button').addEventListener('click', function(event) {
         var imageId = document.getElementsByClassName('image_id')[1].value;

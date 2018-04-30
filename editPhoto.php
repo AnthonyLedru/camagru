@@ -35,6 +35,7 @@ if (isset($_SESSION['user'])) {
                                     <input type="hidden" name="userId" value="{$user->getUserId()}" id="userId">
                                     <div class="select is-multiple" id="filters_container">
                                         <select name="filters[]" id="filters" multiple>
+                                            <option value="">No filter</option>
 HTML
     );
     $filters = Filter::getAll();
