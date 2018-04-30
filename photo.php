@@ -30,7 +30,7 @@ if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id']
                         <div class="column is-half">
                             <div class="card image_card_id image_desc_card">
                                 <div class="card">
-                                    <figure class="image is-4by3">
+                                    <figure class="image is-500x500">
                                         <img src="{$image->getPath()}" alt="galery image">
                                     </figure>
                                 </div>
@@ -84,14 +84,15 @@ HTML
         );
         if ($currentUser !== null && $currentUser->getUserId() === $image->getUserId()) {
             $page->appendContent(<<<HTML
+
                                         <div class="columns is-deskop is-mobile is-tablet">
-                                        <div class="column is-half is-left">
-                                            <a class="link" id="change_profile_photo_link">Change as profile photo</a>
+                                            <div class="column is-half is-left">
+                                                <a class="link" id="change_profile_photo_link">Change as profile photo</a>
+                                            </div>
+                                            <div class="column is-half is-right">
+                                                <a class="link" id="delete_photo_link">Delete this photo</a>
+                                            </div>
                                         </div>
-                                        <div class="column is-half is-right">
-                                            <a class="link" id="delete_photo_link">Delete this photo</a>
-                                        </div>
-        </div>
 HTML
             );
         }

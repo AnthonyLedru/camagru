@@ -42,7 +42,7 @@ HTML
                         <div class="column is-one-third">
                             <div class="card">
                                 <div class="card-image">
-                                    <figure class="image is-4by3">
+                                    <figure class="image is-600x600">
                                         <a href="photo.php?image_id={$image->getImageId()}">
                                             <img src="{$image->getPath()}" alt="gallery image">
                                         </a>
@@ -127,7 +127,7 @@ HTML
 if ($is_div_closed === false)
     $page->appendContent(<<<HTML
 
-            </div>
+                    </div>
 HTML
     );
 

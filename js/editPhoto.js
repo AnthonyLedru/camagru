@@ -6,7 +6,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var ctx;
     var video = document.getElementById("video");
     var photo_list = document.getElementById("photo_list");
-    var constraints = { audio: false, video: true }; 
+    var constraints = { audio: false, video: {
+        height: 500,
+        width: 500
+    }}; 
 
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || 
                             navigator.mozGetUserMedia || navigator.msGetUserMedia || 
@@ -20,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 var data = {};
                 var filters = [];
                 canvas = document.createElement("canvas");
-                canvas.width = video.videoWidth / 1.7;
-                canvas.height = video.videoHeight / 1.7;
-                data.width = video.videoWidth / 1.7;
-                data.height = video.videoHeight / 1.7;
+                canvas.width = 500;
+                canvas.height = 500;
+                data.width = 500;
+                data.height = 500;
                 if (document.getElementById('uploaded_photo')) {
                     var uploaded_photo = document.getElementById('uploaded_photo');
                     canvas.getContext('2d').drawImage(uploaded_photo, 0, 0, canvas.width, canvas.height);
