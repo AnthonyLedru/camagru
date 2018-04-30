@@ -32,7 +32,7 @@ try {
             $json['search'] = $search_splitted;
             foreach ($search_splitted as $search) {
                 if ($search === "")
-                    break ;
+                    break;
                 $usersLoginSearch = User::searchLogin($search);
                 $usersNameSearch = User::searchName($search);
                 if ($usersLoginSearch || $usersNameSearch) {
@@ -57,5 +57,7 @@ try {
     echo json_encode($json, JSON_PRETTY_PRINT);
 } catch (Exception $e) {
     header('HTTP/1.1 400 Bad Request', true, 400);
-    echo $e->getMessage();
+    $json['message'] = $e->getMessage();
+    echo json_encode($json, JSON_PRETTY_PRINT);
 }
+

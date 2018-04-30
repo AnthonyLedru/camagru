@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             request.cancel();
 
         if (this.value.length == 0)
-            return ;
+            return;
 
         request  = new Request ({
             url        : "script/searchUser.php",
@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                             columns.appendChild(usersLoginColumn);
                             columns.appendChild(usersNameColumn);
                             columns.classList.remove("is-hidden");
-                            console.log(res);
                             if (res['valid']) {
                                 if (res['usersLogin'].length !== 0) {
                                     for (var i = 0; i < res['usersLogin'].length; i++) {
