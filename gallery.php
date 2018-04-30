@@ -42,7 +42,7 @@ HTML
                         <div class="column is-one-third">
                             <div class="card">
                                 <div class="card-image">
-                                    <figure class="image is-600x600">
+                                    <figure class="image is-500x500">
                                         <a href="photo.php?image_id={$image->getImageId()}">
                                             <img src="{$image->getPath()}" alt="gallery image">
                                         </a>
