@@ -19,7 +19,7 @@ if (isset($_SESSION['user'])) {
                     $commentTab = array('userId' => $user->getUserId(),
                                         'imageId' => $image->getImageId(),
                                         'comment' => htmlspecialchars($_POST['comment']));
-                    Comment::add($commentTab);
+                    Comment::insert($commentTab);
                     if ($user->getUserId() !== $image->getUserId())
                         $user->sendCommentMail($image);
                     date_default_timezone_set('Europe/Paris');

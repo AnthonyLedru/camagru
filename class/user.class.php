@@ -31,7 +31,7 @@ class User implements JsonSerializable {
     public function getBio() { return $this->bio; }
     public function getFullName() { return $this->last_name . " " . $this->first_name; }
     public function getAll() {
-        return array('userId' => $this->user_id, 'mail' => $this->mail, 'login' => $this->login, 
+        return array('userId' => $this->user_id, 'imageId' => $this->image_id, 'mail' => $this->mail, 'login' => $this->login, 
                      'lastName' => $this->last_name, 'firstName' => $this->first_name,
                      'gender' => $this->gender, 'active' => $this->active, 'bio' => $this->bio);
     }
@@ -251,7 +251,7 @@ SQL
                                 <body>
                                         <h1>A new comment on your photo</h1>
                                         <p>Hello {$imageOwner->getLogin()},</p>
-                                        <p>{$this->login} recently commented your photo,
+                                        <p>{$this->getLogin()} recently commented your photo,
                                         <a href="http://$_SERVER[HTTP_HOST]/camagru/photo.php?image_id={$image->getImageId()}">click here to see the comment</a></p>
                                 </body>
                             </html>
@@ -262,6 +262,28 @@ HTML;
                 }
             }
         }
+    }
+
+    public function sendNewPhotoMail($userFollowed) {
+        $headers = 'Content-type: text/html; charset=utf-8';
+        $message = <<<HTML
+        <html>
+            <head>
+                <style>
+                    p, h1, a {
+                        text-align: center
+                    }
+                </style>
+            </head>
+            <body>
+                    <h1>New content from {$userFollowed->getLogin()}</h1>
+                    <p>Hello {$this->getLogin()},</p>
+                    <p>{$userFollowed->getLogin()} recently added contents,
+                    <a href="http://$_SERVER[HTTP_HOST]/camagru/profile.php?user_id={$userFollowed->getUserId()}">click here to see his profile</a></p>
+            </body>
+        </html>
+HTML;
+        mail($this->getMail(), "New content from {$userFollowed->getLogin()}", $message, $headers);
     }
 
     public function getNbLikes() {
@@ -325,6 +347,10 @@ SQL
     }
 
     public function jsonSerialize() {
+        if ($this->getImageId() !== null)
+            $profilePhotoPath = Image::createFromId($this->getImageId())->getPath();
+        else
+            $profilePhotoPath = "img/defaultProfile.png";
         return 
         [
             'userId' => $this->getUserId(),
@@ -335,7 +361,8 @@ SQL
             'last_name' => $this->getLastName(),
             'gender' => $this->getGender(),
             'bio' => $this->getBio(),
-            'fullName' => $this->getFullName()
+            'fullName' => $this->getFullName(),
+            'profilePhotoPath' => $profilePhotoPath
         ];
     }
 }

@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         column.setAttribute('class', 'column is-one-third');
         column.innerHTML = '<div class="card">\
                             <div class="card-image">\
-                                <figure class="image is-4by3">\
+                                <figure class="image is-500x500">\
                                     <a href="photo.php?image_id=' + image.imageId + '">\
                                         <img src="' + image.path + '" alt="gallery image">\
                                     </a>\
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                 <div class="media">\
                                     <div class="media-left">\
                                         <figure class="image is-48x48">\
-                                            <img src="https://bulma.io/images/placeholders/96x96.png"  alt="Placeholder image">\
+                                            <img src="'+ image.user.profilePhotoPath +'"  alt="Placeholder image">\
                                         </figure>\
                                     </div>\
                                     <div class="media-content">\

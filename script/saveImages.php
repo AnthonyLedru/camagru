@@ -37,7 +37,6 @@ if (isset($_POST['imagesTab'])) {
                             echo json_encode($json);
                             exit();
                         }
-
                     } catch (Exception $e) {
                         $json['message'] = $e->getMessage();
                         echo json_encode($json);
@@ -45,6 +44,12 @@ if (isset($_POST['imagesTab'])) {
                     }
                     $json['valid'] = true;
                     $json['message'] = "Image(s) saved";
+                }
+                if (($followers = Follow::getFollowers($user->getUserId())) !== false) {
+                    foreach ($followers as $follower) {
+                        if (($userFollower = User::createFromId($follower->getUserIdFollower())) !== false)
+                            $userFollower->sendNewPhotoMail($user);
+                    }
                 }
             } else
                 $json['message'] = "You can't upload more than 5 images";

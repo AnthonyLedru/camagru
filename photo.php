@@ -21,7 +21,7 @@ if (isset($_GET['image_id']) && (($image = Image::CreateFromId($_GET['image_id']
     else
         $profilePhotoPath = "img/defaultProfile.png";
     $page->appendContent(<<<HTML
-    
+
             <div class="hero-body">
                 <div class="container has-text-centered">
                     <p class="title is-1">Photo page</p>
@@ -78,6 +78,9 @@ HTML
             );
         $page->appendContent(<<<HTML
 
+                                            </div>
+                                            <div class="column">
+                                                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="I shared a photo on Camagru: " data-lang="en" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                                             </div>
                                         </div>
 HTML

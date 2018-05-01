@@ -24,7 +24,7 @@ SQL
         return $likeQuery->fetchColumn(); 
     }
 
-    public static function add($userId, $imageId) {
+    public static function insert($userId, $imageId) {
         $likeQuery = myPDO::getInstance()->prepare(<<<SQL
         INSERT INTO `like`(user_id, image_id)
         VALUES (:user_id, :image_id)

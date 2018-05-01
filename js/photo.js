@@ -162,7 +162,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             handleAs   : 'json',
             parameters : { imageId : imageId },
             onSuccess  : function(res) {
-                            console.log(res);
                             if (res['valid'])
                                 display_notification("notification", "green", res['message']);
                             else
@@ -175,5 +174,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         modal.classList.remove('is-active');
         html.classList.remove('is-clipped');
     });
+
+    
 
 });

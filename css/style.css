@@ -13,19 +13,15 @@ https://coolors.co/3d5a80-98c1d9-e0fbfc-ee6c4d-293241
     overflow: hidden;
 }
 
-label {
-    color: #293241;
+.is-primary {
+    background-color: #293241 !important;
 }
 
 .hero-body {
     padding: 5rem 1.5rem;
 }
 
-.title {
-    color: #293241;
-}
-
-.link {
+.title, .link, label {
     color: #293241;
 }
 
@@ -290,6 +286,14 @@ figure:hover #profile_img {
 .tabs.is-toggle li.is-active a {
     background-color: #293241 !important;
     border-color: #293241 !important
+}
+
+.follow_tag:hover {
+    cursor: Pointer;
+}
+
+#follower, #following, #photos, #like {
+    cursor: Pointer;
 }
 
 /* ------------ Gallery ------------ */

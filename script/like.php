@@ -19,7 +19,7 @@ if (isset($_SESSION['user'])) {
                 $json['message'] = "You unliked this image";
             }
             else {
-                Like::add($user->getUserId(), $image->getImageId());
+                Like::insert($user->getUserId(), $image->getImageId());
                 $json['nbLike'] = Like::countFromImageId($image->getImageId());
                 $json['like'] = true;
                 $json['message'] = "You liked this image";

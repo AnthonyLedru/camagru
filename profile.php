@@ -15,6 +15,8 @@ if (isset($_GET['user_id'])) {
             $profilePhotoPath = $profilePhoto->getPath();
         else
             $profilePhotoPath = "img/defaultProfile.png";
+        $nbFollowing = Follow::getNbFollowing($user->getUserId());
+        $nbFollower = Follow::getNbFollower($user->getUserId());
         $page->appendContent(<<<HTML
 
             <div class="hero-body" id="profile_card">
@@ -46,6 +48,35 @@ if (isset($_GET['user_id'])) {
                     <p class="is-size-4">{$user->getMail()}</p>
 HTML
         );
+        if (isset($_SESSION['user']) && ($_SESSION['user']['userId'] !== $_GET['user_id'])) {
+            $page->appendContent(<<<HTML
+
+                    <br>
+                    <div class="control">
+                        <div class="tags has-addons is-horizontal-center">
+                            <span class="tag follow_tag is-primary">Follow</span>
+HTML
+        );
+            if (isset($_SESSION['user']) && Follow::hasFollow($_SESSION['user']['userId'], $user->getUserId()))
+                $page->appendContent(<<<HTML
+
+                            <span class="tag follow_tag is-success">Yes</span>
+HTML
+                );
+            else
+                $page->appendContent(<<<HTML
+
+                            <span class="tag follow_tag is-danger">No</span>
+                            
+HTML
+                );
+            $page->appendContent(<<<HTML
+
+                        </div>
+                    </div>
+HTML
+        );
+        }
         if ($user->getBio() !== null) {
             $page->appendContent(<<<HTML
 
@@ -55,6 +86,7 @@ HTML
             );
         }
         $page->appendContent(<<<HTML
+
                 </div>
             </div>
 
@@ -64,25 +96,25 @@ HTML
                         <div class="level-item has-text-centered">
                             <div>
                             <p class="heading">Photos</p>
-                            <p class="title">{$user->getNbPhotos()}</p>
+                            <p class="title" id="photos">{$user->getNbPhotos()}</p>
                             </div>
                         </div>
                         <div class="level-item has-text-centered">
                             <div>
                             <p class="heading">Following</p>
-                            <p class="title">0</p>
+                            <p class="title" id="following">{$nbFollowing}</p>
                             </div>
                         </div>
                         <div class="level-item has-text-centered">
                             <div>
                             <p class="heading">Followers</p>
-                            <p class="title">0</p>
+                            <p class="title" id="follower">$nbFollower</p>
                             </div>
                         </div>
                         <div class="level-item has-text-centered">
                             <div>
                             <p class="heading">Likes</p>
-                            <p class="title">{$user->getNbLikes()}</p>
+                            <p class="title" id="like">{$user->getNbLikes()}</p>
                             </div>
                         </div>
                     </nav>
@@ -110,7 +142,7 @@ HTML
                 $page->appendContent(<<<HTML
                 
                             <div class="column is-one-third">
-                                <figure class="image is-4by3">
+                                <figure class="image is-500x500">
                                     <a href="photo.php?image_id={$image->getImageId()}">
                                         <img src="{$image->getPath()}" alt="profile image">
                                     </a>
@@ -137,6 +169,80 @@ HTML
 HTML
         );
         $page->appendContent(<<<HTML
+
+                </div>
+            </div>
+
+            <div class="modal" id="follower_modal">
+                <div class="modal-background"></div>
+                    <div class="modal-card">
+                        <header class="modal-card-head">
+                            <p class="modal-card-title">{$user->getLogin()}'s followers</p>
+                            <button class="delete follower_cancel" aria-label="close"></button>
+                        </header>
+                        <section class="modal-card-body" id="follower_modal_body">
+HTML
+        );
+        if (($followers = Follow::getFollowers($user->getUserId())) !== false) {
+            foreach ($followers as $follow) {
+                if (($userFollowing = User::createFromId($follow->getUserIdFollower())) !== false) {
+                    $page->appendContent(<<<HTML
+
+                        <p><a class="link" href="profile.php?user_id={$userFollowing->getUserId()}">@{$userFollowing->getLogin()}</a></p>
+HTML
+                    );
+                }
+            }
+        } else {
+            $page->appendContent(<<<HTML
+            
+                <p>{$user->getLogin()} has no followers</p>
+HTML
+            );
+        }
+        $page->appendContent(<<<HTML
+
+                        </section>
+                        <footer class="modal-card-foot">
+                            <button class="button follower_cancel is-dark">Cancel</button>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="following_modal">
+                <div class="modal-background"></div>
+                    <div class="modal-card">
+                        <header class="modal-card-head">
+                            <p class="modal-card-title">{$user->getLogin()}'s following</p>
+                            <button class="delete following_cancel" aria-label="close"></button>
+                        </header>
+                        <section class="modal-card-body">
+HTML
+        );
+        if (($followers = Follow::getFolloweds($user->getUserId())) !== false) {
+            foreach ($followers as $follow) {
+                if (($userFollowed = User::createFromId($follow->getUserIdFollowed())) !== false) {
+                    $page->appendContent(<<<HTML
+
+                        <p><a class="link" href="profile.php?user_id={$userFollowed->getUserId()}">@{$userFollowed->getLogin()}</a></p>
+HTML
+                    );
+                }
+            }
+        } else {
+            $page->appendContent(<<<HTML
+            
+                <p>{$user->getLogin()} follow nobody</p>
+HTML
+            );
+        }
+        $page->appendContent(<<<HTML
+                        </section>
+                        <footer class="modal-card-foot">
+                            <button class="button following_cancel is-dark">Cancel</button>
+                        </footer>
+                    </div>
                 </div>
             </div>
 

@@ -48,7 +48,7 @@ SQL
         throw new Exception("Image id incorrect");
     }
 
-    public static function add($commentTab) {
+    public static function insert($commentTab) {
         $likeQuery = myPDO::getInstance()->prepare(<<<SQL
         INSERT INTO comment (user_id, image_id, comment, `date`)
         VALUES (:user_id, :image_id, :comment, CURRENT_TIMESTAMP)
