@@ -138,10 +138,9 @@ HTML
                 </div>
 HTML
     );
-
+    echo $page->toHTML();
 } catch (Exception $e) {
     $page = new WebPageError("Error");
     $page->appendError("{$e->getMessage()}");
+    echo $page->toHTML();
 }
-
-echo $page->toHTML();

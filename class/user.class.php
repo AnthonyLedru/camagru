@@ -64,7 +64,7 @@ SQL
                 return $user;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error: Can't get User");
+            throw new Exception("Query error: Can't get user");
         }
     }
 

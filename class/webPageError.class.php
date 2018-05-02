@@ -33,22 +33,7 @@ class WebPageError extends WebPage {
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 		<link rel="stylesheet" href="css/bulma.min.css">
-HTML;
-		if (isset($_SESSION['user']) && UserPreference::isDefaultThemeActive($_SESSION['user']['userId']) == 0) {
-			$page.=<<<HTML
-		
-		<link rel="stylesheet" href="css/styleDark.css">
-
-HTML;
-		} else {
-			$page.=<<<HTML
-
 		<link rel="stylesheet" href="css/styleDefault.css">	
-HTML;
-		}
-
-		$page.=<<<HTML
-		
 		<script src="js/request.js"></script>
 		<script src="js/common.js"></script>
 		$this->head

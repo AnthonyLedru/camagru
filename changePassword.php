@@ -56,7 +56,6 @@ HTML
                 header("Location:index.php");
             }
         } else {
-
             $page->appendContent(<<<HTML
 
                     <div class="hero-body">
@@ -83,9 +82,9 @@ HTML
         }
     } else
         header("Location:index.php");
+    echo $page->toHTML();
 } catch (Exception $e) {
     $page = new WebPageError("Error");
     $page->appendError("{$e->getMessage()}");
+    echo $page->toHTML();
 }
-
-echo $page->toHTML();
