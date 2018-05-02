@@ -25,18 +25,23 @@ HTML;
 
 $json = array('message' => "", 'valid' => false);
 
-if (isset($_POST['mail'])) {
-    if (($user = User::createFromMail($_POST['mail'])) !== false) {
-        if ($user->getActive() === "1") {
-            $user->setPasswordToken(bin2hex(random_bytes(50)));
-            $user->update();
-            sendResetPasswordMail($user);
-            $json['valid'] = true;
-            $json['message'] = "A mail to reset your password has been sent";
-        } else
-            $json['message'] = "Your account is not active";
-    } else
-        $json['message'] = "Invalid mail";
+try {
+    if (isset($_POST['mail'])) {
+            if (($user = User::createFromMail($_POST['mail'])) !== false) {
+                if ($user->getActive() === "1") {
+                    $user->setPasswordToken(bin2hex(random_bytes(50)));
+                    $user->update();
+                    sendResetPasswordMail($user);
+                    $json['valid'] = true;
+                    $json['message'] = "A mail to reset your password has been sent";
+                } else
+                    $json['message'] = "Your account is not active";
+            } else
+                $json['message'] = "Invalid mail";
+    }
+} catch (Exception $e) {
+    $json['valid'] = false;
+    $json['message'] = $e->getMessage();
 }
 
 echo json_encode($json);

@@ -27,27 +27,33 @@ HTML;
     mail($user->getMail(), "Account confirmation", $message, $headers);
 }
 
-if (isset($_POST['login']) && isset($_POST['password'])) {
-    $login = htmlspecialchars($_POST['login']);
-    $password = hash('whirlpool', $_POST['password']);
-    if (($user = User::createFromLogin($login)) !== false) {
-        if ($user->getPassword() === $password) {
-            if ($user->getActive()) {
-                $_SESSION['user'] = $user->getAll();
-                $json['message'] =  "Welcome " . $user->getFirstName();
-                $json['valid'] = true;
-            } else {
-                $user->setSignupToken(bin2hex(random_bytes(50)));
-                $user->update();
-                sendRegisterMail($user);
-                $json['message'] =  "Your account is not active, a new confirmation mail has been sent to {$user->getMail()}";
+try {
+    if (isset($_POST['login']) && isset($_POST['password'])) {
+            $login = htmlspecialchars($_POST['login']);
+            $password = hash('whirlpool', $_POST['password']);
+            if (($user = User::createFromLogin($login)) !== false) {
+                if ($user->getPassword() === $password) {
+                    if ($user->getActive()) {
+                        $_SESSION['user'] = $user->getAll();
+                        $json['message'] =  "Welcome " . $user->getFirstName();
+                        $json['valid'] = true;
+                    } else {
+                        $user->setSignupToken(bin2hex(random_bytes(50)));
+                        $user->update();
+                        sendRegisterMail($user);
+                        $json['message'] =  "Your account is not active, a new confirmation mail has been sent to {$user->getMail()}";
+                    }
+                }
+                else
+                    $json['message'] =  "Incorrect Password";
             }
-        }
-        else
-            $json['message'] =  "Incorrect Password";
-    }
-    else
-        $json['message'] =  "Incorrect login";
-} else
-    $json['message'] = "Login or password not specified";
+            else
+                $json['message'] =  "Incorrect login";
+    } else
+        $json['message'] = "Login or password not specified";
+} catch (Exception $e) {
+    $json['valid'] = false;
+    $json['message'] = $e->getMessage();
+}
+
 echo json_encode($json);

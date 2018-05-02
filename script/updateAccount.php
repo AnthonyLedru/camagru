@@ -31,80 +31,79 @@ function areFieldsValid($userTab) {
     return $valid;
 }
 
-if (isset($_SESSION['user'])) {
-    if (isset($_POST['gender']) && $_POST['gender'] !== "" &&
-        isset($_POST['mail']) && $_POST['mail'] !== "" &&
-        isset($_POST['firstName']) && $_POST['firstName'] !== "" &&
-        isset($_POST['lastName']) && $_POST['lastName'] !== "" &&
-        isset($_POST['login']) && $_POST['login'] !== "") {
+try {
+    if (isset($_SESSION['user'])) {
+        if (isset($_POST['gender']) && $_POST['gender'] !== "" &&
+            isset($_POST['mail']) && $_POST['mail'] !== "" &&
+            isset($_POST['firstName']) && $_POST['firstName'] !== "" &&
+            isset($_POST['lastName']) && $_POST['lastName'] !== "" &&
+            isset($_POST['login']) && $_POST['login'] !== "") {
 
-        if (isset($_POST['password']) && $_POST['password'] !== "") {
-            try {
+            if (isset($_POST['password']) && $_POST['password'] !== "") {
                 $user = User::createFromId($_SESSION['user']['userId']);
-            }
-            catch (Exception $e) {
-                $json['message'] = "An error occurred: " . $e->getMessage();
-                return ;
-            }
-            if ($user->getPassword() === hash('whirlpool', $_POST['password'])) {
-                if ((isset($_POST['newPass1']) && $_POST['newPass1'] !== "") || 
-                    (isset($_POST['newPass2']) && $_POST['newPass2'] !== "")) {
-                    if ($_POST['newPass1'] === $_POST['newPass2']) {
+                if ($user->getPassword() === hash('whirlpool', $_POST['password'])) {
+                    if ((isset($_POST['newPass1']) && $_POST['newPass1'] !== "") || 
+                        (isset($_POST['newPass2']) && $_POST['newPass2'] !== "")) {
+                        if ($_POST['newPass1'] === $_POST['newPass2']) {
+                            $userTab = array(
+                                'login' => htmlspecialchars($_POST['login']),
+                                'mail' => htmlspecialchars($_POST['mail']),
+                                'password' => $_POST['newPass1'],
+                                'lastName' => htmlspecialchars($_POST['lastName']),
+                                'firstName' => htmlspecialchars($_POST['firstName']),
+                                'gender' => htmlspecialchars($_POST['gender']),
+                                'bio' => htmlspecialchars($_POST['bio']),
+                                'userId' => $user->getUserId()
+                            );
+                        } else {
+                            $json['message'] = "Passwords are not identical";
+                            echo json_encode($json);
+                            exit();
+                        }
+                    } else {
                         $userTab = array(
                             'login' => htmlspecialchars($_POST['login']),
                             'mail' => htmlspecialchars($_POST['mail']),
-                            'password' => $_POST['newPass1'],
+                            'password' => $_POST['password'],
                             'lastName' => htmlspecialchars($_POST['lastName']),
                             'firstName' => htmlspecialchars($_POST['firstName']),
                             'gender' => htmlspecialchars($_POST['gender']),
                             'bio' => htmlspecialchars($_POST['bio']),
                             'userId' => $user->getUserId()
                         );
-                    } else {
-                        $json['message'] = "Passwords are not identical";
-                        echo json_encode($json);
-                        exit();
                     }
-                } else {
-                    $userTab = array(
-                        'login' => htmlspecialchars($_POST['login']),
-                        'mail' => htmlspecialchars($_POST['mail']),
-                        'password' => $_POST['password'],
-                        'lastName' => htmlspecialchars($_POST['lastName']),
-                        'firstName' => htmlspecialchars($_POST['firstName']),
-                        'gender' => htmlspecialchars($_POST['gender']),
-                        'bio' => htmlspecialchars($_POST['bio']),
-                        'userId' => $user->getUserId()
-                    );
-                }
-                if (areFieldsValid($userTab)) {
-                    $userTab['password'] = hash('whirlpool', $userTab['password']);
-                    if (!User::loginAlreadyTaken($userTab['login']) || $user->getLogin() == $userTab['login']) {
-                        if (!User::mailAlreadyTaken($userTab['mail']) || $user->getMail() == $userTab['mail']) {
-                            try {
-                                User::updateFromTab($userTab);
-                                $user = User::createFromId($_SESSION['user']['userId']);
-                                unset($_SESSION['user']);
-                                $_SESSION['user'] = $user->getAll();
-                                $json['valid'] = true;
-                                $json['login'] = $user->getLogin();
-                                $json['message'] = "Account updated !";
-                            }
-                            catch (Exception $e) {
-                                $json['message'] = "An error occurred " . $e->getMessage();
-                            }
+                    if (areFieldsValid($userTab)) {
+                        $userTab['password'] = hash('whirlpool', $userTab['password']);
+                        if (!User::loginAlreadyTaken($userTab['login']) || $user->getLogin() == $userTab['login']) {
+                            if (!User::mailAlreadyTaken($userTab['mail']) || $user->getMail() == $userTab['mail']) {
+                                try {
+                                    User::updateFromTab($userTab);
+                                    $user = User::createFromId($_SESSION['user']['userId']);
+                                    unset($_SESSION['user']);
+                                    $_SESSION['user'] = $user->getAll();
+                                    $json['valid'] = true;
+                                    $json['login'] = $user->getLogin();
+                                    $json['message'] = "Account updated !";
+                                }
+                                catch (Exception $e) {
+                                    $json['message'] = "An error occurred " . $e->getMessage();
+                                }
+                            } else
+                                $json['message'] = "Mail already taken";
                         } else
-                            $json['message'] = "Mail already taken";
-                    } else
-                        $json['message'] = "Login already taken";
-                }
+                            $json['message'] = "Login already taken";
+                    }
+                } else
+                    $json['message'] = "Password incorrect";
             } else
-                $json['message'] = "Password incorrect";
+                $json['message'] = "You must specify you password to update your account";
         } else
-            $json['message'] = "You must specify you password to update your account";
+            $json['message'] = "A required field is empty";
     } else
-        $json['message'] = "A required field is empty";
-} else
-    $json['message'] = "You are not connected";
+        $json['message'] = "You are not connected";
+} catch (Exception $e) {
+    $json['message'] = $e->getMessage();
+    $json['valid'] = false;
+}
 
 echo json_encode($json);

@@ -69,6 +69,22 @@ SQL
         return false;
     }
 
+    public static function isDefaultThemeActive($userId) {
+        $userPrefQuery = myPDO::getInstance()->prepare(<<<SQL
+        SELECT *
+        FROM user_preference, preference
+        WHERE user_preference.preference_id = preference.preference_id
+        AND user_preference.user_id = :userId
+        AND preference.name = :theme
+SQL
+        );
+        $userPrefQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+        $userPrefQuery->execute(array('userId' => $userId, 'theme' => "default_theme"));
+        if (($theme = $userPrefQuery->fetch()) !== false)
+            return $theme->getActive();
+        return false;
+    }
+
     public function updateUserPreference($active) {
         $userPrefQuery = myPDO::getInstance()->prepare(<<<SQL
         UPDATE user_preference

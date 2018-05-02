@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                     if (first_child.className !== "div_gray")
                                         div.classList.add('div_gray');
                                 var p = document.createElement("p");
-                                p.innerHTML = "@" + res['login'] + " (" + res['date'] + ") :<br> <i>" + res['comment'] + "</i>";
+                                p.innerHTML = "<a class='link' href='profile.php?user_id="+res['userId']+"'> @" + res['login'] + "</a> (" + res['date'] + ") :<br> <i>" + res['comment'] + "</i>";
                                 div.appendChild(p);
                                 list_comment.insertBefore(div, first_child);
                                 if (list_comment.children.length > 1) {

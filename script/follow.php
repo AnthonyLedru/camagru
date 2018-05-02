@@ -7,9 +7,9 @@ require_once __DIR__ . '/../include/autoload.include.php';
 
 $json = array('message' => "", 'follow' => false, 'unfollow' => false, 'nbFollower' => 0);
 
-if (isset($_SESSION['user'])) { 
-    if (isset($_POST['userId'])) {
-        try {
+try {
+    if (isset($_SESSION['user'])) { 
+        if (isset($_POST['userId'])) {
             $userFollower = User::createFromLogin($_SESSION['user']['login']);
             $userFollowed = User::createFromId($_POST['userId']);
             if (($follow = Follow::hasFollow($userFollower->getUserId(), $userFollowed->getUserId())) !== false) {
@@ -20,18 +20,19 @@ if (isset($_SESSION['user'])) {
             else {
                 Follow::insert($userFollower->getUserId(), $userFollowed->getUserId());
                 $json['follow'] = true;
-                $json['message'] = "You now follow {$userFollowed->getLogin()}";
+                $json['message'] = "You are now following {$userFollowed->getLogin()}";
             }
             $json['nbFollower'] = Follow::getNbFollower($userFollowed->getUserId());
             $json['FollowerLogin'] = "@" . $userFollower->getLogin();
             $json['FollowedLogin'] = $userFollowed->getLogin();
             $json['FollowerId'] = $userFollower->getUserId();
-        } catch (Exception $e) {
-            $json['message'] = $e->getMessage();
-        }
+        } else
+            $json['message'] = "User not found";
     } else
-        $json['message'] = "User not found";
-} else
-    $json['message'] = "You need to be logged in to follow people";
+        $json['message'] = "You need to be logged in to follow people";
+} catch (Exception $e) {
+    $json['valid'] = false;
+    $json['message'] = $e->getMessage();
+}
 
 echo json_encode($json);

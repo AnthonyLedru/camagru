@@ -47,20 +47,19 @@ function areFieldsValid($userTab) {
     return $valid;
 }
 
-if (isset($_POST['mail']) && $_POST['mail'] !== "" && 
-    isset($_POST['login']) && $_POST['login'] !== "" &&
-    isset($_POST['password']) && $_POST['password'] !== "" && 
-    isset($_POST['passwordConf']) && $_POST['passwordConf'] !== "" && 
-    isset($_POST['lastName']) && $_POST['lastName'] !== "" && 
-    isset($_POST['firstName']) && $_POST['firstName'] !== "" && 
-    isset($_POST['gender']) && $_POST['gender'] !== "") {
-
+try {
+    if (isset($_POST['mail']) && $_POST['mail'] !== "" && 
+        isset($_POST['login']) && $_POST['login'] !== "" &&
+        isset($_POST['password']) && $_POST['password'] !== "" && 
+        isset($_POST['passwordConf']) && $_POST['passwordConf'] !== "" && 
+        isset($_POST['lastName']) && $_POST['lastName'] !== "" && 
+        isset($_POST['firstName']) && $_POST['firstName'] !== "" && 
+        isset($_POST['gender']) && $_POST['gender'] !== "") {
         if ($_POST['password'] === $_POST['passwordConf']) {
             if (areFieldsValid(array(
-                            'mail' => $_POST['mail'], 'login' => $_POST['login'],
-                            'password' => $_POST['password'], 'lastName' => $_POST['lastName'],
-                            'firstName' => $_POST['firstName'], 'gender' => $_POST['gender']))
-                ) {
+                 'mail' => $_POST['mail'], 'login' => $_POST['login'],
+                 'password' => $_POST['password'], 'lastName' => $_POST['lastName'],
+                 'firstName' => $_POST['firstName'], 'gender' => $_POST['gender']))) {
                 $userTab = array(
                     'mail' => htmlspecialchars($_POST['mail']),
                     'login' => htmlspecialchars($_POST['login']),
@@ -70,8 +69,7 @@ if (isset($_POST['mail']) && $_POST['mail'] !== "" &&
                     'gender' => htmlspecialchars($_POST['gender']),
                     'signupToken' => bin2hex(random_bytes(50)),
                     'active' => 0,
-                    'bio' => ""
-                );
+                    'bio' => "");
                 if (areFieldsValid($userTab)) {
                     if (!User::alreadyExist($userTab['mail'], $userTab['login'])) {
                         User::insert($userTab);
@@ -86,7 +84,11 @@ if (isset($_POST['mail']) && $_POST['mail'] !== "" &&
             }
         } else
             $json['message'] =  "The passwords you specified are not the same";
-} else
-    $json['message'] =  "You must fill all the fields to register";
+    } else
+        $json['message'] =  "You must fill all the fields to register";
+} catch (Exception $e) {
+    $json['message'] = $e->getMessage();
+    $json['valid'] = false;
+}
 
 echo json_encode($json);

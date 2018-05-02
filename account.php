@@ -124,31 +124,31 @@ if (isset($_SESSION['user'])) {
                                                 <div class="select is-fullwidth">
                                                     <select name="gender">
 HTML
-);
+    );
     if ($user->getGender() === "Male")
         $page->appendContent(<<<HTML
 
                                                             <option selected>Male</option>
 HTML
-);
+        );
     else 
         $page->appendContent(<<<HTML
 
                                                             <option>Male</option>
 HTML
-);
+        );
     if ($user->getGender() === "Female")
         $page->appendContent(<<<HTML
 
                                                             <option selected>Female</option>
 HTML
-);
+        );
     else 
         $page->appendContent(<<<HTML
 
                                                             <option>Female</option>
 HTML
-);
+        );
     $page->appendContent(<<<HTML
                                                     
                                                     </select>
@@ -210,31 +210,31 @@ HTML
                                                     <div class="select is-fullwidth">
                                                         <select name="notification">
 HTML
-);
+    );
     if ($notification->getActive() === "1")
         $page->appendContent(<<<HTML
 
                                                             <option selected>Enabled</option>
 HTML
-);
+    );
     else 
         $page->appendContent(<<<HTML
 
                                                             <option>Enabled</option>
 HTML
-);
+        );
     if ($notification->getActive() === "0")
         $page->appendContent(<<<HTML
 
                                                             <option selected>Disabled</option>
 HTML
-);
+        );
     else 
         $page->appendContent(<<<HTML
 
                                                             <option>Disabled</option>
 HTML
-);
+        );
     $page->appendContent(<<<HTML
 
                                                         </select>
@@ -252,8 +252,21 @@ HTML
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
                                                         <select name="theme">
-                                                            <option>Default</option>
+HTML
+    );
+    if (UserPreference::isDefaultThemeActive($user->getUserId()) == 1)
+        $page->appendContent(<<<HTML
+                                                            <option selected>Default</option>
                                                             <option>Dark</option>
+HTML
+        );
+    else
+        $page->appendContent(<<<HTML
+                                                            <option>Default</option>
+                                                            <option selected>Dark</option>
+HTML
+        );
+    $page->appendContent(<<<HTML
                                                         </select>
                                                     </div>
                                                 </div>
