@@ -63,7 +63,7 @@ class WebPage {
 		<meta name="author" content="Anthony Ledru">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-		<link rel="stylesheet" href="css/bulma.css">
+		<link rel="stylesheet" href="css/bulma.min.css">
 HTML;
 		if (isset($_SESSION['user']) && UserPreference::isDefaultThemeActive($_SESSION['user']['userId']) == 0) {
 			$page.=<<<HTML
