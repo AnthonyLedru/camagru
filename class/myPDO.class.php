@@ -23,8 +23,8 @@ final class myPDO {
             if (self::hasConfiguration()) {
                 try {
                     self::$_PDOInstance = new PDO(self::$_DSN, self::$_username, self::$_password, self::$_driverOptions);
-                } catch (PDOException $e) {
-                    echo $e->getMessage();
+                } catch (Exception $e) {
+                    throw new Exception(__CLASS__ . ": Configuration invalid");
                 }
             } else {
                 throw new Exception(__CLASS__ . ": Configuration not set");

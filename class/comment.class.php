@@ -33,7 +33,7 @@ SQL
                 return $comment;
             throw false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create comment");
+            throw new Exception("Query error: Can't get comment");
         }
     }
 
@@ -52,7 +52,7 @@ SQL
                 return $comments;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get image comment");
+            throw new Exception("Query error: Can't get image comment");
         }
     }
 
@@ -68,7 +68,7 @@ SQL
                                     ':image_id' => $commentTab['imageId'],
                                     ':comment' => $commentTab['comment']));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't insert a comment");
+            throw new Exception("Query error: Can't insert a comment");
         }
     }
 }

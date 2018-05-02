@@ -224,7 +224,9 @@ HTML;
                             <h1 class="title">An error occured</h1>
                         </div>
                     </div>
-                    $this->error
+					<p><i>$this->error</i></p>
+					<br>
+					<p>Please report at: aledru@student.42.fr</p>
                 </div>
             </div>
 

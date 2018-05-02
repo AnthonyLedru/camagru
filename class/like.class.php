@@ -24,7 +24,7 @@ SQL
             $likeQuery->execute(array($imageId));
             return $likeQuery->fetchColumn(); 
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't count likes");
+            throw new Exception("Query error: Can't count likes");
         }
     }
 
@@ -38,7 +38,7 @@ SQL
             $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
             $likeQuery->execute(array('user_id' => $userId, 'image_id' => $imageId));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't insert like");
+            throw new Exception("Query error: Can't insert like");
         }
     }
 
@@ -52,7 +52,7 @@ SQL
             $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
             $likeQuery->execute(array($likeId));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't delete like");
+            throw new Exception("Query error: Can't delete like");
         }
     }
 
@@ -72,7 +72,7 @@ SQL
                 return $like;
             return false; 
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't check like");
+            throw new Exception("Query error: Can't check like");
         }
     }
 

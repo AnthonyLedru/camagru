@@ -29,7 +29,7 @@ SQL
                 return $userPreference;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create user preference");
+            throw new Exception("Query error: Can't get user preference");
         }
     }
 
@@ -46,7 +46,7 @@ SQL
                 ':active' => $active,
             ));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't insert user preference");
+            throw new Exception("Query error: Can't insert user preference");
         }
     }
 
@@ -68,7 +68,7 @@ SQL
                     self::insertUserPreference($userId, $pref->getPreferenceId(), $pref_tab[1]);
             }
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't insert user default preferences");
+            throw new Exception("Query error: Can't insert user default preferences");
         }
     }
 
@@ -81,7 +81,7 @@ SQL
             }
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get user preference");
+            throw new Exception("Query error: Can't get user preference");
         }
     }
 
@@ -101,7 +101,7 @@ SQL
                 return $theme->getActive();
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't check default theme");
+            throw new Exception("Query error: Can't check default theme");
         }
     }
 
@@ -115,7 +115,7 @@ SQL
             );
             $userPrefQuery->execute(array(':active' => $active, ':user_preference_id' => $this->getUserPreferenceId()));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't update user preference");
+            throw new Exception("Query error: Can't update user preference");
         }
     }
 }

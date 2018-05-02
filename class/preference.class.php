@@ -24,7 +24,7 @@ SQL
                 return $preference;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create preference");
+            throw new Exception("Query error: Can't get preference");
         }
     }
 
@@ -42,7 +42,7 @@ SQL
                 return $preference;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create preference");
+            throw new Exception("Query error: Can't get preference");
         }
     }
 
@@ -55,7 +55,7 @@ SQL
             );
             $preferenceQuery->execute(array($name));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't insert preference");
+            throw new Exception("Query error: Can't insert preference");
         }
     }
 }

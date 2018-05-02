@@ -25,7 +25,7 @@ SQL
                     return $follows;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get followers");
+            throw new Exception("Query error: Can't get followers");
         }
     }
 
@@ -44,7 +44,7 @@ SQL
                     return $follows;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get followers");
+            throw new Exception("Query error: Can't get followers");
         }
     }
 
@@ -63,7 +63,7 @@ SQL
                 return $follow;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't check follow");
+            throw new Exception("Query error: Can't check follow");
         }
     }
 
@@ -77,7 +77,7 @@ SQL
             $followQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
             $followQuery->execute(array('userIdFollowed' => $userIdFollowed, 'userIdFollower' => $userIdFollower));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't insert follow");
+            throw new Exception("Query error: Can't insert follow");
         }
     }
 
@@ -91,7 +91,7 @@ SQL
             $followQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
             $followQuery->execute(array('followId' => $this->getFollowId()));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't delete follow");
+            throw new Exception("Query error: Can't delete follow");
         }
     }
 
@@ -109,7 +109,7 @@ SQL
                 return count($follow);
             return 0;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get follower number");
+            throw new Exception("Query error: Can't get follower number");
         }
     }
 
@@ -127,7 +127,7 @@ SQL
                 return count($follow);
             return 0;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get following number");
+            throw new Exception("Query error: Can't get following number");
         }
     }
 }

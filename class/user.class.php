@@ -64,7 +64,7 @@ SQL
                 return $user;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create User");
+            throw new Exception("Query error: Can't get User");
         }
     }
 
@@ -82,7 +82,7 @@ SQL
                 return $user;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create user");
+            throw new Exception("Query error: Can't get user");
         }
     }
 
@@ -100,7 +100,7 @@ SQL
                 return $user;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create user");
+            throw new Exception("Query error: Can't get user");
         }
     }
 
@@ -118,7 +118,7 @@ SQL
                 return $user;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create user");
+            throw new Exception("Query error: Can't get user");
         }
     }
 
@@ -136,7 +136,7 @@ SQL
                 return $user;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create user");
+            throw new Exception("Query error: Can't get user");
         }
     }
 
@@ -155,7 +155,7 @@ SQL
                 return true;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't check user");
+            throw new Exception("Query error: Can't check user");
         }
     }
 
@@ -209,7 +209,7 @@ SQL
                 ':bio' => $userTab['bio']
             ));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't insert user");
+            throw new Exception("Query error: Can't insert user");
         }
     }
 
@@ -234,7 +234,7 @@ SQL
                 ':userId' => $userTab['userId']
             ));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't update user");
+            throw new Exception("Query error: Can't update user");
         }
     }
 
@@ -263,7 +263,7 @@ SQL
                 ':passwordToken' => $this->password_token,
             ));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't update user");
+            throw new Exception("Query error: Can't update user");
         }
     }
 
@@ -299,7 +299,7 @@ HTML;
                 }
             }
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't send comment mail");
+            throw new Exception("Query error: Can't send comment mail");
         }
     }
 
@@ -325,7 +325,7 @@ HTML;
 HTML;
             mail($this->getMail(), "New content from {$userFollowed->getLogin()}", $message, $headers);
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't send photo mail");
+            throw new Exception("Query error: Can't send photo mail");
         }
     }
 
@@ -343,7 +343,7 @@ SQL
             ));
             return ($userQuery->fetchColumn());
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get user like number");
+            throw new Exception("Query error: Can't get user like number");
         }
     }
 
@@ -360,7 +360,7 @@ SQL
             ));
             return ($userQuery->fetchColumn());
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get user photo number");
+            throw new Exception("Query error: Can't get user photo number");
         }
     }
 
@@ -380,7 +380,7 @@ SQL
                     return $users;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't search user");
+            throw new Exception("Query error: Can't search user");
         }
     }
 
@@ -401,7 +401,7 @@ SQL
                     return $users;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't search user");
+            throw new Exception("Query error: Can't search user");
         }
     }
 

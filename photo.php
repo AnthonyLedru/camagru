@@ -217,10 +217,7 @@ HTML
     }
 } catch (Exception $e) {
     $page = new WebPageError("Error");
-    $page->appendError(<<<HTML
-        <p>$e->getMessage()</p>
-HTML
-    );
+    $page->appendError("{$e->getMessage()}");
 }
 
 echo $page->toHTML();

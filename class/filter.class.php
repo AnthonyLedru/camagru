@@ -23,7 +23,7 @@ SQL
                 return $filters;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get filters");
+            throw new Exception("Query error: Can't get filters");
         }
     }
 
@@ -41,7 +41,7 @@ SQL
                 return true;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't check filter path");
+            throw new Exception("Query error: Can't check filter path");
         }
     }
 }

@@ -33,7 +33,7 @@ SQL
                 return $image;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't create image");
+            throw new Exception("Query error: Can't get image");
         }
     }
 
@@ -47,7 +47,7 @@ SQL
             $imageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
             $imageQuery->execute(array($id));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't delete image");
+            throw new Exception("Query error: Can't delete image");
         }
     }
 
@@ -64,7 +64,7 @@ SQL
                 ':description' => $imageTab['description'],
             ));
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't insert image");
+            throw new Exception("Query error: Can't insert image");
         }
     }
 
@@ -82,7 +82,7 @@ SQL
                 return $userImages;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get images");
+            throw new Exception("Query error: Can't get images");
         }
     }
 
@@ -103,7 +103,7 @@ SQL
                 return $userImages;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get images");
+            throw new Exception("Query error: Can't get images");
         }
     }
 
@@ -126,7 +126,7 @@ SQL
                 return $userImages;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't get images");
+            throw new Exception("Query error: Can't get images");
         }
     }
 
@@ -144,7 +144,7 @@ SQL
                 return true;
             return false;
         } catch (Exception $e) {
-            throw new Exception("Query error => Can't delete image");
+            throw new Exception("Query error: Can't delete image");
         }
     }
 
