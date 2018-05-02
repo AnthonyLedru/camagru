@@ -4,9 +4,9 @@ require_once __DIR__ . '/../include/autoload.include.php';
 
 class WebPage {
 
-	private $title = null;
-	private $body  = null;
-	private $head  = null;
+	protected $title = null;
+	protected $body  = null;
+	protected $head  = null;
 
 	public function __construct($title=null) {
 		$this->title = "<title>".$title."</title>";

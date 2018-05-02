@@ -81,10 +81,14 @@ HTML
 HTML
             );
         }
-
-        echo $page->toHTML();
     } else
         header("Location:index.php");
 } catch (Exception $e) {
     $page = new WebPageError("Error");
+    $page->appendError(<<<HTML
+        <p>$e->getMessage()</p>
+HTML
+    );
 }
+
+echo $page->toHTML();
