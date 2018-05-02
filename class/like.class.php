@@ -42,7 +42,7 @@ SQL
         }
     }
 
-    public static function delete($likeId) {
+    public function delete() {
         try {
             $likeQuery = myPDO::getInstance()->prepare(<<<SQL
             DELETE FROM `like`
@@ -50,7 +50,7 @@ SQL
 SQL
             );
             $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-            $likeQuery->execute(array($likeId));
+            $likeQuery->execute(array($this->getLikeId()));
         } catch (Exception $e) {
             throw new Exception("Query error: Can't delete like");
         }

@@ -31,7 +31,7 @@ SQL
             $commentQuery->execute(array($commentId));
             if (($comment = $commentQuery->fetch()) !== false)
                 return $comment;
-            throw false;
+            return false;
         } catch (Exception $e) {
             throw new Exception("Query error: Can't get comment");
         }

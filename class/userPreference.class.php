@@ -54,7 +54,7 @@ SQL
         try {
             foreach (self::DEFAULT_PREFERENCES as $pref_tab) {
                 if (!($pref = Preference::createFromName($pref_tab[0]))) {
-                    Preference::insertFromName($pref_tab[0]);
+                    Preference::insert($pref_tab[0]);
                     $pref = Preference::createFromName($pref_tab[0]);
                 }
                 $already_exist = false;

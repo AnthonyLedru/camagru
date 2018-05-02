@@ -46,7 +46,7 @@ SQL
         }
     }
 
-    public static function insertFromName($name) {
+    public static function insert($name) {
         try {
             $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
             INSERT INTO preference (name)

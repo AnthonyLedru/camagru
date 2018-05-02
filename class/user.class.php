@@ -425,7 +425,7 @@ SQL
                 'profilePhotoPath' => $profilePhotoPath
             ];
         } catch (Exception $e) {
-            throw new Exception("Serialize error => Can't serialize user");
+            throw new Exception("Serialize error: Can't serialize user");
         }
     }
 }

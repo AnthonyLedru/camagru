@@ -13,7 +13,7 @@ try {
                 $user = User::createFromLogin($_SESSION['user']['login']);
                 $image = Image::createFromId($_POST['imageId']);
                 if (($like = Like::hasUserLiked($user->getUserId(), $image->getImageId())) !== false) {
-                    Like::delete($like->getLikeId());
+                    $like->delete();
                     $json['nbLike'] = Like::countFromImageId($image->getImageId());
                     $json['unlike'] = true;
                     $json['message'] = "You unliked this image";

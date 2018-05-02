@@ -32,11 +32,11 @@ SQL
             $filterQuery = myPDO::getInstance()->prepare(<<<SQL
             SELECT *
             FROM filter
-            WHERE path = :path
+            WHERE path = ?
 SQL
             );
             $filterQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-            $filterQuery->execute(array('path' => $path));
+            $filterQuery->execute(array($path));
             if (($filters = $filterQuery->fetchAll()) !== false)
                 return true;
             return false;

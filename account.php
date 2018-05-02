@@ -15,7 +15,6 @@ try {
             $profilePhotoPath = $profilePhoto->getPath();
         else
             $profilePhotoPath = "img/defaultProfile.png";
-        UserPreference::insertDefaultPreference($user->getUserId());
         $userPreferences = UserPreference::createFromUserId($_SESSION['user']['userId']);
         $notification = UserPreference::getUserPreferenceFromTab($userPreferences, "notification");
         $page->appendContent(<<<HTML

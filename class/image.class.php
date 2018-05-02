@@ -37,37 +37,6 @@ SQL
         }
     }
 
-    public static function deleteFromId($id) {
-        try {
-            $imageQuery = myPDO::getInstance()->prepare(<<<SQL
-            DELETE FROM image 
-            WHERE image_id = ?
-SQL
-            );
-            $imageQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-            $imageQuery->execute(array($id));
-        } catch (Exception $e) {
-            throw new Exception("Query error: Can't delete image");
-        }
-    }
-
-    public static function insert($imageTab) {
-        try {
-            $imageQuery = myPDO::getInstance()->prepare(<<<SQL
-            INSERT INTO image (user_id, path, description, date)
-            VALUES (:userId, :path, :description, CURRENT_TIMESTAMP)
-SQL
-            );
-            $imageQuery->execute(array(
-                ':userId' => $imageTab['userId'],
-                ':path' => $imageTab['path'],
-                ':description' => $imageTab['description'],
-            ));
-        } catch (Exception $e) {
-            throw new Exception("Query error: Can't insert image");
-        }
-    }
-
     public static function getAll() {
         try {
             $imageQuery = myPDO::getInstance()->prepare(<<<SQL
@@ -130,6 +99,23 @@ SQL
         }
     }
 
+    public static function insert($imageTab) {
+        try {
+            $imageQuery = myPDO::getInstance()->prepare(<<<SQL
+            INSERT INTO image (user_id, path, description, date)
+            VALUES (:userId, :path, :description, CURRENT_TIMESTAMP)
+SQL
+            );
+            $imageQuery->execute(array(
+                ':userId' => $imageTab['userId'],
+                ':path' => $imageTab['path'],
+                ':description' => $imageTab['description'],
+            ));
+        } catch (Exception $e) {
+            throw new Exception("Query error: Can't insert image");
+        }
+    }
+
     public function delete() {
         try {
             $imageQuery = myPDO::getInstance()->prepare(<<<SQL
@@ -163,7 +149,7 @@ SQL
                 'nbLikes' => Like::countFromImageId($this->getImageId())
             ];
         } catch (Exception $e) {
-            throw new Exception("Serialize error => Can't serialize image");
+            throw new Exception("Serialize error: Can't serialize image");
         }
     }
 }
