@@ -15,7 +15,7 @@ final class myPDO {
 
 
     private function __construct() {
-        //Never use new on myPDO -> getInstance :D
+        //Useless :D
     }
 
     public static function getInstance() {

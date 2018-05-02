@@ -11,39 +11,51 @@ Class Preference {
     public function getName() { return $this->name; }
 
     public static function createFromName($name) {
-        $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT *
-        FROM preference
-        WHERE name = ?
+        try {
+            $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
+            SELECT *
+            FROM preference
+            WHERE name = ?
 SQL
-        );
-        $preferenceQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $preferenceQuery->execute(array($name));
-        if (($preference = $preferenceQuery->fetch()) !== false)
-            return $preference;
-        return false;
+            );
+            $preferenceQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $preferenceQuery->execute(array($name));
+            if (($preference = $preferenceQuery->fetch()) !== false)
+                return $preference;
+            return false;
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't create preference");
+        }
     }
 
     public static function createFromId($id) {
-        $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT *
-        FROM preference
-        WHERE preference_id = ?
+        try {
+            $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
+            SELECT *
+            FROM preference
+            WHERE preference_id = ?
 SQL
-        );
-        $preferenceQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $preferenceQuery->execute(array($id));
-        if (($preference = $preferenceQuery->fetch()) !== false)
-            return $preference;
-        return false;
+            );
+            $preferenceQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $preferenceQuery->execute(array($id));
+            if (($preference = $preferenceQuery->fetch()) !== false)
+                return $preference;
+            return false;
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't create preference");
+        }
     }
 
     public static function insertFromName($name) {
-        $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
-        INSERT INTO preference (name)
-        VALUES (?)
+        try {
+            $preferenceQuery = myPDO::getInstance()->prepare(<<<SQL
+            INSERT INTO preference (name)
+            VALUES (?)
 SQL
-        );
-        $preferenceQuery->execute(array($name));
+            );
+            $preferenceQuery->execute(array($name));
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't insert preference");
+        }
     }
 }

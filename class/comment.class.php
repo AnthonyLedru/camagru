@@ -20,43 +20,55 @@ class Comment {
     }
 
     public static function createFromId($commentId) {
-        $commentQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT *
-        FROM comment
-        WHERE comment_id = ?
+        try {
+            $commentQuery = myPDO::getInstance()->prepare(<<<SQL
+            SELECT *
+            FROM comment
+            WHERE comment_id = ?
 SQL
-        );
-        $commentQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $commentQuery->execute(array($commentId));
-        if (($comment = $commentQuery->fetch()) !== false)
-            return $comment;
-        throw new Exception("Comment id incorrect");
+            );
+            $commentQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $commentQuery->execute(array($commentId));
+            if (($comment = $commentQuery->fetch()) !== false)
+                return $comment;
+            throw false;
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't create comment");
+        }
     }
 
     public static function getAllFromImage($imageId) {
-        $commentQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT *
-        FROM comment
-        WHERE image_id = ?
-        ORDER BY DATE DESC
+        try {
+            $commentQuery = myPDO::getInstance()->prepare(<<<SQL
+            SELECT *
+            FROM comment
+            WHERE image_id = ?
+            ORDER BY DATE DESC
 SQL
-        );
-        $commentQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $commentQuery->execute(array($imageId));
-        if (($comments = $commentQuery->fetchAll()) !== false)
-            return $comments;
-        throw new Exception("Image id incorrect");
+            );
+            $commentQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $commentQuery->execute(array($imageId));
+            if (($comments = $commentQuery->fetchAll()) !== false)
+                return $comments;
+            return false;
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't get image comment");
+        }
     }
 
     public static function insert($commentTab) {
-        $likeQuery = myPDO::getInstance()->prepare(<<<SQL
-        INSERT INTO comment (user_id, image_id, comment, `date`)
-        VALUES (:user_id, :image_id, :comment, CURRENT_TIMESTAMP)
+        try {
+            $likeQuery = myPDO::getInstance()->prepare(<<<SQL
+            INSERT INTO comment (user_id, image_id, comment, `date`)
+            VALUES (:user_id, :image_id, :comment, CURRENT_TIMESTAMP)
 SQL
-        );
-        $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $likeQuery->execute(array(':user_id' => $commentTab['userId'],
-                                  ':image_id' => $commentTab['imageId'],
-                                  ':comment' => $commentTab['comment']));
+            );
+            $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $likeQuery->execute(array(':user_id' => $commentTab['userId'],
+                                    ':image_id' => $commentTab['imageId'],
+                                    ':comment' => $commentTab['comment']));
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't insert a comment");
+        }
     }
 }

@@ -11,29 +11,37 @@ Class Filter {
     public function getName() { return $this->name; }
 
     public static function getAll() {
-        $filterQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT *
-        FROM filter
+        try {
+            $filterQuery = myPDO::getInstance()->prepare(<<<SQL
+            SELECT *
+            FROM filter
 SQL
-        );
-        $filterQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $filterQuery->execute();
-        if (($filters = $filterQuery->fetchAll()) !== false)
-            return $filters;
-        return false;
+            );
+            $filterQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $filterQuery->execute();
+            if (($filters = $filterQuery->fetchAll()) !== false)
+                return $filters;
+            return false;
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't get filters");
+        }
     }
 
     public static function isValidPath($path) {
-        $filterQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT *
-        FROM filter
-        WHERE path = :path
+        try {
+            $filterQuery = myPDO::getInstance()->prepare(<<<SQL
+            SELECT *
+            FROM filter
+            WHERE path = :path
 SQL
-        );
-        $filterQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $filterQuery->execute(array('path' => $path));
-        if (($filters = $filterQuery->fetchAll()) !== false)
-            return true;
-        return false;
+            );
+            $filterQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $filterQuery->execute(array('path' => $path));
+            if (($filters = $filterQuery->fetchAll()) !== false)
+                return true;
+            return false;
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't check filter path");
+        }
     }
 }

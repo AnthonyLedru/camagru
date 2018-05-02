@@ -13,52 +13,67 @@ class Like {
     public function getImageId() { return $this->image_id; }
 
     public static function countFromImageId($imageId) {
-        $likeQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT COUNT(*)
-        FROM `like`
-        WHERE image_id = ?
+        try {
+            $likeQuery = myPDO::getInstance()->prepare(<<<SQL
+            SELECT COUNT(*)
+            FROM `like`
+            WHERE image_id = ?
 SQL
-        );
-        $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $likeQuery->execute(array($imageId));
-        return $likeQuery->fetchColumn(); 
+            );
+            $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $likeQuery->execute(array($imageId));
+            return $likeQuery->fetchColumn(); 
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't count likes");
+        }
     }
 
     public static function insert($userId, $imageId) {
-        $likeQuery = myPDO::getInstance()->prepare(<<<SQL
-        INSERT INTO `like`(user_id, image_id)
-        VALUES (:user_id, :image_id)
+        try {
+            $likeQuery = myPDO::getInstance()->prepare(<<<SQL
+            INSERT INTO `like`(user_id, image_id)
+            VALUES (:user_id, :image_id)
 SQL
-        );
-        $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $likeQuery->execute(array('user_id' => $userId, 'image_id' => $imageId));
+            );
+            $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $likeQuery->execute(array('user_id' => $userId, 'image_id' => $imageId));
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't insert like");
+        }
     }
 
     public static function delete($likeId) {
-        $likeQuery = myPDO::getInstance()->prepare(<<<SQL
-        DELETE FROM `like`
-        WHERE like_id = ?
+        try {
+            $likeQuery = myPDO::getInstance()->prepare(<<<SQL
+            DELETE FROM `like`
+            WHERE like_id = ?
 SQL
-        );
-        $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $likeQuery->execute(array($likeId));
+            );
+            $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $likeQuery->execute(array($likeId));
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't delete like");
+        }
     }
 
     public static function hasUserLiked($userId, $imageId) {
-        $likeQuery = myPDO::getInstance()->prepare(<<<SQL
-        SELECT *
-        FROM `like`
-        WHERE user_id = :userId
-        AND image_id = :imageId
+        try {
+            $likeQuery = myPDO::getInstance()->prepare(<<<SQL
+            SELECT *
+            FROM `like`
+            WHERE user_id = :userId
+            AND image_id = :imageId
 SQL
-        );
-        $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
-        $likeQuery->execute(array(':userId' => $userId, ':imageId' => $imageId));
-        $like = $likeQuery->fetch();
-        if (count($like) > 0)
-            return $like;
-        else
+            );
+            $likeQuery->setFetchMode(PDO::FETCH_CLASS, __CLASS__ );
+            $likeQuery->execute(array(':userId' => $userId, ':imageId' => $imageId));
+            $like = $likeQuery->fetch();
+            if (count($like) > 0)
+                return $like;
             return false; 
+        } catch (Exception $e) {
+            throw new Exception("Query error => Can't check like");
+        }
     }
 
 }
