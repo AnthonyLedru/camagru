@@ -19,19 +19,24 @@ try {
                 }
             }
             $imagesTab = json_decode($_POST['imagesTab'], true);
-            $json['message'] = $imagesTab[0]['src'];
             $count = count($imagesTab);
             if ($count !== 0) {
                 if ($count <= 5) {
                     foreach ($imagesTab as $img) {
                             if (strlen($img['description']) <= 80) {
-                                $file = $path . md5(uniqid()) . '.png';
-                                $img['src'] = str_replace('data:image/png;base64,', '', $img['src']);
-                                $img['src'] = str_replace(' ', '+', $img['src']);
-                                file_put_contents($file, base64_decode($img['src']));
-                                Image::insert(array('userId' => $user->getUserId(),
-                                                    'path' => substr(strstr($file, "/photos/"), 1),
-                                                    'description' => htmlentities($img['description'])));
+                                if (substr($img['src'], 0, 22) === "data:image/png;base64,") {
+                                    $file = $path . md5(uniqid()) . '.png';
+                                    $img['src'] = str_replace('data:image/png;base64,', '', $img['src']);
+                                    $img['src'] = str_replace(' ', '+', $img['src']);
+                                    file_put_contents($file, base64_decode($img['src']));
+                                    Image::insert(array('userId' => $user->getUserId(),
+                                                        'path' => substr(strstr($file, "/photos/"), 1),
+                                                        'description' => htmlentities($img['description'])));
+                                } else {
+                                    $json['message'] = "You can't upload something else than images";
+                                    echo json_encode($json);
+                                    exit();
+                                }
                             } else {
                                 $json['message'] = "Image description is too long, max 80 characters";
                                 echo json_encode($json);
