@@ -80,6 +80,14 @@ try {
         `bio` text NOT NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+      INSERT INTO `user` (`user_id`, `image_id`, `mail`, `login`, `password`, `last_name`, `first_name`, `gender`, `signup_token`, `password_token`, `active`, `bio`) VALUES
+      (1, NULL, 'ledru.anthony51@gmail.com', 'AnthonyLedru', '6fa663e52b3d7da9780204facb3032f889b243a82185d0ef4e21d1c3669896acca8aae3325dce8e72f82e9acde04f8c139b811423ca9732333ff31d75fbd9230', 'Ledru', 'Anthony', 'Male', NULL, NULL, 1, ''),
+      (2, NULL, 'jeandidier@gmail.com', 'JeanDidier', '6fa663e52b3d7da9780204facb3032f889b243a82185d0ef4e21d1c3669896acca8aae3325dce8e72f82e9acde04f8c139b811423ca9732333ff31d75fbd9230', 'Didier', 'Jean', 'Male', NULL, NULL, 1, ''),
+      (3, NULL, 'paullouis@gmail.com', 'PaulLouis', '6fa663e52b3d7da9780204facb3032f889b243a82185d0ef4e21d1c3669896acca8aae3325dce8e72f82e9acde04f8c139b811423ca9732333ff31d75fbd9230', 'Paul', 'Louis', 'Male', NULL, NULL, 1, ''),
+      (4, NULL, 'jeandidier@gmail.com', 'ThomasBenoit', '6fa663e52b3d7da9780204facb3032f889b243a82185d0ef4e21d1c3669896acca8aae3325dce8e72f82e9acde04f8c139b811423ca9732333ff31d75fbd9230', 'Thomas', 'Benoit', 'Male', NULL, NULL, 1, ''),
+      (5, NULL, 'annadupont@gmail.com', 'AnnaDupont', '6fa663e52b3d7da9780204facb3032f889b243a82185d0ef4e21d1c3669896acca8aae3325dce8e72f82e9acde04f8c139b811423ca9732333ff31d75fbd9230', 'Anna', 'Dupont', 'Female', NULL, NULL, 1, ''),
+      (6, NULL, 'mathildeledoux@gmail.com', 'MathildeLedoux', '6fa663e52b3d7da9780204facb3032f889b243a82185d0ef4e21d1c3669896acca8aae3325dce8e72f82e9acde04f8c139b811423ca9732333ff31d75fbd9230', 'Mathilde', 'Ledoux', 'Female', NULL, NULL, 1, '');
+
       CREATE TABLE `user_preference` (
         `user_preference_id` int(11) NOT NULL,
         `user_id` int(11) NOT NULL,
@@ -142,7 +150,7 @@ try {
         MODIFY `preference_id` int(11) NOT NULL AUTO_INCREMENT;
 
       ALTER TABLE `user`
-        MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+        MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
       ALTER TABLE `user_preference`
         MODIFY `user_preference_id` int(11) NOT NULL AUTO_INCREMENT;
@@ -166,7 +174,6 @@ try {
       /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
       /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
       /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
 
 SQL
     );

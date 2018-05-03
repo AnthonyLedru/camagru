@@ -35,6 +35,7 @@ try {
                 if ($user->getPassword() === $password) {
                     if ($user->getActive()) {
                         $_SESSION['user'] = $user->getAll();
+                        UserPreference::insertDefaultPreference($user->getUserId());                        
                         $json['message'] =  "Welcome " . $user->getFirstName();
                         $json['valid'] = true;
                     } else {

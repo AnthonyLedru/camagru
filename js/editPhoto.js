@@ -2,35 +2,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     /* ---------- Edit Photo --------- */
 
-    HTMLMediaElement.srcObject
     var ctx;
     var video = document.getElementById("video");
     var photo_list = document.getElementById("photo_list");
-    var constraints = { audio: false, 
-  video: {
-        width: { min: 240, ideal: 720, max: 1080 },
-        height: { min: 240, ideal: 720, max: 1080 }
-    }
+    var constraints = { 
+        audio: false,
+        video: true
     }; 
 
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || 
                             navigator.mozGetUserMedia || navigator.msGetUserMedia || 
                             navigator.oGetUserMedia;
     
-    if (navigator.getUserMedia) {
-        navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-        video.srcObject = stream;
-            document.getElementById("take_photos").addEventListener('click', function(e) {
-                var applied_filters = document.getElementById('filters');
-                var data = {};
-                var filters = [];
-                canvas = document.createElement("canvas");
-                canvas.width = 500;
-                canvas.height = 500;
-                data.width = 500;
-                data.height = 500;
-                if (document.getElementById('uploaded_photo')) {
+    var isVideoLoaded = false;
+
+    function takePhotos(isVideoLoaded) {
+        document.getElementById("take_photos").addEventListener('click', function(e) {
+            var applied_filters = document.getElementById('filters');
+            var data = {};
+            var filters = [];
+            canvas = document.createElement("canvas");
+            canvas.width = 640;
+            canvas.height = 480;
+            data.width = 640;
+            data.height = 480;
+            if (isVideoLoaded || document.getElementById('uploaded_photo')) {
+                if (document.getElementById('uploaded_photo') && isVideoLoaded) {
                     var uploaded_photo = document.getElementById('uploaded_photo');
+                    canvas.getContext('2d').drawImage(uploaded_photo, 0, 0, canvas.width, canvas.height);
+                    uploaded_photo.remove();
+                } else if (!isVideoLoaded && document.getElementById('inner_container').getElementsByTagName('img')) {
+                    var uploaded_photo = document.getElementById('inner_container').getElementsByTagName('img')[0];
                     canvas.getContext('2d').drawImage(uploaded_photo, 0, 0, canvas.width, canvas.height);
                     uploaded_photo.remove();
                 }
@@ -62,15 +64,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                     display_notification("notification", "red", status + ": " + message);
                     }
                 });
-            });
+            }
+        });
+    }
+
+    if (navigator.getUserMedia) {
+        navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+        video.srcObject = stream;
+        isVideoLoaded = true;
+        takePhotos(isVideoLoaded);
         }).catch(function (error) {
-            document.getElementById('video').style.display = 'none';
+            /*document.getElementById('video').style.display = 'none';
             var p = document.createElement('p');
             p.classList.add("has-text-centered");
             p.innerHTML = "Your webcam is not active";
             var first = document.getElementsByClassName('cam_menu')[0].childNodes[2];
             document.getElementsByClassName('cam_menu')[0].insertBefore(p, first);
-            document.getElementById('take_photos').disabled = true;
+            document.getElementById('take_photos').disabled = true;*/
+            takePhotos(isVideoLoaded);
         });
     }
 
@@ -160,6 +171,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function createImageUpload() {
         img = new Image();
+        if (!isVideoLoaded) {
+            video.style.width = "680px";
+            video.style.height = "480px";
+        }
         img.onload = function imageLoaded() {
             if (document.getElementById("uploaded_photo"))
                 document.getElementById("uploaded_photo").remove();
