@@ -65,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 handleAs   : 'json',
                 parameters : { userId : userId },
                 onSuccess  : function(res) {
-                    console.log(res);
                     followerModalBody = document.getElementById('follower_modal_body')
                     if (res['unfollow']) {
                         tags[1].classList.remove('is-success');

@@ -6,10 +6,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var ctx;
     var video = document.getElementById("video");
     var photo_list = document.getElementById("photo_list");
-    var constraints = { audio: false, video: {
-        height: 500,
-        width: 500
-    }}; 
+    var constraints = { audio: false, 
+  video: {
+        width: { min: 240, ideal: 720, max: 1080 },
+        height: { min: 240, ideal: 720, max: 1080 }
+    }
+    }; 
 
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || 
                             navigator.mozGetUserMedia || navigator.msGetUserMedia || 
@@ -148,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         div.innerHTML = "<img src='"+img['photo']+"'></img>\
                         <a class='delete'></a>\
                         <p>"+img['description']+"</p>";
-                        console.log(div.childNodes);
         div.childNodes[2].addEventListener('click', deleteImageContainer);
         return div;
     }
