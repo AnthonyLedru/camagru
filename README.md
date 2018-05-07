@@ -6,7 +6,7 @@ The usage of framework was forbidden for this project, we could only use CSS Fra
 
 ## Screenshots
 
-![alt text]()
+![alt text](https://github.com/AnthonyLedru/camagru/blob/master/screenshots/home.png)
 
 ## Features
 
