@@ -220,7 +220,7 @@ HTML;
 					<div class="container">
 						<div class="content has-text-centered">
 							<p><i class="fa fa-hashtag"></i> &nbsp;&copy; 2018 - Camagru</p>
-							<p class="copyright">Made with ❤️ by <a href="http://profile.intra.42.fr/users/aledru" target="_new">aledru</a></p>
+							<p class="copyright">Made with ❤️ by <a href="https://github.com/AnthonyLedru" target="_new">aledru</a></p>
 						</div>
 					</div>
 				</footer>
