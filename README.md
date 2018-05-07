@@ -17,6 +17,7 @@ The usage of framework was forbidden for this project, we could only use CSS Fra
 - Post comments
 - Follow people
 - Dynamic user search
+- Infinite scroll gallery
 
 All request are done in ajax
 
